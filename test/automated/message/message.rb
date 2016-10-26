@@ -1,4 +1,4 @@
-require_relative 'message_init'
+require_relative '../automated_init'
 
 context "Message" do
   context "Class" do
