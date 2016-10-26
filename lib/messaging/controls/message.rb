@@ -3,7 +3,7 @@ module Messaging
     module Message
       def self.example(time: nil, metadata: nil)
         time ||= self.time
-        metadata ||= Metadata.example
+        metadata ||= Controls::Metadata.example
 
         message = SomeMessage.new
         message.some_attribute = attribute
