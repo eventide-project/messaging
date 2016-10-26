@@ -6,16 +6,28 @@ module Messaging
           ::Messaging::Message::Metadata.build
         end
 
-        def self.source_event_uri
-          "streams/sourceStream-#{uuid}/0"
+        def self.source_event_stream_name
+          'someStream'
         end
 
-        def self.causation_event_uri
-          "streams/causationStream-#{uuid}/0"
+        def self.source_event_position
+          1
+        end
+
+        def self.causation_event_stream_name
+          "someCausationStream"
+        end
+
+        def self.causation_event_position
+          11
         end
 
         def self.correlation_stream_name
-          "correlationStream-#{uuid}"
+          "someCorrelationStream"
+        end
+
+        def self.correlation_position
+          111
         end
 
         def self.reply_stream_name

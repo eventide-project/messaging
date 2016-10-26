@@ -3,47 +3,25 @@ module Messaging
     class Metadata
       include Schema::DataStructure
 
-      attribute :source_event_authority
       attribute :source_event_stream_name
       attribute :source_event_position
       alias :position :source_event_position
 
-      attribute :causation_event_authority
       attribute :causation_event_stream_name
       attribute :causation_event_position
 
-      attribute :correlation_event_authority
-      attribute :correlation_event_stream_name
-      attribute :correlation_event_position
+      attribute :correlation_stream_name
 
       attribute :reply_stream_name
 
       attribute :schema_version
 
       def source_event_identifier
-        identifier(:source)
+        "#{source_event_stream_name}/#{source_event_position}"
       end
 
       def causation_event_identifier
-        identifier(:causation)
-      end
-
-      def correlation_event_identifier
-        identifier(:correlation)
-      end
-
-      def identifier(type)
-        authority = public_send("#{type}_event_stream_name")
-        stream_name = public_send("#{type}_event_stream_name")
-        position = public_send("#{type}_event_position")
-
-        identifier = "#{stream_name}/#{position}"
-
-        unless authority.nil?
-          identifier = "#{authority}/#{identifier}"
-        end
-
-        identifier
+        "#{causation_event_stream_name}/#{causation_event_position}"
       end
 
       def follows?(other_metadata)
