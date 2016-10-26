@@ -8,6 +8,11 @@ module Messaging
       cls.extend Info
     end
 
+    attr_writer :metadata
+    def metadata
+      @metadata ||= Metadata.new
+    end
+
     def message_type
       self.class.message_type
     end

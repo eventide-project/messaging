@@ -5,14 +5,13 @@ module Messaging
         time ||= self.time
         metadata ||= Metadata.example
 
-        msg = SomeMessage.new
-        msg.some_attribute = attribute
-        msg.some_time = time
+        message = SomeMessage.new
+        message.some_attribute = attribute
+        message.some_time = time
 
-        ## When have metadata
-        # msg.metadata = metadata
+        message.metadata = metadata
 
-        msg
+        message
       end
 
       class SomeMessage
