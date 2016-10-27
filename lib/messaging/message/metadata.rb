@@ -41,7 +41,6 @@ module Messaging
           correlation_stream_name == other_metadata.correlation_stream_name &&
           reply_stream_name == other_metadata.reply_stream_name
       end
-      alias :precedence? :follows?
 
       def clear_reply_stream_name
         self.reply_stream_name = nil

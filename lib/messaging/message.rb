@@ -24,7 +24,6 @@ module Messaging
     def follows?(other_message)
       metadata.follows?(other_message.metadata)
     end
-    alias :precedence? :follows?
 
     module Info
       extend self
