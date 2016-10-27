@@ -2,7 +2,7 @@ require_relative '../../automated_init'
 
 context "Message" do
   context "Metadata" do
-    context "Identifiers" do
+    context "Clear Reply Stream" do
       metadata = Controls::Metadata.example
 
       context "Source Event" do
