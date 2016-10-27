@@ -1,13 +1,12 @@
 module Messaging
   module Controls
     module Message
-      def self.example(time: nil, metadata: nil)
-        time ||= self.time
+      def self.example(metadata: nil)
         metadata ||= Controls::Metadata.example
 
         message = SomeMessage.new
         message.some_attribute = attribute
-        message.some_time = time
+        message.other_attribute = other_attribute
 
         message.metadata = metadata
 
@@ -18,7 +17,7 @@ module Messaging
         include Messaging::Message
 
         attribute :some_attribute
-        attribute :some_time
+        attribute :other_attribute
       end
 
       def self.message_class
@@ -29,14 +28,14 @@ module Messaging
         'some value'
       end
 
-      def self.time
-        Time.example
+      def self.other_attribute
+        'other value'
       end
 
       def self.data
         {
           some_attribute: attribute,
-          some_time: time
+          other_attribute: other_attribute
         }
       end
     end

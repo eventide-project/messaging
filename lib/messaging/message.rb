@@ -6,6 +6,7 @@ module Messaging
       end
 
       cls.extend Info
+      cls.extend Copy
     end
 
     attr_writer :metadata
