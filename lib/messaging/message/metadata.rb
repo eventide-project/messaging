@@ -24,8 +24,17 @@ module Messaging
         "#{causation_event_stream_name}/#{causation_event_position}"
       end
 
+      def follow(other_metadata)
+        causation_event_identifier = other_metadata.source_event_identifier
+
+        unless follows?(other_metadata)
+          raise Error, "Metadata doesn't have precedence (Metadata: #{metadata}, Other Metadata #{other_metadata})"
+        end
+      end
+
       def follows?(other_metadata)
         causation_event_identifier == other_metadata.source_event_identifier &&
+
           correlation_stream_name == other_metadata.correlation_stream_name &&
           reply_stream_name == other_metadata.reply_stream_name
       end
