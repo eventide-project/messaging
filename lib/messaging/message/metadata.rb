@@ -1,6 +1,8 @@
 module Messaging
   module Message
     class Metadata
+      class Error < RuntimeError; end
+
       include Schema::DataStructure
 
       attribute :source_event_stream_name
@@ -25,10 +27,11 @@ module Messaging
       end
 
       def follow(other_metadata)
-        causation_event_identifier = other_metadata.source_event_identifier
+        self.causation_event_stream_name = other_metadata.source_event_stream_name
+        self.causation_event_position = other_metadata.source_event_position
 
         unless follows?(other_metadata)
-          raise Error, "Metadata doesn't have precedence (Metadata: #{metadata}, Other Metadata #{other_metadata})"
+          raise Error, "Metadata doesn't have precedence (Metadata: #{self}, Other Metadata #{other_metadata})"
         end
       end
 
