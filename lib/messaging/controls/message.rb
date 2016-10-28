@@ -30,8 +30,7 @@ module Messaging
       class SingleAttribute
         include Messaging::Message
 
-        attribute :an_attribute
-        attribute :other_attribute
+        attribute :some_attribute
       end
 
       def self.message_class
