@@ -11,7 +11,28 @@ context "Message" do
         Message::Copy.(source, receiver)
 
         test "All attributes are copied" do
-          assert(source == receiver)
+          assert(receiver == source)
+        end
+
+        test "Metadata is not copied" do
+          refute(receiver.metadata == source.metadata)
+        end
+      end
+
+      context "Attribute Mapping" do
+        receiver = Controls::Message::OtherMessage.new
+
+        Messaging::Message::Copy.(source, receiver, include: [
+          { :some_attribute => :an_attribute },
+          :other_attribute
+        ])
+
+        test "Mapped attributes are copied" do
+          assert(receiver.an_attribute == source.some_attribute)
+        end
+
+        test "Other attributes are copied" do
+          assert(receiver.other_attribute == source.other_attribute)
         end
       end
 
@@ -25,7 +46,7 @@ context "Message" do
           ])
 
           test "All attributes are copied" do
-            assert(source == receiver)
+            assert(receiver == source)
           end
         end
 
@@ -37,11 +58,11 @@ context "Message" do
           ])
 
           test "Specified attributes are copied" do
-            assert(source.some_attribute == receiver.some_attribute)
+            assert(receiver.some_attribute == source.some_attribute)
           end
 
           test "Other attributes are not copied" do
-            refute(source.other_attribute == receiver.other_attribute)
+            refute(receiver.other_attribute == source.other_attribute)
           end
         end
       end
@@ -73,7 +94,7 @@ context "Message" do
           end
 
           test "Other attributes are copied" do
-            assert(source.other_attribute == receiver.other_attribute)
+            assert(receiver.other_attribute == source.other_attribute)
           end
         end
       end
