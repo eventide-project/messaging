@@ -17,14 +17,12 @@ context "Message" do
     end
 
     context "Workflow attributes" do
-      context "Causation Stream Attributes" do
-        test "causation_event_stream_name is copied from source_event_stream_name" do
-          assert(receiver.metadata.causation_event_stream_name == source.metadata.source_event_stream_name)
-        end
+      test "causation_event_stream_name is copied from source_event_stream_name" do
+        assert(receiver.metadata.causation_event_stream_name == source.metadata.source_event_stream_name)
+      end
 
-        test "causation_event_position is copied from source_event_position" do
-          assert(receiver.metadata.causation_event_position == source.metadata.source_event_position)
-        end
+      test "causation_event_position is copied from source_event_position" do
+        assert(receiver.metadata.causation_event_position == source.metadata.source_event_position)
       end
     end
 
