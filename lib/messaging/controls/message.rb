@@ -27,6 +27,13 @@ module Messaging
         attribute :other_attribute
       end
 
+      class SingleAttribute
+        include Messaging::Message
+
+        attribute :an_attribute
+        attribute :other_attribute
+      end
+
       def self.message_class
         SomeMessage
       end
