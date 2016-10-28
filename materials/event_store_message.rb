@@ -5,10 +5,10 @@ module EventStore
         cls.send :include, Schema::DataStructure
         cls.extend Info
         cls.extend Build
-        cls.extend Linked
+        # cls.extend Linked
         cls.extend Copy
         cls.extend Proceed
-        cls.extend Initial
+        # cls.extend Initial
       end
 
       attr_writer :metadata

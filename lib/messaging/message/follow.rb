@@ -10,6 +10,14 @@ module Messaging
       end
 
       def follow(source, receiver=nil, copy: nil, include: nil, exclude: nil, strict: nil)
+        if receiver.nil?
+          receiver = self
+        end
+
+        if receiver.class == Class
+          receiver = receiver.build
+        end
+
         unchanged_source_event_stream_name = receiver.metadata.source_event_stream_name
         unchanged_source_event_position = receiver.metadata.source_event_position
         unchanged_schema_version = receiver.metadata.schema_version

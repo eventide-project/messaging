@@ -6,7 +6,9 @@ module Messaging
       end
 
       cls.extend Info
+      cls.extend Build
       cls.extend Copy
+      cls.extend Follow
     end
 
     attr_writer :metadata
@@ -43,6 +45,32 @@ module Messaging
         class_name ||= message.name if message.instance_of? Class
         class_name ||= message.class.name
         class_name
+      end
+    end
+
+    module Build
+      def build(data=nil, metadata=nil)
+        data ||= {}
+        metadata ||= {}
+
+        metadata = build_metadata(metadata)
+
+        new.tap do |instance|
+          set_attributes(instance, data)
+          instance.metadata = metadata
+        end
+      end
+
+      def set_attributes(instance, data)
+        SetAttributes.(instance, data)
+      end
+
+      def build_metadata(metadata)
+        if metadata.nil?
+          Metadata.new
+        else
+          Metadata.build(metadata.to_h)
+        end
       end
     end
   end

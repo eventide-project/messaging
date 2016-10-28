@@ -18,11 +18,7 @@ module Messaging
         end
 
         if receiver.class == Class
-          if receiver.method_defined? :build
-            receiver = receiver.build
-          else
-            receiver = receiver.new
-          end
+          receiver = receiver.build
         end
 
         begin
