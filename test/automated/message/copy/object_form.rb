@@ -19,7 +19,21 @@ context "Message" do
         end
       end
 
-      context "Metadata" do
+      context "Attribute Mapping" do
+        receiver = Controls::Message::OtherMessage.new
+
+        Messaging::Message::Copy.(source, receiver, include: [
+          { :some_attribute => :an_attribute },
+          :other_attribute
+        ])
+
+        test "Mapped attributes are copied" do
+          assert(receiver.an_attribute == source.some_attribute)
+        end
+
+        test "Other attributes are copied" do
+          assert(receiver.other_attribute == source.other_attribute)
+        end
       end
 
       context "Include attributes" do
