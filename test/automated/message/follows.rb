@@ -14,7 +14,7 @@ context "Message" do
     end
   end
 
-  context "Any workflow attributes are not equal" do
+  context "Any workflow attribute isn't equal" do
     [:causation_event_stream_name, :causation_event_position, :correlation_stream_name, :reply_stream_name].each do |attribute|
       source_message = Controls::Message.example
       message = Controls::Message.example

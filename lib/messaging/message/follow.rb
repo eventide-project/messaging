@@ -12,11 +12,13 @@ module Messaging
       def follow(source, receiver=nil, copy: nil, include: nil, exclude: nil, strict: nil)
         unchanged_source_event_stream_name = receiver.metadata.source_event_stream_name
         unchanged_source_event_position = receiver.metadata.source_event_position
+        unchanged_schema_version = receiver.metadata.schema_version
 
         Copy.(source, receiver, copy: copy, include: include, exclude: exclude, strict: strict, metadata: true)
 
         receiver.metadata.source_event_stream_name = unchanged_source_event_stream_name
         receiver.metadata.source_event_position = unchanged_source_event_position
+        receiver.metadata.schema_version = unchanged_schema_version
 
         receiver.metadata.follow(source.metadata)
 
