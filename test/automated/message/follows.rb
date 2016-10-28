@@ -1,7 +1,7 @@
 require_relative '../automated_init'
 
 context "Message" do
-  context "Precedence" do
+  context "Follows" do
     context "Metadata have precedence" do
       source_message = Controls::Message.example
       message = Controls::Message.example

@@ -31,7 +31,7 @@ module Messaging
         self.causation_event_position = other_metadata.source_event_position
 
         unless follows?(other_metadata)
-          raise Error, "Metadata doesn't have precedence (Metadata: #{self}, Other Metadata #{other_metadata})"
+          raise Error, "Metadata doesn't have precedence (Metadata: #{self.inspect}, Other Metadata #{other_metadata.inspect})"
         end
       end
 
