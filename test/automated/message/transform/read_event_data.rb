@@ -4,7 +4,7 @@ context "Message" do
   context "Transform" do
     context "Read EventData" do
       type = Controls::Message.type
-      metadata = Controls::Metadata::Read.data
+      metadata = Controls::Metadata::Written.data
       data = Controls::Message.data
 
       event_data = Controls::EventData::Read.example(type: type, data: data, metadata: metadata)

@@ -64,7 +64,7 @@ module Messaging
       end
       Empty = New
 
-      module Read
+      module Written
         def self.example
           Messaging::Message::Metadata.build data
         end
