@@ -43,9 +43,8 @@ module Messaging
           metadata[:source_event_stream_name] = data[:stream_name]
           metadata[:source_event_position] = data[:position]
 
-          x = {}
-          x[:global_position] = data[:global_position]
-          x[:recorded_time] = data[:recorded_time]
+          metadata[:global_position] = data[:global_position]
+          metadata[:recorded_time] = data[:recorded_time]
 
           data
         end

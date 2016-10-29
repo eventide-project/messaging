@@ -43,6 +43,14 @@ context "Message" do
             assert(metadata.reply_stream_name = event_data.metadata[:reply_stream_name])
           end
 
+          test "global_position" do
+            assert(metadata.global_position = event_data.metadata[:global_position])
+          end
+
+          test "recorded_time" do
+            assert(metadata.recorded_time = event_data.metadata[:recorded_time])
+          end
+
           test "schema_version" do
             assert(metadata.schema_version = event_data.metadata[:schema_version])
           end
