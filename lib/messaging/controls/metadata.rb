@@ -41,6 +41,14 @@ module Messaging
         "#{causation_event_stream_name}/#{causation_event_position}"
       end
 
+      def self.global_position
+        111
+      end
+
+      def self.recorded_time
+        Time::Raw.example
+      end
+
       def self.data
         {
           source_event_stream_name: source_event_stream_name,
@@ -52,6 +60,9 @@ module Messaging
           correlation_stream_name: correlation_stream_name,
 
           reply_stream_name: reply_stream_name,
+
+          global_position: global_position,
+          recorded_time: recorded_time,
 
           schema_version: schema_version
         }
