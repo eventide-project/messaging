@@ -2,7 +2,7 @@ module Messaging
   module Controls
     module Metadata
       def self.example
-        ::Messaging::Message::Metadata.build data
+        Messaging::Message::Metadata.build data
       end
 
       def self.source_event_stream_name
@@ -63,6 +63,21 @@ module Messaging
         end
       end
       Empty = New
+
+      module Read
+        def self.example
+          Messaging::Message::Metadata.build data
+        end
+
+        def self.data
+          data = Metadata.data
+
+          data.delete(:source_event_stream_name)
+          data.delete(:source_event_position)
+
+          data
+        end
+      end
     end
   end
 end

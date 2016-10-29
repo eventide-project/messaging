@@ -37,6 +37,10 @@ module Messaging
         SomeMessage
       end
 
+      def self.type
+        'SomeMessage'
+      end
+
       def self.attribute
         'some value'
       end

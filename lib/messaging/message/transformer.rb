@@ -9,6 +9,10 @@ module Messaging
         message
       end
 
+      def self.instance(event_data_data, cls)
+        cls.build(event_data_data[:data], event_data_data[:metadata])
+      end
+
       module EventData
         def self.write(message)
           event_data = EventSource::EventData::Write.build
@@ -25,36 +29,27 @@ module Messaging
           event_data
         end
 
+        def self.read(event_data)
+          data = event_data.to_h
 
+          unless data.has_key?(:metadata)
+            data[:metadata] = {}
+          end
+
+          metadata = data[:metadata]
+
+          metadata[:source]
+
+          metadata[:source_event_stream_name] = data[:stream_name]
+          metadata[:source_event_position] = data[:position]
+
+          x = {}
+          x[:global_position] = data[:global_position]
+          x[:recorded_time] = data[:recorded_time]
+
+          data
+        end
       end
-    end
-  end
-end
-
-__END__
-
-module Transformer
-  def self.some_format
-    SomeFormat
-  end
-
-  def self.instance(raw_data)
-    instance = Example.new
-    instance.some_attribute = raw_data
-    instance
-  end
-
-  def self.raw_data(instance)
-    instance.some_attribute
-  end
-
-  module SomeFormat
-    def self.write(raw_data)
-      Controls::Text.example
-    end
-
-    def self.read(text)
-      Controls::RawData.example
     end
   end
 end

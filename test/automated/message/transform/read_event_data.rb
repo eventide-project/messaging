@@ -3,23 +3,49 @@ require_relative '../../automated_init'
 context "Message" do
   context "Transform" do
     context "Read EventData" do
-      message = Controls::Message.example
+      type = Controls::Message.type
+      metadata = Controls::Metadata::Read.data
+      data = Controls::Message.data
 
-      event_data = Transform::Write.(message, :event_data)
+      event_data = Controls::EventData::Read.example(type: type, data: data, metadata: metadata)
 
-      context "Event Data's Data" do
-        test "type is the message's message type" do
-          assert(event_data.type == 'SomeMessage')
+      message = Transform::Read.(event_data, :event_data, Controls::Message::SomeMessage)
+
+      context "Message Data" do
+        test "Attributes" do
+          assert(message.to_h == data)
         end
 
-        test "data is the message's data" do
-          data = Controls::Message.data
-          assert(event_data.data == data)
-        end
+        context "Metadata" do
+          metadata = message.metadata
 
-        test "metadata is the message's metadata" do
-          metadata = Controls::Metadata.data
-          assert(event_data.metadata == metadata)
+          test "source_event_stream_name" do
+            assert(metadata.source_event_stream_name = event_data.stream_name)
+          end
+
+          test "source_event_stream_position" do
+            assert(metadata.source_event_position = event_data.position)
+          end
+
+          test "causation_event_stream_name" do
+            assert(metadata.causation_event_stream_name = event_data.metadata[:causation_event_stream_name])
+          end
+
+          test "causation_event_position" do
+            assert(metadata.causation_event_position = event_data.metadata[:causation_event_position])
+          end
+
+          test "correlation_stream_name" do
+            assert(metadata.correlation_stream_name = event_data.metadata[:correlation_stream_name])
+          end
+
+          test "reply_stream_name" do
+            assert(metadata.reply_stream_name = event_data.metadata[:reply_stream_name])
+          end
+
+          test "schema_version" do
+            assert(metadata.schema_version = event_data.metadata[:schema_version])
+          end
         end
       end
     end
