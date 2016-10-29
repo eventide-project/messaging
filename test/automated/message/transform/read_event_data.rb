@@ -47,8 +47,8 @@ context "Message" do
             assert(metadata.global_position = event_data.metadata[:global_position])
           end
 
-          test "recorded_time" do
-            assert(metadata.recorded_time = event_data.metadata[:recorded_time])
+          test "time" do
+            assert(metadata.time = event_data.metadata[:time])
           end
 
           test "schema_version" do

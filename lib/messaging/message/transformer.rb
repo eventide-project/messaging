@@ -44,7 +44,7 @@ module Messaging
           metadata[:source_event_position] = data[:position]
 
           metadata[:global_position] = data[:global_position]
-          metadata[:recorded_time] = data[:recorded_time]
+          metadata[:time] = data[:time]
 
           data
         end

@@ -45,7 +45,7 @@ module Messaging
         111
       end
 
-      def self.recorded_time
+      def self.time
         Time::Raw.example
       end
 
@@ -62,7 +62,7 @@ module Messaging
           reply_stream_name: reply_stream_name,
 
           global_position: global_position,
-          recorded_time: recorded_time,
+          time: time,
 
           schema_version: schema_version
         }

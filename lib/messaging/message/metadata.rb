@@ -17,7 +17,7 @@ module Messaging
       attribute :reply_stream_name
 
       attribute :global_position
-      attribute :recorded_time
+      attribute :time
 
       attribute :schema_version
 
