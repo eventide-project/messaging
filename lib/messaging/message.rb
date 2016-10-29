@@ -9,6 +9,7 @@ module Messaging
       cls.extend Build
       cls.extend Copy
       cls.extend Follow
+      cls.extend Transformer
     end
 
     attr_writer :metadata
