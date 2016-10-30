@@ -22,10 +22,12 @@ module Messaging
       attribute :schema_version
 
       def source_event_identifier
+        return nil if source_event_stream_name.nil? || source_event_position.nil?
         "#{source_event_stream_name}/#{source_event_position}"
       end
 
       def causation_event_identifier
+        return nil if causation_event_stream_name.nil? || causation_event_position.nil?
         "#{causation_event_stream_name}/#{causation_event_position}"
       end
 
