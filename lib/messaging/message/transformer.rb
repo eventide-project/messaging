@@ -22,7 +22,7 @@ module Messaging
           event_data.data = message.to_h
 
           metadata = message.metadata.to_h
-          metadata.delete_if { |k, v| v.nil? }
+          metadata.delete_if { |k, v| v.nil? || k == :source_event_stream_name || k == :source_event_position}
 
           event_data.metadata = metadata
 

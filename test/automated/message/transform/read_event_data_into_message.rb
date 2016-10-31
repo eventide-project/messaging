@@ -2,7 +2,7 @@ require_relative '../../automated_init'
 
 context "Message" do
   context "Transform" do
-    context "Read EventData" do
+    context "Read EventData into Message" do
       type = Controls::Message.type
       metadata = Controls::Metadata::Written.data
       data = Controls::Message.data
