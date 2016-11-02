@@ -1,4 +1,4 @@
-require 'event_source/postgres'
+require 'event_source'
 
 require 'messaging/message'
 require 'messaging/message/metadata'
