@@ -1,7 +1,7 @@
 require_relative '../automated_init'
 
 context "Write" do
-  context "Single Message" do
+  context "Message" do
     stream_name = Controls::StreamName.example
 
     message = Controls::Message.example
