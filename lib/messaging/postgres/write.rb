@@ -1,16 +1,10 @@
 module Messaging
   module Postgres
     class Write
-      # include Messaging::Write
-      include Log::Dependency
+      include Messaging::Write
 
-      def self.logger
-        @logger ||= Log.get(self)
-      end
-
-      def self.build_event_writer
-        logger.trace "Building event writer"
-        logger.debug "Built event writer"
+      def configure(partition: nil, session: nil)
+        EventSource::Postgres::Write.configure(self, attr_name: :event_writer, partition: nil, session: nil)
       end
     end
   end
