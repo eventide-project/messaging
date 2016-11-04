@@ -1,29 +1,52 @@
 module Messaging
-  class Write
-    include Log::Dependency
+  module Write
+    def self.included(cls)
+      cls.class_exec do
+        include Log::Dependency
 
-    dependency :event_writer
+        cls.extend Build
+        cls.extend Call
+        cls.extend Configure
 
-    def self.build(partition: nil, session: nil)
-      instance = new
-      instance.configure(partition: partition, session: session)
-      instance
+        dependency :event_writer
+
+        abstract :configure
+      end
     end
 
-    def self.configure(receiver, partition: nil, session: nil, attr_name: nil)
-      attr_name ||= :writer
-      instance = build(partition: partition, session: session)
-      receiver.public_send "#{attr_name}=", instance
+    module Build
+      def build(partition: nil, session: nil)
+        instance = new
+        instance.configure(partition: partition, session: session)
+        instance
+      end
     end
 
-    def configure(partition: nil, session: nil)
-      EventSource::Postres::Write.configure(self, attr_name: event_writer, partition: partition, session: session)
+    module Configure
+      def configure(receiver, partition: nil, session: nil, attr_name: nil)
+        attr_name ||= :writer
+        instance = build(partition: partition, session: session)
+        receiver.public_send "#{attr_name}=", instance
+      end
     end
 
-    def self.call(message, stream_name, partition: nil, session: nil)
+    module Call
+      def call(message, stream_name, partition: nil, session: nil)
+        instance = build(partition: partition, session: session)
+        instance.(message, stream_name)
+      end
     end
 
-    def call(message)
+    def call(message, stream_name, expected_version: nil)
+      logger.trace { "Writing message (Stream Name: #{stream_name}, Type: #{message.class.message_type}, Expected Version: #{expected_version.inspect})" }
+      logger.trace(tags: [:data, :message]) { message.pretty_inspect }
+
+      event_data = Message::Export.(message)
+
+      event_writer.(event_data, stream_name, expected_version: expected_version).tap do
+        logger.debug { "Wrote message (Stream Name: #{stream_name}, Type: #{message.class.message_type}, Expected Version: #{expected_version.inspect})" }
+        logger.debug(tags: [:data, :message]) { message.pretty_inspect }
+      end
     end
   end
 end

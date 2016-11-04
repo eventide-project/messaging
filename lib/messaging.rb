@@ -9,4 +9,5 @@ require 'messaging/message/transformer'
 require 'messaging/message/import'
 require 'messaging/message/export'
 
+require 'messaging/log'
 require 'messaging/write'
