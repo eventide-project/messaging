@@ -8,13 +8,10 @@ context "Write" do
 
     written_position = Write.(message, stream.name)
 
-    read_message = nil
-    EventSource::Postgres::Read.(stream.name, position: written_position, batch_size: 1) do |event_data|
-      read_message = Messaging::Message::Import.(event_data, message.class)
-    end
+    read_event = EventSource::Postgres::Get.(stream, position: written_position, batch_size: 1).first
 
-    test "Got the event that was written" do
-      assert(read_message == message)
+    test "Writes the message" do
+      assert(read_event.data == message.to_h)
     end
   end
 end
