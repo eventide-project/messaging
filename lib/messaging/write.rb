@@ -38,22 +38,41 @@ module Messaging
     end
 
     def call(message, stream_name, expected_version: nil, reply_stream_name: nil)
-      logger.trace { "Writing message (Stream Name: #{stream_name}, Type: #{message.class.message_type}, Expected Version: #{expected_version.inspect}, Reply Stream Name #{reply_stream_name.inspect})" }
+      unless message.is_a? Array
+        logger.trace { "Writing message (Stream Name: #{stream_name}, Type: #{message.class.message_type}, Expected Version: #{expected_version.inspect}, Reply Stream Name #{reply_stream_name.inspect})" }
+      else
+        logger.trace { "Writing batch (Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect}, Reply Stream Name #{reply_stream_name.inspect})" }
+      end
       logger.trace(tags: [:data, :message]) { message.pretty_inspect }
 
-      if reply_stream_name
-         message.metadata.reply_stream_name = reply_stream_name
-      end
+      event_data_batch = event_data_batch(message, reply_stream_name)
+      last_position = event_writer.(event_data_batch, stream_name, expected_version: expected_version)
 
-      event_data = Message::Export.(message)
-
-      event_writer.(event_data, stream_name, expected_version: expected_version).tap do
-        logger.info { "Wrote message (Stream Name: #{stream_name}, Type: #{message.class.message_type}, Expected Version: #{expected_version.inspect}, Reply Stream Name #{reply_stream_name.inspect})" }
-        logger.info(tags: [:data, :message]) { message.pretty_inspect }
-        # telemetry.record :written, Telemetry::Data.new(written_message, stream_name, expected_version, reply_stream_name)
+      unless message.is_a? Array
+        logger.info { "Wrote message (Position: #{last_position}, Stream Name: #{stream_name}, Type: #{message.class.message_type}, Expected Version: #{expected_version.inspect}, Reply Stream Name #{reply_stream_name.inspect})" }
+      else
+        logger.info { "Wrote batch (Position: #{last_position}, Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect}, Reply Stream Name #{reply_stream_name.inspect})" }
       end
+      logger.info(tags: [:data, :message]) { event_data_batch.pretty_inspect }
+
+      last_position
     end
     alias :write :call
+
+    def event_data_batch(message, reply_stream_name)
+      message_batch = Array(message)
+
+      event_data_batch = []
+      message_batch.each do |message|
+        if reply_stream_name
+           message.metadata.reply_stream_name = reply_stream_name
+        end
+
+        event_data_batch << Message::Export.(message)
+      end
+
+      event_data_batch
+    end
 
     def reply(message)
       metadata = message.metadata

@@ -1,11 +1,12 @@
 module Messaging
   module Controls
     module Message
-      def self.example(metadata: nil)
+      def self.example(some_attribute: nil, metadata: nil)
+        some_attribute ||= attribute
         metadata ||= Controls::Metadata.example
 
         message = SomeMessage.new
-        message.some_attribute = attribute
+        message.some_attribute = some_attribute
         message.other_attribute = other_attribute
 
         message.metadata = metadata
