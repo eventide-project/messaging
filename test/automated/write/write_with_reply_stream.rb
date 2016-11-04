@@ -11,8 +11,7 @@ context "Write" do
 
     written_position = writer.write(message, stream_name, reply_stream_name: reply_stream_name)
 
-    stream = Controls::Stream.example(stream_name: stream_name)
-    read_event = EventSource::Postgres::Get.(stream, position: written_position, batch_size: 1).first
+    read_event = EventSource::Postgres::Get.(stream_name, position: written_position, batch_size: 1).first
 
     test "Sets the metadata reply stream name" do
       assert(read_event.metadata[:reply_stream_name] == reply_stream_name)
