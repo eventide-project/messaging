@@ -50,6 +50,7 @@ module Messaging
       event_writer.(event_data, stream_name, expected_version: expected_version).tap do
         logger.debug { "Wrote message (Stream Name: #{stream_name}, Type: #{message.class.message_type}, Expected Version: #{expected_version.inspect}, Reply Stream Name #{reply_stream_name.inspect})" }
         logger.debug(tags: [:data, :message]) { message.pretty_inspect }
+        # telemetry.record :written, Telemetry::Data.new(written_message, stream_name, expected_version, reply_stream_name)
       end
     end
     alias :write :call
