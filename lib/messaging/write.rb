@@ -31,9 +31,9 @@ module Messaging
     end
 
     module Call
-      def call(message, stream_name, partition: nil, session: nil)
+      def call(message, stream_name, expected_version: nil, reply_stream_name: nil, partition: nil, session: nil)
         instance = build(partition: partition, session: session)
-        instance.(message, stream_name)
+        instance.(message, stream_name, expected_version: expected_version, reply_stream_name: reply_stream_name)
       end
     end
 
@@ -48,8 +48,8 @@ module Messaging
       event_data = Message::Export.(message)
 
       event_writer.(event_data, stream_name, expected_version: expected_version).tap do
-        logger.debug { "Wrote message (Stream Name: #{stream_name}, Type: #{message.class.message_type}, Expected Version: #{expected_version.inspect}, Reply Stream Name #{reply_stream_name.inspect})" }
-        logger.debug(tags: [:data, :message]) { message.pretty_inspect }
+        logger.info { "Wrote message (Stream Name: #{stream_name}, Type: #{message.class.message_type}, Expected Version: #{expected_version.inspect}, Reply Stream Name #{reply_stream_name.inspect})" }
+        logger.info(tags: [:data, :message]) { message.pretty_inspect }
         # telemetry.record :written, Telemetry::Data.new(written_message, stream_name, expected_version, reply_stream_name)
       end
     end
