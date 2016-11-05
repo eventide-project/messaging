@@ -3,8 +3,8 @@ require_relative '../../automated_init'
 context "Write" do
   context "Batch" do
     context "With Reply Stream" do
-      stream_name = Controls::StreamName.example(category: 'testReply')
-      reply_stream_name = Controls::StreamName.example(category: 'testReply')
+      stream_name = Controls::StreamName.example(category: 'testWriteReplyStreamBatch')
+      reply_stream_name = Controls::StreamName.example(category: 'testWriteReplyStreamBatchReplyStream')
 
       message_1 = Controls::Message.example(some_attribute: 'value_1')
       message_2 = Controls::Message.example(some_attribute: 'value_2')

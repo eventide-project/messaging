@@ -5,8 +5,8 @@ context "Write" do
     context "With Reply Stream" do
       message = Controls::Message.example
 
-      stream_name = Controls::StreamName.example(category: 'testReply')
-      reply_stream_name = Controls::StreamName.example(category: 'testReplyTo')
+      stream_name = Controls::StreamName.example(category: 'testWriteReplyStreamMessage')
+      reply_stream_name = Controls::StreamName.example(category: 'testWriteReplyStreamMessageReplyStream')
 
       written_position = Write.(message, stream_name, reply_stream_name: reply_stream_name)
 

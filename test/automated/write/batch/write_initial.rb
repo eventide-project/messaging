@@ -3,7 +3,7 @@ require_relative '../../automated_init'
 context "Write" do
   context "Message" do
     context "Writing the initial event to a stream that has not been created yet" do
-      stream_name = Controls::StreamName.example(category: 'testBatchWriteInitial')
+      stream_name = Controls::StreamName.example(category: 'testWriteInitialBatch')
 
       message_1 = Controls::Message.example(some_attribute: 'value_1')
       message_2 = Controls::Message.example(some_attribute: 'value_2')

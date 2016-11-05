@@ -6,7 +6,7 @@ context "Write" do
       message = Controls::Message.example
       message.metadata.reply_stream_name = nil
 
-      reply_stream_name = Controls::StreamName.example(category: 'testReplyMissingReplyStreamName')
+      reply_stream_name = Controls::StreamName.example(category: 'testReplyToMissingReplyStream')
 
       writer = Messaging::Postgres::Write.build
 
