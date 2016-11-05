@@ -59,12 +59,12 @@ module Messaging
     end
     alias :write :call
 
-    def event_data_batch(message, reply_stream_name)
+    def event_data_batch(message, reply_stream_name=nil)
       message_batch = Array(message)
 
       event_data_batch = []
       message_batch.each do |message|
-        if reply_stream_name
+        unless reply_stream_name.nil?
            message.metadata.reply_stream_name = reply_stream_name
         end
 
