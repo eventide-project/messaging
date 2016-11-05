@@ -14,7 +14,7 @@ context "Write" do
 
       test "Is an error" do
         assert proc { writer.reply(batch) } do
-          raises_error?
+          raises_error? Messaging::Write::Error
         end
       end
     end

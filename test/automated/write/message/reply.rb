@@ -2,7 +2,7 @@ require_relative '../../automated_init'
 
 context "Write" do
   context "Reply" do
-    context "Batch" do
+    context "Message" do
       message = Controls::Message.example
 
       reply_stream_name = Controls::StreamName.example(category: 'replyToTestReply')
