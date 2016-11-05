@@ -101,5 +101,9 @@ module Messaging
         # telemetry.record :replied, Telemetry::Data.new(message, reply_stream_name)
       end
     end
+
+    def write_initial(message, stream_name)
+      write(message, stream_name, expected_version: :no_stream)
+    end
   end
 end
