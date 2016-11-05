@@ -1,5 +1,7 @@
 module Messaging
   module Write
+    class Error < RuntimeError; end
+
     def self.included(cls)
       cls.class_exec do
         include Log::Dependency
@@ -75,12 +77,18 @@ module Messaging
     end
 
     def reply(message)
+      if message.is_a? Array
+        error_msg = "Cannot reply with a batch"
+        logger.error { error_msg }
+        raise Error, error_msg
+      end
+
       metadata = message.metadata
       reply_stream_name = metadata.reply_stream_name
 
       logger.trace { "Replying (Message Type: #{message.message_type}, Stream Name: #{reply_stream_name})" }
 
-      unless reply_stream_name
+      if reply_stream_name.nil?
         error_msg = "Message has no reply stream name. Cannot reply. (Message Type: #{message.message_type})"
         logger.error { error_msg }
         raise Error, error_msg
