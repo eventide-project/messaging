@@ -8,9 +8,7 @@ context "Write" do
       stream_name = Controls::StreamName.example(category: 'testReply')
       reply_stream_name = Controls::StreamName.example(category: 'testReplyTo')
 
-      writer = Messaging::Postgres::Write.build
-
-      written_position = writer.write(message, stream_name, reply_stream_name: reply_stream_name)
+      written_position = Write.(message, stream_name, reply_stream_name: reply_stream_name)
 
       read_event = EventSource::Postgres::Get.(stream_name, position: written_position, batch_size: 1).first
 

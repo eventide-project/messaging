@@ -11,8 +11,7 @@ context "Write" do
 
       batch = [message_1, message_2]
 
-      writer = Messaging::Postgres::Write.build
-      writer.write(batch, stream_name, reply_stream_name: reply_stream_name)
+      Write.(batch, stream_name, reply_stream_name: reply_stream_name)
 
       context "Individual Events are Written" do
         2.times do |i|
