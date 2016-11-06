@@ -11,3 +11,4 @@ require 'messaging/message/export'
 
 require 'messaging/log'
 require 'messaging/write'
+require 'messaging/write/substitute'
