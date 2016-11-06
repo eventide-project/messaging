@@ -9,13 +9,11 @@ module Messaging
         include Messaging::Write
 
         virtual :configure
-        # def configure(partition: nil, session: nil)
-        # end
       end
 
       module Substitute
         def self.example
-          ## control that returns substitute writer
+          raise NotImplementedError, "TODO: Need control that returns substitute writer"
         end
       end
     end
