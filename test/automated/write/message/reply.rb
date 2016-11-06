@@ -8,7 +8,7 @@ context "Write" do
       reply_stream_name = Controls::StreamName.example(category: 'testReplyToMessage')
       message.metadata.reply_stream_name = reply_stream_name
 
-      writer = Messaging::Postgres::Write.build
+      writer = Write.build
 
       written_position = writer.reply(message)
 

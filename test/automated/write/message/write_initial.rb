@@ -7,7 +7,7 @@ context "Write" do
 
       message = Controls::Message.example
 
-      writer = Messaging::Postgres::Write.build
+      writer = Write.build
 
       writer.write_initial(message, stream_name)
 
@@ -23,7 +23,7 @@ context "Write" do
 
       message = Controls::Message.example
 
-      writer = Messaging::Postgres::Write.build
+      writer = Write.build
 
       writer.write(message, stream_name)
 

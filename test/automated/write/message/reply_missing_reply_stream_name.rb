@@ -8,7 +8,7 @@ context "Write" do
 
       reply_stream_name = Controls::StreamName.example(category: 'testReplyToMissingReplyStream')
 
-      writer = Messaging::Postgres::Write.build
+      writer = Write.build
 
       test "Is an error" do
         assert proc { writer.reply(message) } do

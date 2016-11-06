@@ -10,7 +10,7 @@ context "Write" do
 
       batch = [message_1, message_2]
 
-      writer = Messaging::Postgres::Write.build
+      writer = Write.build
 
       writer.write_initial(batch, stream_name)
 
@@ -33,7 +33,7 @@ context "Write" do
 
       batch = [message_1, message_2]
 
-      writer = Messaging::Postgres::Write.build
+      writer = Write.build
 
       message = Controls::Message.example
       Write.(message, stream_name)

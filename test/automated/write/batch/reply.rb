@@ -10,7 +10,7 @@ context "Write" do
 
       batch = [message_1, message_2]
 
-      writer = Messaging::Postgres::Write.build
+      writer = Write.build
 
       test "Is an error" do
         assert proc { writer.reply(batch) } do
