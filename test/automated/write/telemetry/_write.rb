@@ -12,7 +12,7 @@ context "Write" do
 
       stream_name = Controls::StreamName.example(category: 'testTelemetryWrite')
 
-      # sink = EventStore::Messaging::Writer.register_telemetry_sink(writer)
+      sink = EventStore::Messaging::Writer.register_telemetry_sink(writer)
 
       writer.write(message, stream_name, expected_version: 11, reply_stream_name: 'someReplyStreamName')
 

@@ -8,7 +8,14 @@ module Messaging
       class Example
         include Messaging::Write
 
-        def configure(partition: nil, session: nil)
+        virtual :configure
+        # def configure(partition: nil, session: nil)
+        # end
+      end
+
+      module Substitute
+        def self.example
+          ## control that returns substitute writer
         end
       end
     end

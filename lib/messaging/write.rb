@@ -11,6 +11,7 @@ module Messaging
         cls.extend Configure
 
         dependency :event_writer
+        dependency :telemetry, ::Telemetry
 
         abstract :configure
       end
@@ -20,6 +21,7 @@ module Messaging
       def build(partition: nil, session: nil)
         instance = new
         instance.configure(partition: partition, session: session)
+        ::Telemetry.configure instance
         instance
       end
     end
@@ -39,31 +41,35 @@ module Messaging
       end
     end
 
-    def call(message, stream_name, expected_version: nil, reply_stream_name: nil)
-      unless message.is_a? Array
-        logger.trace { "Writing message (Stream Name: #{stream_name}, Type: #{message.class.message_type}, Expected Version: #{expected_version.inspect}, Reply Stream Name #{reply_stream_name.inspect})" }
+    def call(message_or_batch, stream_name, expected_version: nil, reply_stream_name: nil)
+      unless message_or_batch.is_a? Array
+        logger.trace { "Writing message_or_batch (Stream Name: #{stream_name}, Type: #{message_or_batch.class.message_type}, Expected Version: #{expected_version.inspect}, Reply Stream Name #{reply_stream_name.inspect})" }
       else
         logger.trace { "Writing batch (Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect}, Reply Stream Name #{reply_stream_name.inspect})" }
       end
-      logger.trace(tags: [:data, :message]) { message.pretty_inspect }
+      logger.trace(tags: [:data, :message]) { message_or_batch.pretty_inspect }
 
-      event_data_batch = event_data_batch(message, reply_stream_name)
+      message_batch = Array(message_or_batch)
+
+      event_data_batch = event_data_batch(message_batch, reply_stream_name)
       last_position = event_writer.(event_data_batch, stream_name, expected_version: expected_version)
 
-      unless message.is_a? Array
-        logger.info { "Wrote message (Position: #{last_position}, Stream Name: #{stream_name}, Type: #{message.class.message_type}, Expected Version: #{expected_version.inspect}, Reply Stream Name #{reply_stream_name.inspect})" }
+      unless message_or_batch.is_a? Array
+        logger.info { "Wrote message_or_batch (Position: #{last_position}, Stream Name: #{stream_name}, Type: #{message_or_batch.class.message_type}, Expected Version: #{expected_version.inspect}, Reply Stream Name #{reply_stream_name.inspect})" }
       else
         logger.info { "Wrote batch (Position: #{last_position}, Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect}, Reply Stream Name #{reply_stream_name.inspect})" }
       end
       logger.info(tags: [:data, :message]) { event_data_batch.pretty_inspect }
 
+      message_batch.each do |message|
+        telemetry.record :written, Telemetry::Data.new(message, stream_name, expected_version, reply_stream_name)
+      end
+
       last_position
     end
     alias :write :call
 
-    def event_data_batch(message, reply_stream_name=nil)
-      message_batch = Array(message)
-
+    def event_data_batch(message_batch, reply_stream_name=nil)
       event_data_batch = []
       message_batch.each do |message|
         unless reply_stream_name.nil?
@@ -98,12 +104,33 @@ module Messaging
 
       write(message, reply_stream_name).tap do
         logger.info { "Replied (Message Type: #{message.message_type}, Stream Name: #{reply_stream_name})" }
-        # telemetry.record :replied, Telemetry::Data.new(message, reply_stream_name)
+        telemetry.record :replied, Telemetry::Data.new(message, reply_stream_name)
       end
     end
 
     def write_initial(message, stream_name)
       write(message, stream_name, expected_version: :no_stream)
+    end
+
+    def self.register_telemetry_sink(writer)
+      sink = Telemetry.sink
+      writer.telemetry.register sink
+      sink
+    end
+
+    module Telemetry
+      class Sink
+        include ::Telemetry::Sink
+
+        record :written
+        record :replied
+      end
+
+      Data = Struct.new :message, :stream_name, :expected_version, :reply_stream_name
+
+      def self.sink
+        Sink.new
+      end
     end
   end
 end
