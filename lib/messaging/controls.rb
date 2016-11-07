@@ -11,3 +11,5 @@ require 'messaging/controls/stream'
 require 'messaging/controls/stream_name'
 
 require 'messaging/controls/write'
+
+require 'messaging/controls/handler'

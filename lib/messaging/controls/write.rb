@@ -10,12 +10,6 @@ module Messaging
 
         virtual :configure
       end
-
-      module Substitute
-        def self.example
-          raise NotImplementedError, "TODO: Need control that returns substitute writer"
-        end
-      end
     end
   end
 end
