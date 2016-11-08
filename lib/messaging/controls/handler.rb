@@ -29,6 +29,28 @@ module Messaging
         end
       end
 
+      module MessageAndEventData
+        class Example
+          include Messaging::Handle
+
+          def handle_some_message(some_message)
+            some_message.some_attribute = MessageAndEventData.attribute
+          end
+
+          def handle(event_data)
+            event_data.data = MessageAndEventData.data
+          end
+        end
+
+        def self.attribute
+          'some attribute value set by handler'
+        end
+
+        def self.data
+          'some data value set by handler'
+        end
+      end
+
       module NoHandle
         class Example
           include Messaging::Handle
