@@ -2,11 +2,11 @@ require_relative '../../automated_init'
 
 context "Handle" do
   context "EventData" do
-    context "Handle" do
+    context "Strict" do
       context "Handler Implements Handle" do
         event_data = EventSource::EventData::Read.new
 
-        Controls::Handler::Example.(event_data, strict: true)
+        Controls::Handler::EventData::Example.(event_data, strict: true)
 
         test "Event data is handled" do
           assert(event_data.data == 'some value')

@@ -5,11 +5,13 @@ module Messaging
         Example.build
       end
 
-      class Example
-        include Messaging::Handle
+      module EventData
+        class Example
+          include Messaging::Handle
 
-        def handle(event_data)
-          event_data.data = 'some value'
+          def handle(event_data)
+            event_data.data = 'some value'
+          end
         end
       end
 
