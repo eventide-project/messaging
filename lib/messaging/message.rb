@@ -37,7 +37,11 @@ module Messaging
       end
 
       def message_name(msg=self)
-        message_type(msg).gsub(/([^\^])([A-Z])/,'\1_\2').downcase
+        Info.canonize_name(message_type(msg))
+      end
+
+      def self.canonize_name(name)
+        name.gsub(/([^\^])([A-Z])/,'\1_\2').downcase
       end
 
       def class_name(message)

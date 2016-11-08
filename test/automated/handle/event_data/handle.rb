@@ -4,7 +4,7 @@ context "Handle" do
   context "EventData" do
     context "Handle" do
       context "Handler Implements Handle" do
-        event_data = EventSource::EventData::Read.new
+        event_data = Controls::EventData::Read.example(data: 1)
 
         Controls::Handler::EventData::Example.(event_data)
 
@@ -14,7 +14,7 @@ context "Handle" do
       end
 
       context "Handler Does Not Implement Handle" do
-        event_data = EventSource::EventData::Read.new
+        event_data = Controls::EventData::Read.example(data: 1)
 
         unchanged_data = event_data.data
 

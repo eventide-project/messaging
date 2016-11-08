@@ -42,8 +42,8 @@ module Messaging
     module Info
       extend self
 
-      def handler(message)
-        name = handler_name(message)
+      def handler(message_or_event_data)
+        name = handler_name(message_or_event_data)
 
         if method_defined?(name)
           return name
@@ -52,12 +52,19 @@ module Messaging
         end
       end
 
-      def handles?(message)
-        method_defined? handler_name(message)
+      def handles?(message_or_event_data)
+        method_defined? handler_name(message_or_event_data)
       end
 
-      def handler_name(message)
-        name = Message::Info.message_name(message)
+      def handler_name(message_or_event_data)
+        name = nil
+
+        if message_or_event_data.is_a? Messaging::Message
+          name = message_or_event_data.class.message_name
+        else
+          name = Messaging::Message::Info.canonize_name(message_or_event_data.type)
+        end
+
         "handle_#{name}"
       end
     end
@@ -82,18 +89,31 @@ module Messaging
           raise Error, error_msg
         end
       end
+
+      message
     end
 
     def dispatch_event_data(event_data)
-      if respond_to?(:handle)
-        handle(event_data)
+      res = nil
+
+      handler = self.class.handler(event_data)
+
+      unless handler.nil?
+        res = Message::Import.(event_data, Controls::Message::SomeMessage)
+        public_send(handler, res)
       else
-        if strict
-          error_msg = "#{self.class.name} does not implement `handle'. Cannot handle event data."
-          logger.error { error_msg }
-          raise Error, error_msg
+        if respond_to?(:handle)
+          res = handle(event_data)
+        else
+          if strict
+            error_msg = "#{self.class.name} does not implement `handle'. Cannot handle event data."
+            logger.error { error_msg }
+            raise Error, error_msg
+          end
         end
       end
+
+      res
     end
   end
 end
