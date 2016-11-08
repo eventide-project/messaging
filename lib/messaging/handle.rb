@@ -2,6 +2,10 @@ module Messaging
   module Handle
     class Error < RuntimeError; end
 
+    def self.logger
+      @logger ||= Log.get(self)
+    end
+
     def self.included(cls)
       cls.class_exec do
         include Log::Dependency
@@ -11,6 +15,8 @@ module Messaging
         cls.extend Build
         cls.extend Call
         cls.extend Info
+        cls.extend HandleMacro
+        cls.extend MessageRegistry
 
         virtual :configure
 
@@ -59,13 +65,45 @@ module Messaging
       def handler_name(message_or_event_data)
         name = nil
 
-        if message_or_event_data.is_a? Messaging::Message
-          name = message_or_event_data.class.message_name
-        else
+        if message_or_event_data.is_a? EventSource::EventData::Read
           name = Messaging::Message::Info.canonize_name(message_or_event_data.type)
+        else
+          name = message_or_event_data.message_name
         end
 
         "handle_#{name}"
+      end
+    end
+
+    module HandleMacro
+      class Error < RuntimeError; end
+
+      def handle_macro(message_class, &blk)
+        define_handler_method(message_class, &blk)
+        message_registry.register(message_class)
+      end
+      alias :handle :handle_macro
+
+      def define_handler_method(message_class, &blk)
+        handler_method_name = handler_name(message_class)
+
+        send(:define_method, handler_method_name, &blk)
+
+        handler_method = instance_method(handler_method_name)
+
+        unless handler_method.arity == 1
+          error_msg = "Handler for #{message_class.name} is not correctly defined. It can only have a single parameter."
+          logger.error { error_msg }
+          raise Error, error_msg
+        end
+
+        handler_method_name
+      end
+    end
+
+    module MessageRegistry
+      def message_registry
+        @message_registry ||= Messaging::MessageRegistry.new
       end
     end
 

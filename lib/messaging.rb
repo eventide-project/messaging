@@ -13,4 +13,5 @@ require 'messaging/log'
 require 'messaging/write'
 require 'messaging/write/substitute'
 
+require 'messaging/message_registry'
 require 'messaging/handle'

@@ -15,6 +15,21 @@ module Messaging
         end
       end
 
+      module Macro
+        class Example
+          include Messaging::Handle
+          include Controls::Message
+
+          handle SomeMessage do |some_message|
+            some_message.some_attribute = Macro.attribute
+          end
+        end
+
+        def self.attribute
+          'some value set by handler block'
+        end
+      end
+
       module Message
         class Example
           include Messaging::Handle
