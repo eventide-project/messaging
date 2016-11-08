@@ -10,6 +10,7 @@ module Messaging
 
         cls.extend Build
         cls.extend Call
+        cls.extend Info
 
         virtual :configure
 
@@ -38,8 +39,43 @@ module Messaging
       end
     end
 
+    module Info
+      extend self
+
+      def handler(message)
+        name = handler_name(message)
+
+        if method_defined?(name)
+          return name
+        else
+          return nil
+        end
+      end
+
+      def handles?(message)
+        method_defined? handler_name(message)
+      end
+
+      def handler_name(message)
+        name = Message::Info.message_name(message)
+        "handle_#{name}"
+      end
+    end
+
     def call(message_or_event_data)
-      dispatch_event_data(message_or_event_data)
+      if message_or_event_data.is_a? Message
+        dispatch_message(message_or_event_data)
+      else
+        dispatch_event_data(message_or_event_data)
+      end
+    end
+
+    def dispatch_message(message)
+      handler = self.class.handler(message)
+
+      unless handler.nil?
+        public_send(handler, message)
+      end
     end
 
     def dispatch_event_data(event_data)

@@ -4,24 +4,24 @@ context "Handle" do
   context "Message" do
     context "Handle" do
       context "Handler Implements Handler for Message" do
-        event_data = EventSource::EventData::Read.new
+        message = Controls::Message::New.example
 
-        Controls::Handler::Example.(event_data)
+        Controls::Handler::Message::Example.(message)
 
-        test "Event data is handled" do
-          assert(event_data.data == 'some value')
+        test "Message is handled" do
+          assert(message.some_attribute == 'some value set by handler')
         end
       end
 
       context "Handler Does Not Implement Handle" do
-        event_data = EventSource::EventData::Read.new
+        message = Controls::Message::New.example
 
-        unchanged_data = event_data.data
+        unchanged_attribute = message.some_attribute
 
-        Controls::Handler::NoHandle::Example.(event_data)
+        Controls::Handler::NoHandle::Example.(message)
 
-        test "Event data is not handled" do
-          assert(event_data.data == unchanged_data)
+        test "Message is not handled" do
+          assert(message.some_attribute == unchanged_attribute)
         end
       end
     end
