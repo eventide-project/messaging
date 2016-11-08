@@ -75,6 +75,12 @@ module Messaging
 
       unless handler.nil?
         public_send(handler, message)
+      else
+        if strict
+          error_msg = "#{self.class.name} does not implement a handler for #{message.message_type}. Cannot handle the message."
+          logger.error { error_msg }
+          raise Error, error_msg
+        end
       end
     end
 

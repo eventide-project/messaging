@@ -16,8 +16,6 @@ context "Handle" do
       context "Handler Does Not Implement Handle" do
         event_data = EventSource::EventData::Read.new
 
-        unchanged_data = event_data.data
-
         test "Is an error" do
           assert proc { Controls::Handler::NoHandle::Example.(event_data, strict: true) } do
             raises_error? Handle::Error
