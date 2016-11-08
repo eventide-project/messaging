@@ -6,8 +6,12 @@ module Messaging
           include Messaging::Handle
 
           def handle(event_data)
-            event_data.data = 'some value'
+            event_data.data = EventData.data
           end
+        end
+
+        def self.data
+          'some value set by handler'
         end
       end
 

@@ -9,7 +9,7 @@ context "Handle" do
         Controls::Handler::EventData::Example.(event_data, strict: true)
 
         test "Event data is handled" do
-          assert(event_data.data == 'some value')
+          assert(event_data.data == 'some value set by handler')
         end
       end
 
