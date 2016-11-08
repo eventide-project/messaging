@@ -1,10 +1,6 @@
 module Messaging
   module Controls
     module Handler
-      def self.example
-        Example.build
-      end
-
       module EventData
         class Example
           include Messaging::Handle
@@ -12,6 +8,20 @@ module Messaging
           def handle(event_data)
             event_data.data = 'some value'
           end
+        end
+      end
+
+      module Message
+        class Example
+          include Messaging::Handle
+
+          def handle_some_message(some_message)
+            some_message.some_attribute = Message.attribute
+          end
+        end
+
+        def self.attribute
+          'some value set by handler'
         end
       end
 
