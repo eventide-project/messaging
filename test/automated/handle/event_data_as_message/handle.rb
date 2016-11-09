@@ -7,7 +7,7 @@ context "Handle" do
         context "Message Handler" do
           event_data = Controls::EventData::Read.example(type: 'SomeMessage')
 
-          message = Controls::Handler::Message::Example.(event_data)
+          message = Controls::Handler::Example.(event_data)
 
           test "EventData is handled as Message" do
             assert(message.some_attribute == 'some value set by handler')
@@ -19,7 +19,7 @@ context "Handle" do
 
           unchanged_data = event_data.data
 
-          message = Controls::Handler::MessageAndEventData::Example.(event_data)
+          message = Controls::Handler::BlockAndHandleMethod::Example.(event_data)
 
           message_data = message.to_h
 
@@ -33,10 +33,10 @@ context "Handle" do
         context "Handler Implements Handle" do
           event_data = Controls::EventData::Read.example(type: 'SomeMessage')
 
-          Controls::Handler::EventData::Example.(event_data)
+          Controls::Handler::HandleMethod::Example.(event_data)
 
           test "EventData is handled as EventData" do
-            assert(event_data.data == 'some value set by handler')
+            assert(event_data.data == 'some value set by handle method')
           end
         end
 
@@ -45,7 +45,7 @@ context "Handle" do
 
           unchanged_data = event_data.data
 
-          Controls::Handler::NoHandle::Example.(event_data)
+          Controls::Handler::Anomaly::NoHandle::Example.(event_data)
 
           test "EventData is not handled" do
             assert(event_data.data == unchanged_data)

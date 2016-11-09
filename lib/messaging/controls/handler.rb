@@ -1,82 +1,46 @@
 module Messaging
   module Controls
     module Handler
-      module EventData
+      class Example
+        include Messaging::Handle
+        include Controls::Message
+
+        handle SomeMessage do |some_message|
+          some_message.some_attribute = 'some value set by handler'
+        end
+      end
+
+      module HandleMethod
         class Example
           include Messaging::Handle
 
           def handle(event_data)
-            event_data.data = EventData.data
+            event_data.data = 'some value set by handle method'
           end
-        end
-
-        def self.data
-          'some value set by handler'
         end
       end
 
-      module Macro
+      module BlockAndHandleMethod
         class Example
           include Messaging::Handle
           include Controls::Message
 
           handle SomeMessage do |some_message|
-            some_message.some_attribute = Macro.attribute
-          end
-        end
-
-        def self.attribute
-          'some value set by handler block'
-        end
-      end
-
-      module Message
-        class Example
-          include Messaging::Handle
-          include Controls::Message
-
-          handle SomeMessage do |some_message|
-            some_message.some_attribute = Message.attribute
-          end
-        end
-
-        def self.attribute
-          'some value set by handler'
-        end
-      end
-
-      module MessageAndEventData
-        class Example
-          include Messaging::Handle
-          include Controls::Message
-
-          handle SomeMessage do |some_message|
-            some_message.some_attribute = MessageAndEventData.attribute
+            some_message.some_attribute = 'some attribute value set by handler'
           end
 
           def handle(event_data)
-            event_data.data = MessageAndEventData.data
+            event_data.data = 'some data value set by handler'
           end
-        end
-
-        def self.attribute
-          'some attribute value set by handler'
-        end
-
-        def self.data
-          'some data value set by handler'
-        end
-      end
-
-      ## TODO move to anomaly
-      ## TODO rename NoHandleMethod
-      module NoHandle
-        class Example
-          include Messaging::Handle
         end
       end
 
       module Anomaly
+        module NoHandle
+          class Example
+            include Messaging::Handle
+          end
+        end
       end
     end
   end

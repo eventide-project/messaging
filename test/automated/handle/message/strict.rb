@@ -7,7 +7,7 @@ context "Handle" do
         message = Controls::Message::New.example
 
         test "Is an error" do
-          assert proc { Controls::Handler::NoHandle::Example.(message, strict: true) } do
+          assert proc { Controls::Handler::Anomaly::NoHandle::Example.(message, strict: true) } do
             raises_error? Handle::Error
           end
         end

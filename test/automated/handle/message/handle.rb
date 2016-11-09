@@ -6,7 +6,7 @@ context "Handle" do
       context "Handler Implements Handler for Message" do
         message = Controls::Message::New.example
 
-        Controls::Handler::Message::Example.(message)
+        Controls::Handler::Example.(message)
 
         test "Message is handled" do
           assert(message.some_attribute == 'some value set by handler')
@@ -18,7 +18,7 @@ context "Handle" do
 
         unchanged_attribute = message.some_attribute
 
-        Controls::Handler::NoHandle::Example.(message)
+        Controls::Handler::Anomaly::NoHandle::Example.(message)
 
         test "Message is not handled" do
           assert(message.some_attribute == unchanged_attribute)

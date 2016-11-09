@@ -6,10 +6,10 @@ context "Handle" do
       context "Handler Implements Handle" do
         event_data = Controls::EventData::Read.example(data: 1)
 
-        Controls::Handler::EventData::Example.(event_data)
+        Controls::Handler::HandleMethod::Example.(event_data)
 
         test "Event data is handled" do
-          assert(event_data.data == 'some value set by handler')
+          assert(event_data.data == 'some value set by handle method')
         end
       end
 
@@ -18,7 +18,7 @@ context "Handle" do
 
         unchanged_data = event_data.data
 
-        Controls::Handler::NoHandle::Example.(event_data)
+        Controls::Handler::Anomaly::NoHandle::Example.(event_data)
 
         test "Event data is not handled" do
           assert(event_data.data == unchanged_data)
