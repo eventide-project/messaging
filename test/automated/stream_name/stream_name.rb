@@ -5,13 +5,19 @@ context "Stream Name" do
 
   context "Macro" do
     test "Adds the category_name instance method" do
-      assert(example.respond_to? :category_name)
+      assert(example.respond_to? :category)
     end
   end
 
   context "Category Name" do
     test "Instance category name is the camel-cased name specified by the category macro" do
-      assert(example.category_name == 'someCategory')
+      assert(example.category == 'someCategory')
+    end
+  end
+
+  context "Category" do
+    test "Instance category is the camel-cased name specified by the category macro" do
+      assert(example.category == 'someCategory')
     end
   end
 
@@ -32,7 +38,7 @@ context "Stream Name" do
   context "Category Stream Name" do
     category_stream_name = example.category_stream_name
     test "Is the category name" do
-      assert(category_stream_name == example.category_name)
+      assert(category_stream_name == example.category)
     end
   end
 

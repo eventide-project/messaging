@@ -16,33 +16,33 @@ module Messaging
     end
 
     module Macro
-      def category_macro(category_name)
-        category_name = Casing::Camel.(category_name, symbol_to_string: true)
-        self.send :define_method, :category_name do
-          @category_name || category_name
+      def category_macro(category)
+        category = Casing::Camel.(category, symbol_to_string: true)
+        self.send :define_method, :category do
+          @category || category
         end
       end
       alias :category :category_macro
     end
 
-    def stream_name(id, category_name=nil)
-      category_name ||= self.category_name
-      EventSource::StreamName.stream_name category_name, id
+    def stream_name(id, category=nil)
+      category ||= self.category
+      EventSource::StreamName.stream_name category, id
     end
 
-    def command_stream_name(id, category_name=nil)
-      category_name ||= self.category_name
-      EventSource::StreamName.stream_name "#{category_name}:command", id
+    def command_stream_name(id, category=nil)
+      category ||= self.category
+      EventSource::StreamName.stream_name "#{category}:command", id
     end
 
-    def category_stream_name(category_name=nil)
-      category_name ||= self.category_name
-      category_name
+    def category_stream_name(category=nil)
+      category ||= self.category
+      category
     end
 
-    def command_category_stream_name(category_name=nil)
-      category_name ||= self.category_name
-      category_stream_name = category_stream_name(category_name)
+    def command_category_stream_name(category=nil)
+      category ||= self.category
+      category_stream_name = category_stream_name(category)
 
       "#{category_stream_name}:command"
     end
