@@ -1,5 +1,7 @@
 require 'event_source'
 
+require 'messaging/stream_name'
+
 require 'messaging/message'
 require 'messaging/message/metadata'
 require 'messaging/message/copy'
