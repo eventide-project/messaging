@@ -8,3 +8,4 @@ unless libraries_dir.nil?
 end
 
 require 'messaging'
+Messaging::StreamName.activate

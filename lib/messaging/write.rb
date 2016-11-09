@@ -6,12 +6,12 @@ module Messaging
       cls.class_exec do
         include Log::Dependency
 
+        dependency :event_writer
+        dependency :telemetry, ::Telemetry
+
         cls.extend Build
         cls.extend Call
         cls.extend Configure
-
-        dependency :event_writer
-        dependency :telemetry, ::Telemetry
 
         abstract :configure
       end

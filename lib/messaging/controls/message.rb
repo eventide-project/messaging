@@ -14,6 +14,12 @@ module Messaging
         message
       end
 
+      module New
+        def self.example
+          Message::SomeMessage.new
+        end
+      end
+
       class SomeMessage
         include Messaging::Message
 
