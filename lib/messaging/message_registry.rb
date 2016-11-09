@@ -8,9 +8,9 @@ module Messaging
       @entries ||= []
     end
 
-    def get(message_type)
-      entries.find do |entry|
-        entry.message_type == message_type
+    def get(message_name)
+      entries.find do |message_class|
+        message_class.message_name == message_name
       end
     end
 

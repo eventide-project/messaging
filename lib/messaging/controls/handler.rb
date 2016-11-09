@@ -33,8 +33,9 @@ module Messaging
       module Message
         class Example
           include Messaging::Handle
+          include Controls::Message
 
-          def handle_some_message(some_message)
+          handle SomeMessage do |some_message|
             some_message.some_attribute = Message.attribute
           end
         end
@@ -47,8 +48,9 @@ module Messaging
       module MessageAndEventData
         class Example
           include Messaging::Handle
+          include Controls::Message
 
-          def handle_some_message(some_message)
+          handle SomeMessage do |some_message|
             some_message.some_attribute = MessageAndEventData.attribute
           end
 

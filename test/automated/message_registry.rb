@@ -23,7 +23,7 @@ context "Message Registry" do
   end
 
   context "Retrieve message classes by message type" do
-    retrieved_message_class = registry.get(message_class.message_type)
+    retrieved_message_class = registry.get(message_class.message_name)
 
     test "Retrieves the message class" do
       assert(retrieved_message_class == message_class)

@@ -143,7 +143,9 @@ module Messaging
       handler = self.class.handler(event_data)
 
       unless handler.nil?
-        res = Message::Import.(event_data, Controls::Message::SomeMessage)
+        message_name = Messaging::Message::Info.canonize_name(event_data.type)
+        message_class = self.class.message_registry.get(message_name)
+        res = Message::Import.(event_data, message_class)
         public_send(handler, res)
       else
         if respond_to?(:handle)
