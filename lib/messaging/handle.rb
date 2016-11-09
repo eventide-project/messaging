@@ -6,8 +6,6 @@ module Messaging
       cls.class_exec do
         include Log::Dependency
 
-        dependency :telemetry, ::Telemetry
-
         cls.extend Build
         cls.extend Call
         cls.extend Info
@@ -29,7 +27,6 @@ module Messaging
         instance = new
         instance.strict = strict
         instance.configure
-        ::Telemetry.configure instance
         instance
       end
     end
@@ -122,6 +119,9 @@ module Messaging
     end
 
     def handle_message(message)
+      logger.trace(tags: [:handle, :message]) { "Handling message (Message class: #{message.class.name})" }
+      logger.trace(tags: [:data, :message, :handle]) { message.pretty_inspect }
+
       handler = self.class.handler(message)
 
       unless handler.nil?
@@ -134,10 +134,15 @@ module Messaging
         end
       end
 
+      logger.info(tags: [:handle, :message]) { "Handled message (Message class: #{message.class.name})" }
+      logger.trace(tags: [:data, :message, :handle]) { message.pretty_inspect }
+
       message
     end
 
     def handle_event_data(event_data)
+      logger.trace(tags: [:handle, :event_data]) { "Handling event data (Type: #{event_data.type})" }
+      logger.trace(tags: [:data, :event_data, :handle]) { event_data.pretty_inspect }
 
       res = nil
 
@@ -159,6 +164,9 @@ module Messaging
           end
         end
       end
+
+      logger.info(tags: [:handle, :event_data]) { "Handled event data (Type: #{event_data.type})" }
+      logger.info(tags: [:data, :event_data, :handle]) { event_data.pretty_inspect }
 
       res
     end
