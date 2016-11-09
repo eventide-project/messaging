@@ -1,49 +1,33 @@
 require_relative '../automated_init'
 
 context "Stream Name" do
-  example = Messaging::Controls::StreamName::Named.example
+  context "Category Stream Name" do
+    category_stream_name = StreamName.category_stream_name('someCategory')
 
-  context "Macro" do
-    test "Adds the category_name instance method" do
-      assert(example.respond_to? :category)
-    end
-  end
-
-  context "Category Name" do
-    test "Instance category name is the camel-cased name specified by the category macro" do
-      assert(example.category == 'someCategory')
-    end
-  end
-
-  context "Category" do
-    test "Instance category is the camel-cased name specified by the category macro" do
-      assert(example.category == 'someCategory')
+    test "Is the category" do
+      assert(category_stream_name == 'someCategory')
     end
   end
 
   context "Identified Stream Name" do
-    stream_name = example.stream_name('some_id')
+    stream_name = StreamName.stream_name('some_id', 'someCategory')
+
     test "Composed of the category name and an ID" do
       assert(stream_name == 'someCategory-some_id')
     end
   end
 
   context "Command Stream Name" do
-    command_stream_name = example.command_stream_name('some_id')
+    command_stream_name = StreamName.command_stream_name('some_id', 'someCategory')
+
     test "Composed of the command stream type token, category name, and an ID" do
       assert(command_stream_name == 'someCategory:command-some_id')
     end
   end
 
-  context "Category Stream Name" do
-    category_stream_name = example.category_stream_name
-    test "Is the category name" do
-      assert(category_stream_name == example.category)
-    end
-  end
-
   context "Command Category Stream Name" do
-    command_category_stream_name = example.command_category_stream_name
+    command_category_stream_name = StreamName.command_category_stream_name('someCategory')
+
     test "Composed of the command stream type token and the category name" do
       assert(command_category_stream_name == 'someCategory:command')
     end
