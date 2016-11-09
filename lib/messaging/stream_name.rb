@@ -48,7 +48,7 @@ module Messaging
     end
 
     def self.get_category(stream_name)
-      EventSource::StreamName.category(stream_name)
+      EventSource::StreamName.get_category(stream_name)
     end
 
     def self.get_id(stream_name)
