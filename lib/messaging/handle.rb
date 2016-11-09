@@ -2,10 +2,6 @@ module Messaging
   module Handle
     class Error < RuntimeError; end
 
-    def self.logger
-      @logger ||= Log.get(self)
-    end
-
     def self.included(cls)
       cls.class_exec do
         include Log::Dependency
@@ -77,6 +73,10 @@ module Messaging
 
     module HandleMacro
       class Error < RuntimeError; end
+
+      def logger
+        @logger ||= Log.get(self)
+      end
 
       def handle_macro(message_class, &blk)
         define_handler_method(message_class, &blk)

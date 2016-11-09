@@ -66,10 +66,15 @@ module Messaging
         end
       end
 
+      ## TODO move to anomaly
+      ## TODO rename NoHandleMethod
       module NoHandle
         class Example
           include Messaging::Handle
         end
+      end
+
+      module Anomaly
       end
     end
   end
