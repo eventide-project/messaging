@@ -1,5 +1,5 @@
 module Messaging
   module Controls
-    Stream = EventSource::Postgres::Controls::Stream
+    Stream = EventSource::Controls::Stream
   end
 end
