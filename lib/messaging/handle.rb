@@ -115,13 +115,13 @@ module Messaging
 
     def call(message_or_event_data)
       if message_or_event_data.is_a? Message
-        dispatch_message(message_or_event_data)
+        handle_message(message_or_event_data)
       else
-        dispatch_event_data(message_or_event_data)
+        handle_event_data(message_or_event_data)
       end
     end
 
-    def dispatch_message(message)
+    def handle_message(message)
       handler = self.class.handler(message)
 
       unless handler.nil?
@@ -137,7 +137,8 @@ module Messaging
       message
     end
 
-    def dispatch_event_data(event_data)
+    def handle_event_data(event_data)
+
       res = nil
 
       handler = self.class.handler(event_data)
