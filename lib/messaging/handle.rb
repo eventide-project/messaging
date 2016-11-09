@@ -87,6 +87,12 @@ module Messaging
       def define_handler_method(message_class, &blk)
         handler_method_name = handler_name(message_class)
 
+        if blk.nil?
+          error_msg = "Handler for #{message_class.name} is not correctly defined. It must have a block."
+          logger.error { error_msg }
+          raise Error, error_msg
+        end
+
         send(:define_method, handler_method_name, &blk)
 
         handler_method = instance_method(handler_method_name)
