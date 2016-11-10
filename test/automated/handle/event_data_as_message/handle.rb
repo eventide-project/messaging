@@ -28,30 +28,6 @@ context "Handle" do
           end
         end
       end
-
-      context "Handler Does not Implement Message Handler for EventData's Type" do
-        context "Handler Implements Handle" do
-          event_data = Controls::EventData::Read.example(type: 'SomeMessage')
-
-          Controls::Handler::HandleMethod::Example.(event_data)
-
-          test "EventData is handled as EventData" do
-            assert(event_data.data == 'some value set by handle method')
-          end
-        end
-
-        context "Handler Does not Implement Handle" do
-          event_data = Controls::EventData::Read.example(type: 'SomeMessage')
-
-          unchanged_data = event_data.data
-
-          Controls::Handler::Anomaly::NoHandle::Example.(event_data)
-
-          test "EventData is not handled" do
-            assert(event_data.data == unchanged_data)
-          end
-        end
-      end
     end
   end
 end
