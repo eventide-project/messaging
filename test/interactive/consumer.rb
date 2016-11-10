@@ -1,14 +1,5 @@
 require_relative 'interactive_init'
-
-class Handler
-  include Messaging::Handle
-  include Controls::Message
-
-  handle SomeMessage do |some_message|
-    some_message.other_attribute = "Handled at: #{Clock::UTC.iso8601(precision: 5)}"
-  end
-end
-
+require_relative 'controls'
 
 logger = Log.get('Consumer')
 

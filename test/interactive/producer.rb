@@ -1,4 +1,5 @@
 require_relative 'interactive_init'
+require_relative 'controls'
 
 logger = Log.get('Producer')
 
@@ -21,7 +22,7 @@ period ||= 500
 period_seconds = Rational(period, 1000)
 
 loop do
-  message = Controls::Message.example(some_attribute: "Written at: #{Clock::UTC.iso8601(precision: 5)}")
+  message = SomeMessage.build(written_time: "Written at: #{Clock::UTC.iso8601(precision: 5)}")
   logger.debug message.pretty_inspect, tags: [:test, :data, :message]
 
   written_position = Write.(message, stream_name)
