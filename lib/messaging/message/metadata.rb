@@ -7,6 +7,7 @@ module Messaging
 
       attribute :source_event_stream_name
       attribute :source_event_position
+      alias :stream_name :source_event_stream_name
       alias :position :source_event_position
 
       attribute :causation_event_stream_name
