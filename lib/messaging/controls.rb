@@ -2,6 +2,7 @@ require 'clock/controls'
 require 'event_source/controls'
 
 require 'messaging/controls/time'
+require 'messaging/controls/partition'
 require 'messaging/controls/message'
 require 'messaging/controls/metadata'
 
