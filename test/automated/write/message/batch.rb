@@ -2,7 +2,7 @@ require_relative '../../automated_init'
 
 context "Write" do
   context "Batch" do
-    stream_name = Controls::StreamName.example(category: 'testWriteBatchPartition')
+    stream_name = Controls::StreamName.example(category: 'testWriteMessageBatch')
 
     message_1 = Controls::Message.example(some_attribute: 'value_1')
     message_2 = Controls::Message.example(some_attribute: 'value_2')
