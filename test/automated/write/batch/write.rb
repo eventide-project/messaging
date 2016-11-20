@@ -2,12 +2,9 @@ require_relative '../../automated_init'
 
 context "Write" do
   context "Batch" do
-    stream_name = Controls::StreamName.example(category: 'testWriteBatch')
+    stream_name = Controls::StreamName.example
 
-    message_1 = Controls::Message.example(some_attribute: 'value_1')
-    message_2 = Controls::Message.example(some_attribute: 'value_2')
-
-    batch = [message_1, message_2]
+    batch, values = Controls::Batch.example
 
     last_written_position = Write.(batch, stream_name)
 
@@ -20,7 +17,7 @@ context "Write" do
         read_event = EventSource::Postgres::Get.(stream_name, position: i, batch_size: 1).first
 
         test "Event #{i + 1}" do
-          assert(read_event.data[:some_attribute] == "value_#{i + 1}")
+          assert(read_event.data[:some_attribute] == values[i])
         end
       end
     end

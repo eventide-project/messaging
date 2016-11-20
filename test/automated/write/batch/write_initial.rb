@@ -3,12 +3,9 @@ require_relative '../../automated_init'
 context "Write" do
   context "Batch" do
     context "Writing the initial event to a stream that has not been created yet" do
-      stream_name = Controls::StreamName.example(category: 'testWriteInitialBatch')
+      stream_name = Controls::StreamName.example
 
-      message_1 = Controls::Message.example(some_attribute: 'value_1')
-      message_2 = Controls::Message.example(some_attribute: 'value_2')
-
-      batch = [message_1, message_2]
+      batch, values = Controls::Batch.example
 
       writer = Write.build
 
@@ -19,7 +16,7 @@ context "Write" do
           read_event = EventSource::Postgres::Get.(stream_name, position: i, batch_size: 1).first
 
           test "Event #{i + 1}" do
-            assert(read_event.data[:some_attribute] == "value_#{i + 1}")
+            assert(read_event.data[:some_attribute] == values[i])
           end
         end
       end
@@ -28,10 +25,7 @@ context "Write" do
     context "Writing the initial event to a stream that already exists" do
       stream_name = Controls::StreamName.example
 
-      message_1 = Controls::Message.example
-      message_2 = Controls::Message.example
-
-      batch = [message_1, message_2]
+      batch = Controls::Batch::Messages.example
 
       writer = Write.build
 
