@@ -43,9 +43,9 @@ module Messaging
 
     def call(message_or_batch, stream_name, expected_version: nil, reply_stream_name: nil)
       unless message_or_batch.is_a? Array
-        logger.trace { "Writing message_or_batch (Stream Name: #{stream_name}, Type: #{message_or_batch.class.message_type}, Expected Version: #{expected_version.inspect}, Reply Stream Name #{reply_stream_name.inspect})" }
+        logger.trace { "Writing message (Stream Name: #{stream_name}, Type: #{message_or_batch.class.message_type}, Expected Version: #{expected_version.inspect}, Reply Stream Name: #{reply_stream_name.inspect})" }
       else
-        logger.trace { "Writing batch (Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect}, Reply Stream Name #{reply_stream_name.inspect})" }
+        logger.trace { "Writing batch (Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect}, Reply Stream Name: #{reply_stream_name.inspect})" }
       end
       logger.trace(tags: [:data, :message]) { message_or_batch.pretty_inspect }
 
@@ -55,9 +55,9 @@ module Messaging
       last_position = event_writer.(event_data_batch, stream_name, expected_version: expected_version)
 
       unless message_or_batch.is_a? Array
-        logger.info { "Wrote message_or_batch (Position: #{last_position}, Stream Name: #{stream_name}, Type: #{message_or_batch.class.message_type}, Expected Version: #{expected_version.inspect}, Reply Stream Name #{reply_stream_name.inspect})" }
+        logger.info { "Wrote message (Position: #{last_position}, Stream Name: #{stream_name}, Type: #{message_or_batch.class.message_type}, Expected Version: #{expected_version.inspect}, Reply Stream Name: #{reply_stream_name.inspect})" }
       else
-        logger.info { "Wrote batch (Position: #{last_position}, Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect}, Reply Stream Name #{reply_stream_name.inspect})" }
+        logger.info { "Wrote batch (Position: #{last_position}, Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect}, Reply Stream Name: #{reply_stream_name.inspect})" }
       end
       logger.info(tags: [:data, :message]) { event_data_batch.pretty_inspect }
 
