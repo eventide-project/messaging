@@ -2,7 +2,7 @@ module Messaging
   module Controls
     module Metadata
       def self.example
-        Messaging::Message::Metadata.build data
+        Messaging::Message::Metadata.build(data)
       end
 
       def self.source_event_stream_name
@@ -77,7 +77,7 @@ module Messaging
 
       module Written
         def self.example
-          Messaging::Message::Metadata.build data
+          Messaging::Message::Metadata.build(data)
         end
 
         def self.data
@@ -87,6 +87,25 @@ module Messaging
           data.delete(:source_event_position)
 
           data
+        end
+      end
+
+      module Raw
+        def self.example
+          Messaging::Message::Metadata.build(data)
+        end
+
+        def self.data
+          {
+            causation_event_stream_name: Metadata.causation_event_stream_name,
+            causation_event_position: Metadata.causation_event_position,
+
+            correlation_stream_name: Metadata.correlation_stream_name,
+
+            reply_stream_name: Metadata.reply_stream_name,
+
+            schema_version: schema_version
+          }
         end
       end
     end
