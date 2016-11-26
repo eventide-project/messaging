@@ -1,7 +1,7 @@
 require_relative 'interactive_init'
 require_relative 'controls'
 
-logger = Log.get('Producer')
+logger = Log.get('Produce')
 
 logger.info "Starting Producer", tag: :test
 

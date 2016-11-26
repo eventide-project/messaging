@@ -1,7 +1,7 @@
 require_relative 'interactive_init'
 require_relative 'controls'
 
-logger = Log.get('Consumer')
+logger = Log.get('Consume')
 
 logger.info "Starting Consumer", tag: :test
 
