@@ -32,13 +32,11 @@ module Messaging
         def self.read(event_data)
           data = event_data.to_h
 
-          unless data.has_key?(:metadata)
+          if data[:metadata].nil?
             data[:metadata] = {}
           end
 
           metadata = data[:metadata]
-
-          metadata[:source]
 
           metadata[:source_event_stream_name] = data[:stream_name]
           metadata[:source_event_position] = data[:position]

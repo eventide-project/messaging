@@ -1,8 +1,8 @@
-require_relative '../../automated_init'
+require_relative '../../../automated_init'
 
 context "Message" do
   context "Transform" do
-    context "Read EventData into Message" do
+    context "Read" do
       type = Controls::Message.type
       metadata = Controls::Metadata::Written.data
       data = Controls::Message.data
@@ -10,6 +10,11 @@ context "Message" do
       event_data = Controls::EventData::Read.example(type: type, data: data, metadata: metadata)
 
       message = Transform::Read.(event_data, :event_data, Controls::Message::SomeMessage)
+
+
+pp event_data
+pp message
+
 
       context "Message Data" do
         test "Attributes" do
