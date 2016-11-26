@@ -17,7 +17,7 @@ logger.info "Stream name: #{stream_name}", tag: :test
 
 logger.info "Starting reader", tag: :test
 
-EventSource::Postgres::Read.(stream_name, batch_size: 1, delay_milliseconds: 10, timeout_milliseconds: 2000) do |event_data|
+EventSource::Postgres::Read.(stream_name, batch_size: 1, cycle_delay_milliseconds: 10, cycle_timeout_milliseconds: 2000) do |event_data|
   logger.debug event_data.pretty_inspect, tags: [:test, :data, :message]
 
   message = Handler.(event_data)

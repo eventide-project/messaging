@@ -11,4 +11,4 @@ logger.info "Stream name: #{stream_name}", tag: :test
 
 logger.info "Starting reader", tag: :test
 
-EventSource::Postgres::Read.(stream_name, batch_size: 1, delay_milliseconds: 10) {}
+EventSource::Postgres::Read.(stream_name, batch_size: 1, cycle_delay_milliseconds: 10) {}
