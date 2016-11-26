@@ -83,29 +83,16 @@ module Messaging
         def self.data
           data = Metadata.data
 
-          data.delete(:source_event_stream_name)
-          data.delete(:source_event_position)
+          [
+            :source_event_stream_name,
+            :source_event_position,
+            :global_position,
+            :time
+          ].each do |not_written_attribute|
+            data.delete(not_written_attribute)
+          end
 
           data
-        end
-      end
-
-      module Raw
-        def self.example
-          Messaging::Message::Metadata.build(data)
-        end
-
-        def self.data
-          {
-            causation_event_stream_name: Metadata.causation_event_stream_name,
-            causation_event_position: Metadata.causation_event_position,
-
-            correlation_stream_name: Metadata.correlation_stream_name,
-
-            reply_stream_name: Metadata.reply_stream_name,
-
-            schema_version: schema_version
-          }
         end
       end
     end

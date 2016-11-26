@@ -32,7 +32,9 @@ module Messaging
         def self.read(event_data)
           data = event_data.to_h
 
-          if data[:metadata].nil?
+          unless data[:metadata].nil?
+            data[:metadata] = data[:metadata].clone
+          else
             data[:metadata] = {}
           end
 
