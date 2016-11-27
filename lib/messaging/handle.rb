@@ -14,6 +14,7 @@ module Messaging
 
         virtual :configure
 
+        attr_accessor :session
         attr_writer :strict
       end
     end
@@ -23,9 +24,10 @@ module Messaging
     end
 
     module Build
-      def build(strict: nil)
+      def build(strict: nil, session: nil)
         instance = new
         instance.strict = strict
+        instance.session = session
         instance.configure
         instance
       end
