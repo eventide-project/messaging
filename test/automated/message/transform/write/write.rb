@@ -1,8 +1,8 @@
-require_relative '../../automated_init'
+require_relative '../../../automated_init'
 
 context "Message" do
   context "Transform" do
-    context "Write Message to EventData" do
+    context "Write" do
       context "Data" do
         message = Controls::Message.example
 
@@ -55,17 +55,6 @@ context "Message" do
           test "schema_version" do
             assert(metadata[:schema_version] == message.metadata.schema_version)
           end
-        end
-      end
-
-      context "Empty Message Metadata" do
-        metadata = Controls::Metadata::Empty.example
-        message = Controls::Message.example(metadata: metadata)
-
-        event_data = Transform::Write.(message, :event_data)
-
-        test "EventData metadata has no fields" do
-          assert(event_data.metadata.keys.empty?)
         end
       end
     end
