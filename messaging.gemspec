@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name = 'messaging'
-  s.version = '0.6.1.0'
+  s.version = '0.6.2.0'
   s.summary = 'Messaging primitives for Eventide'
   s.description = ' '
 
