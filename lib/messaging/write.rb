@@ -109,9 +109,10 @@ module Messaging
       end
     end
 
-    def write_initial(message, stream_name)
+    def initial(message, stream_name)
       write(message, stream_name, expected_version: :no_stream)
     end
+    alias :write_initial :initial
 
     def self.register_telemetry_sink(writer)
       sink = Telemetry.sink
