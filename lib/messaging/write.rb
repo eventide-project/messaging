@@ -28,7 +28,7 @@ module Messaging
 
     module Configure
       def configure(receiver, session: nil, attr_name: nil)
-        attr_name ||= :writer
+        attr_name ||= :write
         instance = build(session: session)
         receiver.public_send "#{attr_name}=", instance
       end
