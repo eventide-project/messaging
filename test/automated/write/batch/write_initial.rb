@@ -9,7 +9,7 @@ context "Write" do
 
       write = Write.build
 
-      write.write_initial(batch, stream_name)
+      write.initial(batch, stream_name)
 
       context "Individual Events are Written" do
         2.times do |i|
@@ -33,7 +33,7 @@ context "Write" do
       Write.(message, stream_name)
 
       test "Is an error" do
-        assert proc { write.write_initial(batch, stream_name) } do
+        assert proc { write.initial(batch, stream_name) } do
           raises_error? EventSource::ExpectedVersion::Error
         end
       end

@@ -9,7 +9,7 @@ context "Write" do
 
       write = Write.build
 
-      write.write_initial(message, stream_name)
+      write.initial(message, stream_name)
 
       read_event = EventSource::Postgres::Get.(stream_name, position: 0, batch_size: 1).first
 
@@ -25,10 +25,10 @@ context "Write" do
 
       write = Write.build
 
-      write.write(message, stream_name)
+      write.(message, stream_name)
 
       test "Is an error" do
-        assert proc { write.write_initial(message, stream_name) } do
+        assert proc { write.initial(message, stream_name) } do
           raises_error? EventSource::ExpectedVersion::Error
         end
       end
