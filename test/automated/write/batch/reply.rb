@@ -10,10 +10,10 @@ context "Write" do
 
       batch = [message_1, message_2]
 
-      writer = Controls::Write.example
+      write = Controls::Write.example
 
       test "Is an error" do
-        assert proc { writer.reply(batch) } do
+        assert proc { write.reply(batch) } do
           raises_error? Messaging::Write::Error
         end
       end

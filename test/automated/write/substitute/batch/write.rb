@@ -11,59 +11,59 @@ context "Write" do
 
         batch = [message_1, message_2]
 
-        writer = Write::Substitute.build
+        write = Write::Substitute.build
 
-        writer.write(batch, stream_name, expected_version: 11, reply_stream_name: 'someReplyStreamName')
+        write.(batch, stream_name, expected_version: 11, reply_stream_name: 'someReplyStreamName')
 
         context "Detection Interrogatives" do
           test "No block arguments" do
-            assert(writer.written?)
+            assert(write.written?)
           end
 
           2.times do |i|
             context "Message #{i}" do
               test "Message block argument only" do
-                assert(writer.written? { |msg| msg == batch[i] })
+                assert(write.written? { |msg| msg == batch[i] })
               end
             end
           end
 
           test "Message and stream name block arguments" do
-            assert(writer.written? { |msg, stream| stream == stream_name })
+            assert(write.written? { |msg, stream| stream == stream_name })
           end
 
           test "Message, stream name, and expected_version block arguments" do
-            assert(writer.written? { |msg, stream, expected_version | expected_version == 11 })
+            assert(write.written? { |msg, stream, expected_version | expected_version == 11 })
           end
 
           test "Message, stream name, expected_version, and reply_stream_name block arguments" do
-            assert(writer.written? { |msg, stream, expected_version, reply_stream_name | reply_stream_name == 'someReplyStreamName' })
+            assert(write.written? { |msg, stream, expected_version, reply_stream_name | reply_stream_name == 'someReplyStreamName' })
           end
         end
 
         context "Recorded Data" do
           test "No block arguments" do
-            assert(writer.writes.length == 2)
+            assert(write.writes.length == 2)
           end
 
           2.times do |i|
             context "Message #{i}" do
               test "Message block argument only" do
-                assert(writer.writes { |msg| msg == batch[i] }.length == 1 )
+                assert(write.writes { |msg| msg == batch[i] }.length == 1 )
               end
             end
           end
 
           test "Message and stream name block arguments" do
-            assert(writer.writes { |msg, stream| stream == stream_name }.length == 2)
+            assert(write.writes { |msg, stream| stream == stream_name }.length == 2)
           end
 
           test "Message, stream name, and expected_version block arguments" do
-            assert(writer.writes { |msg, stream, expected_version | expected_version == 11 }.length == 2)
+            assert(write.writes { |msg, stream, expected_version | expected_version == 11 }.length == 2)
           end
 
           test "Message, stream name, expected_version, and reply_stream_name block arguments" do
-            assert(writer.writes { |msg, stream, expected_version, reply_stream_name | reply_stream_name == 'someReplyStreamName' }.length == 2)
+            assert(write.writes { |msg, stream, expected_version, reply_stream_name | reply_stream_name == 'someReplyStreamName' }.length == 2)
           end
         end
       end
