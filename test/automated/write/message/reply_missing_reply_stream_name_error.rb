@@ -8,10 +8,10 @@ context "Write" do
 
       reply_stream_name = Controls::StreamName.example
 
-      writer = Write.build
+      write = Write.build
 
       test "Is an error" do
-        assert proc { writer.reply(message) } do
+        assert proc { write.reply(message) } do
           raises_error? Messaging::Write::Error
         end
       end
