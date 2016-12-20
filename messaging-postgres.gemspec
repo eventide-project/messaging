@@ -15,8 +15,8 @@ Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.required_ruby_version = '>= 2.3.3'
 
-  s.add_runtime_dependency 'messaging'
-  s.add_runtime_dependency 'event_source-postgres'
+  s.add_runtime_dependency 'evt-messaging'
+  s.add_runtime_dependency 'evt-event_source-postgres'
 
-  s.add_development_dependency 'test_bench'
+  s.add_development_dependency 'ntl-test_bench'
 end
