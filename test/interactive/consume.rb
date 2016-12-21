@@ -3,7 +3,7 @@ require_relative 'controls'
 
 logger = Log.get('Consume')
 
-logger.level = :info
+logger.level = :debug
 
 logger.info "Starting Consumer", tag: :test
 
@@ -21,24 +21,11 @@ logger.info "Starting reader", tag: :test
 
 handler = Handler.build
 
-count = 0
-start_time = Time.now
 EventSource::Postgres::Read.(stream_name, batch_size: 1, cycle_delay_milliseconds: 10, cycle_timeout_milliseconds: 2000) do |event_data|
   logger.debug(tags: [:test, :data, :message]) { event_data.pretty_inspect }
 
   message = handler.(event_data)
-  count += 1
 
   logger.debug(tags: [:test, :data, :message]) { "Handled message: #{message.message_type}" }
-
   logger.debug(tags: [:test, :data, :message]) { message.pretty_inspect }
 end
-
-stop_time = Time.now
-
-duration = stop_time - start_time
-throughput = count / duration
-
-logger.info "Messages: #{count}", tags: [:test, :data, :message]
-logger.info "Duration: #{duration}", tags: [:test, :data, :message]
-logger.info "Throughput: #{throughput}", tags: [:test, :data, :message]
