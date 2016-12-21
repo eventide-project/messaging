@@ -3,6 +3,8 @@ require_relative 'controls'
 
 logger = Log.get('Produce')
 
+logger.level = :info
+
 logger.info "Starting Producer", tag: :test
 
 stream_name = Controls::StreamName.example(category: 'testInteractive')
@@ -18,15 +20,27 @@ at_exit do
 end
 
 period = ENV['PERIOD']
-period ||= 500
+period ||= 0
 period_seconds = Rational(period, 1000)
 
-loop do
+count = 0
+start_time = Time.now
+1000.times do
   message = SomeMessage.build(written_time: "Written at: #{Clock::UTC.iso8601(precision: 5)}")
   logger.debug message.pretty_inspect, tags: [:test, :data, :message]
 
   written_position = Write.(message, stream_name)
-  logger.info "Wrote at position: #{written_position}", tags: [:test, :data, :message]
+  count += 1
+  logger.debug "Wrote message ##{count} at position: #{written_position}", tags: [:test, :data, :message]
 
   sleep period_seconds
 end
+
+stop_time = Time.now
+
+duration = stop_time - start_time
+throughput = count / duration
+
+logger.info "Messages: #{count}", tags: [:test, :data, :message]
+logger.info "Duration: #{duration}", tags: [:test, :data, :message]
+logger.info "Throughput: #{throughput}", tags: [:test, :data, :message]
