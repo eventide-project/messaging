@@ -8,6 +8,10 @@ context "Message" do
 
         event_data = Transform::Write.(message, :event_data)
 
+        test "ID" do
+          assert(event_data.id == message.id)
+        end
+
         test "Type is the message's message type" do
           assert(event_data.type == 'SomeMessage')
         end

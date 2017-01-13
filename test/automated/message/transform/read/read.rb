@@ -11,8 +11,12 @@ context "Message" do
 
       message = Transform::Read.(event_data, :event_data, Controls::Message::SomeMessage)
 
-      context "Message Data" do
-        test "Attributes" do
+      context "Attributes" do
+        test "ID" do
+          assert(message.id == event_data.id)
+        end
+
+        test "Message data" do
           assert(message.to_h == event_data.data)
         end
 

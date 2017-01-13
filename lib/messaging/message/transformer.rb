@@ -10,13 +10,16 @@ module Messaging
       end
 
       def self.instance(event_data_data, cls)
-        cls.build(event_data_data[:data], event_data_data[:metadata])
+        instance = cls.build(event_data_data[:data], event_data_data[:metadata])
+        instance.id = event_data_data[:id]
+        instance
       end
 
       module EventData
         def self.write(message)
           event_data = EventSource::EventData::Write.build
 
+          event_data.id = message.id
           event_data.type = message.message_type
 
           event_data.data = message.to_h
