@@ -19,6 +19,7 @@ module Messaging
         def self.write(message)
           event_data = EventSource::EventData::Write.build
 
+          event_data.id = message.id
           event_data.type = message.message_type
 
           event_data.data = message.to_h

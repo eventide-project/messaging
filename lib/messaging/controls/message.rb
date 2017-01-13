@@ -6,6 +6,7 @@ module Messaging
         metadata ||= Controls::Metadata.example
 
         message = SomeMessage.new
+        message.id = id
         message.some_attribute = some_attribute
         message.other_attribute = other_attribute
 
@@ -42,6 +43,10 @@ module Messaging
 
       def self.message_class
         SomeMessage
+      end
+
+      def self.id
+        ID::Random.example
       end
 
       def self.type
