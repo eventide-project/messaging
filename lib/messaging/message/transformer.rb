@@ -10,7 +10,9 @@ module Messaging
       end
 
       def self.instance(event_data_data, cls)
-        cls.build(event_data_data[:data], event_data_data[:metadata])
+        instance = cls.build(event_data_data[:data], event_data_data[:metadata])
+        instance.id = event_data_data[:id]
+        instance
       end
 
       module EventData

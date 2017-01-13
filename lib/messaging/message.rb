@@ -5,12 +5,15 @@ module Messaging
         include Schema::DataStructure
       end
 
+      ## TODO put this in the included block, and remove the cls.
       cls.extend Info
       cls.extend Build
       cls.extend Copy
       cls.extend Follow
       cls.extend Transformer
     end
+
+    attr_accessor :id
 
     attr_writer :metadata
     def metadata
