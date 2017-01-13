@@ -1,7 +1,13 @@
 module Messaging
   module Controls
     module Message
-      def self.example(some_attribute: nil, metadata: nil)
+      def self.example(id: nil, some_attribute: nil, metadata: nil)
+        if id == :none
+          id = nil
+        else
+          id ||= self.id
+        end
+
         some_attribute ||= attribute
         metadata ||= Controls::Metadata.example
 
