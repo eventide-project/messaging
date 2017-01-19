@@ -24,14 +24,6 @@ context "Message" do
         context "Metadata" do
           metadata = event_data.metadata
 
-          test "source_event_stream_name is omitted from the metadata" do
-            assert(metadata[:source_event_stream_name].nil?)
-          end
-
-          test "source_event_position is omitted from the metadata" do
-            assert(metadata[:source_event_position].nil?)
-          end
-
           test "causation_event_stream_name" do
             assert(metadata[:causation_event_stream_name] == message.metadata.causation_event_stream_name)
           end
@@ -48,16 +40,16 @@ context "Message" do
             assert(metadata[:reply_stream_name] == message.metadata.reply_stream_name)
           end
 
-          test "global_position" do
-            assert(metadata[:global_position] == message.metadata.global_position)
-          end
-
-          test "time" do
-            assert(metadata[:time] == message.metadata.time)
-          end
-
           test "schema_version" do
             assert(metadata[:schema_version] == message.metadata.schema_version)
+          end
+
+          context "Transient Attributes" do
+            ::Messaging::Message::Metadata.transient_attributes.each do |transient_attribute|
+              test "#{transient_attribute} is omitted from the metadata" do
+                assert(metadata[transient_attribute].nil?)
+              end
+            end
           end
         end
       end

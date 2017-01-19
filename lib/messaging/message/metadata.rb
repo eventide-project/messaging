@@ -53,6 +53,21 @@ module Messaging
       def clear_reply_stream_name
         self.reply_stream_name = nil
       end
+
+      def self.transient_attributes
+        [
+          :source_event_stream_name,
+          :source_event_position,
+          :global_position,
+          :time
+        ]
+      end
+
+      def self.remove_transient_attributes(data)
+        transient_attributes.each do |not_written_attribute|
+          data.delete(not_written_attribute)
+        end
+      end
     end
   end
 end

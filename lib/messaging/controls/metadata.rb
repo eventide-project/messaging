@@ -83,14 +83,7 @@ module Messaging
         def self.data
           data = Metadata.data
 
-          [
-            :source_event_stream_name,
-            :source_event_position,
-            :global_position,
-            :time
-          ].each do |not_written_attribute|
-            data.delete(not_written_attribute)
-          end
+          ::Messaging::Message::Metadata.remove_transient_attributes(data)
 
           data
         end
