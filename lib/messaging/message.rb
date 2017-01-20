@@ -3,17 +3,19 @@ module Messaging
     def self.included(cls)
       cls.class_exec do
         include Schema::DataStructure
+        prepend Attributes
+
+        attribute :id, String
       end
 
       ## TODO put this in the included block, and remove the cls.
       cls.extend Info
+      cls.extend AttributeNames
       cls.extend Build
       cls.extend Copy
       cls.extend Follow
       cls.extend Transformer
     end
-
-    attr_accessor :id
 
     attr_writer :metadata
     def metadata
@@ -30,6 +32,30 @@ module Messaging
 
     def follows?(other_message)
       metadata.follows?(other_message.metadata)
+    end
+
+    def self.transient_attributes
+      [
+        :id
+      ]
+    end
+
+    def self.remove_transient_attributes(data)
+      transient_attributes.each do |not_written_attribute|
+        data.delete(not_written_attribute)
+      end
+    end
+
+    module Attributes
+      def attributes
+        attributes = super
+        Message.remove_transient_attributes(attributes)
+        attributes
+      end
+
+      def to_h
+        attributes
+      end
     end
 
     module Info
@@ -53,6 +79,14 @@ module Messaging
         class_name ||= message.name if message.instance_of? Class
         class_name ||= message.class.name
         class_name
+      end
+    end
+
+    module AttributeNames
+      def attribute_names
+        attribute_names = super
+        Message.remove_transient_attributes(attribute_names)
+        attribute_names
       end
     end
 

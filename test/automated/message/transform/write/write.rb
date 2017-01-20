@@ -16,9 +16,20 @@ context "Message" do
           assert(event_data.type == 'SomeMessage')
         end
 
-        test "Data is the message's data" do
+        context "Data" do
           data = Controls::Message.data
-          assert(event_data.data == data)
+
+          test "Data is the message's data" do
+            assert(event_data.data == data)
+          end
+
+          context "Transient Attributes" do
+            ::Messaging::Message.transient_attributes.each do |transient_attribute|
+              test "#{transient_attribute} is omitted from the data" do
+                assert(data[transient_attribute].nil?)
+              end
+            end
+          end
         end
 
         context "Metadata" do
