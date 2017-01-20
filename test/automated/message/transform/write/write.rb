@@ -24,7 +24,7 @@ context "Message" do
           end
 
           context "Transient Attributes" do
-            ::Messaging::Message.transient_attributes.each do |transient_attribute|
+            message.class.transient_attributes.each do |transient_attribute|
               test "#{transient_attribute} is omitted from the data" do
                 assert(data[transient_attribute].nil?)
               end

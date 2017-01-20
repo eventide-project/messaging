@@ -83,7 +83,9 @@ module Messaging
         def self.data
           data = Metadata.data
 
-          ::Messaging::Message::Metadata.remove_transient_attributes(data)
+          Messaging::Message::Metadata.transient_attributes.each do |not_written_attribute|
+            data.delete(not_written_attribute)
+          end
 
           data
         end
