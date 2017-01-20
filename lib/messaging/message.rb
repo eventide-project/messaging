@@ -4,6 +4,12 @@ module Messaging
       cls.class_exec do
         include Schema::DataStructure
 
+        extend Info
+        extend Build
+        extend Copy
+        extend Follow
+        extend Transformer
+
         attribute :id, String
 
         def self.transient_attributes
@@ -12,13 +18,6 @@ module Messaging
           ]
         end
       end
-
-      ## TODO put this in the included block, and remove the cls.
-      cls.extend Info
-      cls.extend Build
-      cls.extend Copy
-      cls.extend Follow
-      cls.extend Transformer
     end
 
     attr_writer :metadata
