@@ -5,24 +5,24 @@ module Messaging
 
       include Schema::DataStructure
 
-      attribute :source_event_stream_name
+      attribute :source_event_stream_name, String
       alias :stream_name :source_event_stream_name
-      attribute :source_event_position
+      attribute :source_event_position, Fixnum
       alias :sequence :source_event_position
       alias :position :source_event_position
       alias :position= :source_event_position=
 
-      attribute :causation_event_stream_name
-      attribute :causation_event_position
+      attribute :causation_event_stream_name, String
+      attribute :causation_event_position, Fixnum
 
-      attribute :correlation_stream_name
+      attribute :correlation_stream_name, String
 
-      attribute :reply_stream_name
+      attribute :reply_stream_name, String
 
-      attribute :global_position
-      attribute :time
+      attribute :global_position, Fixnum
+      attribute :time, Time
 
-      attribute :schema_version
+      attribute :schema_version, String
 
       def source_event_identifier
         return nil if source_event_stream_name.nil? || source_event_position.nil?

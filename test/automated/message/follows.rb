@@ -15,7 +15,7 @@ context "Message" do
   end
 
   context "Any workflow attribute isn't equal" do
-    [:causation_event_stream_name, :causation_event_position, :correlation_stream_name, :reply_stream_name].each do |attribute|
+    [:causation_event_stream_name, :correlation_stream_name, :reply_stream_name].each do |attribute|
       source_message = Controls::Message.example
       message = Controls::Message.example
 
@@ -26,6 +26,17 @@ context "Message" do
       test attribute.to_s do
         refute(message.follows?(source_message))
       end
+    end
+
+    test "causation_event_position" do
+      source_message = Controls::Message.example
+      message = Controls::Message.example
+
+      message.metadata.follow(source_message.metadata)
+
+      message.metadata.causation_event_position = -1
+
+      refute(message.follows?(source_message))
     end
   end
 end

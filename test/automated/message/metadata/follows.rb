@@ -23,7 +23,7 @@ context "Message" do
     source_metadata = Controls::Metadata.example
 
     context "Any workflow attribute isn't equal" do
-      [:causation_event_stream_name, :causation_event_position, :correlation_stream_name, :reply_stream_name].each do |attribute|
+      [:causation_event_stream_name, :correlation_stream_name, :reply_stream_name].each do |attribute|
         metadata = Controls::Metadata.example
 
         metadata.causation_event_stream_name = source_metadata.source_event_stream_name
@@ -34,6 +34,16 @@ context "Message" do
         test attribute.to_s do
           refute(metadata.follows?(source_metadata))
         end
+      end
+
+      test "causation_event_position" do
+        metadata = Controls::Metadata.example
+
+        metadata.causation_event_stream_name = source_metadata.source_event_stream_name
+
+        metadata.causation_event_position = -1
+
+        refute(metadata.follows?(source_metadata))
       end
     end
   end

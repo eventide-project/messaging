@@ -30,7 +30,7 @@ module Messaging
       end
 
       def self.schema_version
-        11
+        '1.1'
       end
 
       def self.source_event_identifier
