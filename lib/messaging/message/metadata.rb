@@ -68,6 +68,22 @@ module Messaging
           data.delete(not_written_attribute)
         end
       end
+
+      def attributes
+        attributes = super
+        self.class.remove_transient_attributes(attributes)
+        attributes
+      end
+
+      def to_h
+        attributes
+      end
+
+      def self.attribute_names
+        attribute_names = super
+        remove_transient_attributes(attribute_names)
+        attribute_names
+      end
     end
   end
 end

@@ -26,7 +26,6 @@ module Messaging
 
           metadata = message.metadata.to_h
           metadata.delete_if { |k, v| v.nil? }
-          ::Messaging::Message::Metadata.remove_transient_attributes(metadata)
 
           event_data.metadata = metadata
 
