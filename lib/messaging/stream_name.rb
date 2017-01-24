@@ -2,8 +2,6 @@ module Messaging
   module StreamName
     extend self
 
-    include EventSource::StreamName
-
     def self.included(cls)
       cls.extend Macro
     end
