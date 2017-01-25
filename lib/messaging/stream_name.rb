@@ -25,12 +25,12 @@ module Messaging
 
     def stream_name(id, category=nil)
       category ||= self.category
-      EventSource::StreamName.stream_name category, id
+      EventSource::StreamName.stream_name(category, id)
     end
 
     def command_stream_name(id, category=nil)
       category ||= self.category
-      EventSource::StreamName.stream_name "#{category}:command", id
+      EventSource::StreamName.stream_name category, id, type: 'command'
     end
 
     def category_stream_name(category=nil)
@@ -40,9 +40,7 @@ module Messaging
 
     def command_category_stream_name(category=nil)
       category ||= self.category
-      category_stream_name = category_stream_name(category)
-
-      "#{category_stream_name}:command"
+      EventSource::StreamName.stream_name category, type: 'command'
     end
 
     def self.get_category(stream_name)

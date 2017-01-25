@@ -28,6 +28,8 @@ context "Stream Name" do
   context "Command Category Stream Name" do
     command_category_stream_name = StreamName.command_category_stream_name('someCategory')
 
+pp command_category_stream_name
+
     test "Composed of the command stream type token and the category name" do
       assert(command_category_stream_name == 'someCategory:command')
     end
