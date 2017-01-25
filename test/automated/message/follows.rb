@@ -2,13 +2,13 @@ require_relative '../automated_init'
 
 context "Message" do
   context "Follows" do
-    context "Metadata have precedence" do
+    context "Metadata has precedence" do
       source_message = Controls::Message.example
       message = Controls::Message.example
 
       message.metadata.follow(source_message.metadata)
 
-      test "Message has precedence" do
+      test "Message follows" do
         assert(message.follows?(source_message))
       end
     end
