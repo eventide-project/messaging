@@ -7,19 +7,19 @@ module Messaging
 
       attribute :source_event_stream_name, String
       alias :stream_name :source_event_stream_name
-      attribute :source_event_position, Fixnum
+      attribute :source_event_position, Integer
       alias :sequence :source_event_position
       alias :position :source_event_position
       alias :position= :source_event_position=
 
       attribute :causation_event_stream_name, String
-      attribute :causation_event_position, Fixnum
+      attribute :causation_event_position, Integer
 
       attribute :correlation_stream_name, String
 
       attribute :reply_stream_name, String
 
-      attribute :global_position, Fixnum
+      attribute :global_position, Integer
       attribute :time, Time
 
       attribute :schema_version, String
