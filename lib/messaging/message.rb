@@ -11,18 +11,15 @@ module Messaging
         extend Transformer
 
         attribute :id, String
+        attribute :metadata, Metadata, default: Metadata.new
 
         def self.transient_attributes
           [
-            :id
+            :id,
+            :metadata
           ]
         end
       end
-    end
-
-    attr_writer :metadata
-    def metadata
-      @metadata ||= Metadata.new
     end
 
     def message_type
