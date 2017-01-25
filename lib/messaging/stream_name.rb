@@ -23,9 +23,9 @@ module Messaging
       alias :category :category_macro
     end
 
-    def stream_name(id, category=nil)
+    def stream_name(id, category=nil, type: nil)
       category ||= self.category
-      EventSource::StreamName.stream_name(category, id)
+      EventSource::StreamName.stream_name(category, id, type: type)
     end
 
     def command_stream_name(id, category=nil)
