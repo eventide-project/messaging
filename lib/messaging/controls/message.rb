@@ -33,6 +33,7 @@ module Messaging
         attribute :some_attribute
         attribute :other_attribute
       end
+      Example = SomeMessage
 
       class OtherMessage
         include Messaging::Message

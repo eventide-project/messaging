@@ -8,6 +8,7 @@ module Messaging
         extend Build
         extend Copy
         extend Follow
+        extend Correlate
         extend Transformer
 
         attribute :id, String
@@ -81,6 +82,14 @@ module Messaging
         else
           Metadata.build(metadata.to_h)
         end
+      end
+    end
+
+    module Correlate
+      def correlate(correlation_stream_name)
+        instance = build
+        instance.metadata.correlation_stream_name = correlation_stream_name
+        instance
       end
     end
   end
