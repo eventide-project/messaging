@@ -19,6 +19,10 @@ module Messaging
         self.send :define_method, :category do
           @category ||= category
         end
+
+        self.send :define_method, :category= do |category|
+          @category = category
+        end
       end
       alias :category :category_macro
     end

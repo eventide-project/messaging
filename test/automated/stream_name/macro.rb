@@ -4,8 +4,12 @@ context "Stream Name" do
   example = Messaging::Controls::StreamName::Named.example
 
   context "Macro" do
-    test "Adds the category_name instance method" do
+    test "Adds the category getter" do
       assert(example.respond_to? :category)
+    end
+
+    test "Adds the category setter" do
+      assert(example.respond_to? :category=)
     end
   end
 end
