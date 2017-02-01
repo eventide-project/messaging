@@ -22,18 +22,4 @@ context "Stream Name" do
       assert(command_stream_name == 'someCategory:command-some_id')
     end
   end
-
-  context "Category Stream Name" do
-    category_stream_name = example.category_stream_name
-    test "Is the category name" do
-      assert(category_stream_name == example.category)
-    end
-  end
-
-  context "Command Category Stream Name" do
-    command_category_stream_name = example.command_category_stream_name
-    test "Composed of the command stream type token and the category name" do
-      assert(command_category_stream_name == 'someCategory:command')
-    end
-  end
 end

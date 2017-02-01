@@ -37,16 +37,6 @@ module Messaging
       EventSource::StreamName.stream_name category, id, type: 'command'
     end
 
-    def category_stream_name(category=nil)
-      category ||= self.category
-      category
-    end
-
-    def command_category_stream_name(category=nil)
-      category ||= self.category
-      EventSource::StreamName.stream_name category, type: 'command'
-    end
-
     def self.get_category(stream_name)
       EventSource::StreamName.get_category(stream_name)
     end
