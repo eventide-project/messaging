@@ -1,19 +1,19 @@
-require_relative 'automated_init'
+require_relative '../automated_init'
 
 context "Stream Name" do
+  context "Stream Name" do
+    stream_name = StreamName.stream_name('some_id', 'someCategory')
+
+    test "Composed of the category name and an ID" do
+      assert(stream_name == 'someCategory-some_id')
+    end
+  end
+
   context "Category Stream Name" do
     category_stream_name = StreamName.category_stream_name('someCategory')
 
     test "Is the category" do
       assert(category_stream_name == 'someCategory')
-    end
-  end
-
-  context "Identified Stream Name" do
-    stream_name = StreamName.stream_name('some_id', 'someCategory')
-
-    test "Composed of the category name and an ID" do
-      assert(stream_name == 'someCategory-some_id')
     end
   end
 
