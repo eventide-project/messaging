@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name = 'evt-messaging'
-  s.version = '0.11.0.0'
+  s.version = '0.12.0.0'
   s.summary = 'Messaging primitives for Eventide'
   s.description = ' '
 
