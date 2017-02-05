@@ -1,3 +1,4 @@
+require 'event_source/postgres/controls'
 require 'messaging/controls'
 
 require 'messaging/postgres/controls/stream_name'
