@@ -69,8 +69,41 @@ By including `Messaging::Message`, a message is provided with an additional `met
 - `:time` - The time the message was saved in the database. This is not meant to replace a timestamp in the message body- this will change any time a message is copied or rewritten, whereas a timestamp message attribute will always reflect the time the event was constructed
 - `:reply_stream_name` - When a process issues a command to another process, the original process can provide a reply stream name. When the other process has completed the request, it will reply to the original process with the result of the command (i.e. a FundsTransfer may receive a `RecordDeposited` reply from the Account service). The original process can then continue knowing that the command was completed successfully or unsucessfully and act accordingly
 
-build w/ metadata
-copy w/ metadata
+### Message Constructors w/ Metadata
+
+When a message is built using the standard `build` method, the metadata is initialized to an empty `Messaging::Message::Metadata` data strucure. To set or transfer metadata from one message to another, that must be taken into consideration when building the message. This is specifially related to the `source_event_stream_name`, `source_event_position`, `causation_event_stream_name`, `causation_event_position`, `correlation_stream_name`, and `reply_stream_name` attributes. The `global_position` and `time` attibutes are set when writing the message to the database and are independent of any related message metadata
+
+#### #build
+
+As explained above, the `build` method takes an optional `data` parameter to set the attributes of the message. There is a second, optional metadata parameter that works the same way. Any values provided as part of the metadata parameter will be set to the matching metadata attributes. This is generally used for testing and control data purposes
+
+#### #correlate
+
+When constructing the first message in a process, it is vital to set the correlation stream name so that it can be propagated to all additional messages in the process. The `correlate` method provides that convenience:
+
+```ruby
+correlation_stream_name = "fundsTransfer-#{Identifier::UUID::Random.get}"
+
+message = Deposited.correlate correlation_stream_name
+message.metadata.correlation_stream_name == correlation_stream_name
+# => true
+```
+
+#### #follow
+
+When constructing subsequent messages in a process, the goal is to pass the metadata from the preceding event to the next event in the process. This is where the `follow` method comes in. By passing in the preceding message, the message being constructed is built with the relevant metadata already set. The `source_event_stream_name` and `source_event_position` of the preceding event are used as the `caustation_stream_name` and the `causation_event_position` of the new message. The `reply_stream_name` and `correlation_stream_name` are copied
+
+```ruby
+message = Deposited.follow deposit_command
+message.metadata.causation_stream_name == deposit_command.metadata.source_stream_name
+# => true
+message.metadata.causation_position == deposit_command.metadata.source_event_position
+# => true
+message.metadata.reply_stream_name == deposit_command.metadata.reply_stream_name
+# => true
+message.metadata.correlation_stream_name == deposit_command.metadata.correlation_stream_name
+# => true
+```
 
 ## General Use
 
