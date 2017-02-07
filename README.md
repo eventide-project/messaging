@@ -2,9 +2,6 @@
 
 Messaging primitives for Eventide
 
-## Event Data
-
-
 ## Messages
 
 A message is a data structure used to communicate within a system. Typically, these are divided into two categories: commands and events. Commands are used to communicate between services (i.e. tell, don't ask). A service will tell another service to perform an action by issuing a command to that service. Events are used to record *things that have happened*. A service will record events to serve as an audit log and a source of truth for application state. You can read more about commands v. events [here](http://eventide-project.org/quick_look.html).
@@ -130,6 +127,64 @@ If certain attributes should not be copied, specifiy those using `exclude`:
 ```ruby
 message = Deposited.follow deposit_command, exclude: [:time]
 ```
+
+## Handling Messages
+
+Messages are data structures- they contain the information needed to perform logic. The handlers are where the logic is performed and the flow of the process is determined using the message data. The logic can be incredibly simple or complex depending on the message being handled.
+
+To construct a handler, simply include the `Messaging::Handle` module in the handler class. Using the defined `handle` methods that this module provides, you can specifcy which events to address in a particular handler. A handler can handle one or many events, depending on how you decide to organize your code.
+
+Here is a simple example of a handler for the `Transfer` command issued to the `TransferFunds` component. Example `Transfer` and `Initiated` messages are also defined:
+
+```ruby
+module Messages
+  module Commands
+    class Transfer
+      include Messaging::Message
+
+      attribute :transfer_id, String
+      attribute :amount, Integer
+      attribute :source_account_id, String
+      attribute :destination_account_id, String
+      attribute :time, String
+    end
+  end
+
+  module Events
+    class Initiated
+      attribute :transfer_id, String
+      attribute :amount, Integer
+      attribute :source_account_id, String
+      attribute :destination_account_id, String
+      attribute :time, String
+    end
+  end
+end
+
+module Handlers
+  class Transfer
+    include Messaging::Handle
+
+    def configure
+      Messaging::Postgres::Write.configure self
+    end
+
+    handle Transfer do |transfer|
+      transfer_id = transfer.transfer_id
+
+      initiated = Initiated.follow transfer, exclude: [:time]
+      initiated.time = Time.now
+
+      stream_name = "transferFunds-#{transfer_id}"
+      writer.(initiated, stream_name)
+    end
+  end
+end
+```
+
+In this example, the handler is taking a message issued by an external process- the `Transfer` command- and initiating an internal process by writing the `Initiated` event. Another handler would be written to handle the `Initiated` message and so on until the process is completed. A process is complete when there are no more messages to write or when a written message does not need to be handled.
+
+A handler class can configure additional dependencies using the optional `configure` method provided by the `Messaging::Handle` module. This method will be called during construction of the handler.
 
 ## General Use
 
