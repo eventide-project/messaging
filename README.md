@@ -186,11 +186,12 @@ In this example, the handler is taking a message issued by an external process- 
 
 A handler class can configure additional dependencies using the optional `configure` method provided by the `Messaging::Handle` module. This method will be called during construction of the handler.
 
-## General Use
+## Database-Specific Messaging
 
-## Use with EventStore
+The `messaging` library is the generic messaging interface for the Eventide framework. For messaging primitives that are database-specific, such as stream name construction and message writers, see our supported database libraries:
 
-## Use with Postgres
+- [messaging-event_store](https://github.com/eventide-project/messaging-postgres)
+- [messaging-postgres](https://github.com/eventide-project/messaging-event-store)
 
 ## License
 
