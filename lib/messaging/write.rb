@@ -43,11 +43,11 @@ module Messaging
 
     def call(message_or_batch, stream_name, expected_version: nil, reply_stream_name: nil)
       unless message_or_batch.is_a? Array
-        logger.trace { "Writing message (Stream Name: #{stream_name}, Type: #{message_or_batch.class.message_type}, Expected Version: #{expected_version.inspect}, Reply Stream Name: #{reply_stream_name.inspect})" }
+        logger.trace(tag: :write) { "Writing message (Stream Name: #{stream_name}, Type: #{message_or_batch.class.message_type}, Expected Version: #{expected_version.inspect}, Reply Stream Name: #{reply_stream_name.inspect})" }
       else
-        logger.trace { "Writing batch (Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect}, Reply Stream Name: #{reply_stream_name.inspect})" }
+        logger.trace(tag: :write) { "Writing batch (Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect}, Reply Stream Name: #{reply_stream_name.inspect})" }
       end
-      logger.trace(tags: [:data, :message]) { message_or_batch.pretty_inspect }
+      logger.trace(tags: [:write, :data, :message]) { message_or_batch.pretty_inspect }
 
       message_batch = Array(message_or_batch)
 
@@ -55,11 +55,11 @@ module Messaging
       last_position = event_writer.(event_data_batch, stream_name, expected_version: expected_version)
 
       unless message_or_batch.is_a? Array
-        logger.info { "Wrote message (Position: #{last_position}, Stream Name: #{stream_name}, Type: #{message_or_batch.class.message_type}, Expected Version: #{expected_version.inspect}, Reply Stream Name: #{reply_stream_name.inspect})" }
+        logger.info(tag: :write) { "Wrote message (Position: #{last_position}, Stream Name: #{stream_name}, Type: #{message_or_batch.class.message_type}, Expected Version: #{expected_version.inspect}, Reply Stream Name: #{reply_stream_name.inspect})" }
       else
-        logger.info { "Wrote batch (Position: #{last_position}, Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect}, Reply Stream Name: #{reply_stream_name.inspect})" }
+        logger.info(tag: :write) { "Wrote batch (Position: #{last_position}, Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect}, Reply Stream Name: #{reply_stream_name.inspect})" }
       end
-      logger.info(tags: [:data, :message]) { event_data_batch.pretty_inspect }
+      logger.info(tags: [:write, :data, :message]) { event_data_batch.pretty_inspect }
 
       message_batch.each do |message|
         telemetry.record :written, Telemetry::Data.new(message, stream_name, expected_version, reply_stream_name)
@@ -92,7 +92,7 @@ module Messaging
       metadata = message.metadata
       reply_stream_name = metadata.reply_stream_name
 
-      logger.trace { "Replying (Message Type: #{message.message_type}, Stream Name: #{reply_stream_name.inspect})" }
+      logger.trace(tags: [:write, :reply]) { "Replying (Message Type: #{message.message_type}, Stream Name: #{reply_stream_name.inspect})" }
 
       if reply_stream_name.nil?
         error_msg = "Message has no reply stream name. Cannot reply. (Message Type: #{message.message_type})"
@@ -104,7 +104,7 @@ module Messaging
       metadata.clear_reply_stream_name
 
       write(message, reply_stream_name).tap do
-        logger.info { "Replied (Message Type: #{message.message_type}, Stream Name: #{reply_stream_name})" }
+        logger.info(tags: [:write, :reply]) { "Replied (Message Type: #{message.message_type}, Stream Name: #{reply_stream_name})" }
         telemetry.record :replied, Telemetry::Data.new(message, reply_stream_name)
       end
     end
