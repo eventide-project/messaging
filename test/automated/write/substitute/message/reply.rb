@@ -13,16 +13,28 @@ context "Write" do
         writer.reply(message)
 
         context "Detection Interrogatives" do
-          test "No block arguments" do
-            assert(writer.replied?)
+          context "No Message Argument" do
+            test "No block arguments" do
+              assert(writer.replied?)
+            end
+
+            test "Message block argument only" do
+              assert(writer.replied? { |msg| msg == message })
+            end
+
+            test "Message and stream name block arguments" do
+              assert(writer.replied? { |msg, stream| stream == reply_stream_name })
+            end
           end
 
-          test "Message block argument only" do
-            assert(writer.replied? { |msg| msg == message })
-          end
+          context "Message Argument" do
+            test "No block argument" do
+              assert(writer.replied?(message))
+            end
 
-          test "Message and stream name block arguments" do
-            assert(writer.replied? { |msg, stream| stream == reply_stream_name })
+            test "Stream name block argument" do
+              assert(writer.replied?(message) { |stream| stream == reply_stream_name })
+            end
           end
         end
 
