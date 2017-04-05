@@ -66,6 +66,32 @@ context "Write" do
             assert(write.writes { |msg, stream, expected_version, reply_stream_name | reply_stream_name == 'someReplyStreamName' }.length == 2)
           end
         end
+
+        context "Written Messages" do
+          test "No block arguments" do
+            assert(write.message_writes.length == 2)
+          end
+
+          2.times do |i|
+            context "Message #{i}" do
+              test "Message block argument only" do
+                assert(write.message_writes { |msg| msg == batch[i] }.length == 1 )
+              end
+            end
+          end
+
+          test "Message and stream name block arguments" do
+            assert(write.message_writes { |msg, stream| stream == stream_name }.length == 2)
+          end
+
+          test "Message, stream name, and expected_version block arguments" do
+            assert(write.message_writes { |msg, stream, expected_version | expected_version == 11 }.length == 2)
+          end
+
+          test "Message, stream name, expected_version, and reply_stream_name block arguments" do
+            assert(write.message_writes { |msg, stream, expected_version, reply_stream_name | reply_stream_name == 'someReplyStreamName' }.length == 2)
+          end
+        end
       end
     end
   end
