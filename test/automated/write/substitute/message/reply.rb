@@ -13,24 +13,28 @@ context "Write" do
         writer.reply(message)
 
         context "Detection Interrogatives" do
-          test "No block arguments" do
-            assert(writer.replied?)
+          context "No Message Argument" do
+            test "No block arguments" do
+              assert(writer.replied?)
+            end
+
+            test "Message block argument only" do
+              assert(writer.replied? { |msg| msg == message })
+            end
+
+            test "Message and stream name block arguments" do
+              assert(writer.replied? { |msg, stream| stream == reply_stream_name })
+            end
           end
 
-          test "Message block argument only" do
-            assert(writer.replied? { |msg| msg == message })
-          end
+          context "Message Argument" do
+            test "No block argument" do
+              assert(writer.replied?(message))
+            end
 
-          test "Message and stream name block arguments" do
-            assert(writer.replied? { |msg, stream| stream == reply_stream_name })
-          end
-
-          test "Message, stream name, and expected_version block arguments" do
-            assert(writer.replied? { |msg, stream, expected_version | expected_version == nil })
-          end
-
-          test "Message, stream name, expected_version, and reply_stream_name block arguments" do
-            assert(writer.replied? { |msg, stream, expected_version, reply_stream_name | reply_stream_name == nil })
+            test "Stream name block argument" do
+              assert(writer.replied?(message) { |stream| stream == reply_stream_name })
+            end
           end
         end
 
@@ -46,13 +50,19 @@ context "Write" do
           test "Message and stream name block arguments" do
             assert(writer.replies { |msg, stream| stream == reply_stream_name }.length == 1)
           end
+        end
 
-          test "Message, stream name, and expected_version block arguments" do
-            assert(writer.writes { |msg, stream, expected_version | expected_version == nil }.length == 1)
+        context "Replied Messages" do
+          test "No block arguments" do
+            assert(writer.message_replies.length == 1)
           end
 
-          test "Message, stream name, expected_version, and reply_stream_name block arguments" do
-            assert(writer.writes { |msg, stream, expected_version, reply_stream_name | reply_stream_name == nil }.length == 1)
+          test "Message block argument only" do
+            assert(writer.message_replies { |msg| msg == message }.length == 1 )
+          end
+
+          test "Message and stream name block arguments" do
+            assert(writer.message_replies { |msg, stream| stream == reply_stream_name }.length == 1)
           end
         end
       end

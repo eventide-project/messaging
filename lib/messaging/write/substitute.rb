@@ -29,13 +29,27 @@ module Messaging
           end
         end
 
-        def written?(&blk)
+        def written?(message=nil, &blk)
+          if message.nil?
+            if blk.nil?
+              return sink.recorded_written?
+            end
+
+            return sink.recorded_written? do |record|
+              blk.call(record.data.message, record.data.stream_name, record.data.expected_version, record.data.reply_stream_name)
+            end
+          end
+
+          written = sink.recorded_written? do |record|
+            record.data.message == message
+          end
+
           if blk.nil?
-            return sink.recorded_written?
+            return written
           end
 
           sink.recorded_written? do |record|
-            blk.call(record.data.message, record.data.stream_name, record.data.expected_version, record.data.reply_stream_name)
+            blk.call(record.data.stream_name, record.data.expected_version, record.data.reply_stream_name)
           end
         end
 
@@ -49,15 +63,59 @@ module Messaging
           end
         end
 
-        def replied?(&blk)
+        def replied?(message=nil, &blk)
+          # if blk.nil?
+          #   return sink.recorded_replied?
+          # end
+
+          # sink.recorded_replied? do |record|
+          #   blk.call(record.data.message, record.data.stream_name)
+          # end
+
+          if message.nil?
+            if blk.nil?
+              return sink.recorded_replied?
+            end
+
+            return sink.recorded_replied? do |record|
+              blk.call(record.data.message, record.data.stream_name)
+            end
+          end
+
+          written = sink.recorded_replied? do |record|
+            record.data.message == message
+          end
+
           if blk.nil?
-            return sink.recorded_replied?
+            return written
           end
 
           sink.recorded_replied? do |record|
-            blk.call(record.data.message, record.data.stream_name)
+            blk.call(record.data.stream_name)
           end
         end
+
+        def message_writes(&blk)
+          if blk.nil?
+            return sink.written_records.map { |record| record.data.message }
+          end
+
+          sink.written_records.select do |record|
+            blk.call(record.data.message, record.data.stream_name, record.data.expected_version, record.data.reply_stream_name)
+          end.map { |record| record.data.message }
+        end
+        alias :messages :message_writes
+
+        def message_replies(&blk)
+          if blk.nil?
+            return sink.replied_records.map { |record| record.data.message }
+          end
+
+          sink.replied_records.select do |record|
+            blk.call(record.data.message, record.data.stream_name)
+          end.map { |record| record.data.message }
+        end
+        alias :replies :message_replies
       end
     end
   end
