@@ -66,7 +66,17 @@ module Messaging
 
           sink.written_records.select do |record|
             blk.call(record.data.message, record.data.stream_name, record.data.expected_version, record.data.reply_stream_name)
+          end.map { |record| record.data.message }
+        end
+
+        def message_replies(&blk)
+          if blk.nil?
+            return sink.replied_records.map { |record| record.data.message }
           end
+
+          sink.replied_records.select do |record|
+            blk.call(record.data.message, record.data.stream_name)
+          end.map { |record| record.data.message }
         end
       end
     end
