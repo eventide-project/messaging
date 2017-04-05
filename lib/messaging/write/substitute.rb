@@ -64,14 +64,6 @@ module Messaging
         end
 
         def replied?(message=nil, &blk)
-          # if blk.nil?
-          #   return sink.recorded_replied?
-          # end
-
-          # sink.recorded_replied? do |record|
-          #   blk.call(record.data.message, record.data.stream_name)
-          # end
-
           if message.nil?
             if blk.nil?
               return sink.recorded_replied?
