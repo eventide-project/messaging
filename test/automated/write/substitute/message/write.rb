@@ -96,6 +96,44 @@ context "Write" do
             assert(writer.message_writes { |msg, stream, expected_version, reply_stream_name | reply_stream_name == 'someReplyStreamName' }.length == 1)
           end
         end
+
+        context "Written Message" do
+          context "More than One Matching Message" do
+            duplicate_writer = Write::Substitute.build
+
+            2.times do
+              duplicate_writer.write(message, stream_name, expected_version: 11, reply_stream_name: 'someReplyStreamName')
+            end
+
+            test "Is an error" do
+              assert proc { duplicate_writer.one_message_write { |msg| msg.instance_of?(message.class) }} do
+                raises_error? Write::Substitute::Write::Error
+              end
+            end
+          end
+
+          context "One Matching Message" do
+            test "No block arguments" do
+              assert(writer.one_message_write == message)
+            end
+
+            test "Message block argument only" do
+              assert(writer.one_message_write { |msg| msg == message } == message)
+            end
+
+            test "Message and stream name block arguments" do
+              assert(writer.one_message_write { |msg, stream| stream == stream_name } == message)
+            end
+
+            test "Message, stream name, and expected_version block arguments" do
+              assert(writer.one_message_write { |msg, stream, expected_version | expected_version == 11 } == message)
+            end
+
+            test "Message, stream name, expected_version, and reply_stream_name block arguments" do
+              assert(writer.one_message_write { |msg, stream, expected_version, reply_stream_name | reply_stream_name == 'someReplyStreamName' } == message)
+            end
+          end
+        end
       end
     end
   end

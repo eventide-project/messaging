@@ -9,6 +9,8 @@ module Messaging
       end
 
       class Write
+        Error = Class.new(RuntimeError)
+
         include Messaging::Write
 
         attr_accessor :sink
@@ -97,6 +99,18 @@ module Messaging
           end.map { |record| record.data.message }
         end
         alias :messages :message_writes
+
+        def one_message_write(&blk)
+          messages = message_writes(&blk)
+
+          if messages.length > 1
+            raise Error, "More than one matching message was written"
+          end
+
+          messages.first
+        end
+        alias :message :one_message_write
+        alias :one_message :one_message_write
 
         def message_replies(&blk)
           if blk.nil?
