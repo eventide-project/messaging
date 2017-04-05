@@ -68,6 +68,7 @@ module Messaging
             blk.call(record.data.message, record.data.stream_name, record.data.expected_version, record.data.reply_stream_name)
           end.map { |record| record.data.message }
         end
+        alias :messages :message_writes
 
         def message_replies(&blk)
           if blk.nil?
@@ -78,6 +79,7 @@ module Messaging
             blk.call(record.data.message, record.data.stream_name)
           end.map { |record| record.data.message }
         end
+        alias :replies :message_replies
       end
     end
   end
