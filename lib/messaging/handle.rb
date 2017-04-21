@@ -4,7 +4,7 @@ module Messaging
 
     def self.included(cls)
       cls.class_exec do
-        include Log::Dependency
+        dependency :handler_logger, ::Log
 
         cls.extend Build
         cls.extend Call
@@ -26,6 +26,7 @@ module Messaging
       def build(strict: nil)
         instance = new
         instance.strict = strict
+        Log.configure(instance, attr_name: :handler_logger)
         instance.configure
         instance
       end
@@ -71,8 +72,8 @@ module Messaging
     module HandleMacro
       class Error < RuntimeError; end
 
-      def logger
-        @logger ||= Log.get(self)
+      def handler_logger
+        @handler_logger ||= Log.get(self)
       end
 
       def handle_macro(message_class, &blk)
@@ -86,7 +87,7 @@ module Messaging
 
         if blk.nil?
           error_msg = "Handler for #{message_class.name} is not correctly defined. It must have a block."
-          logger.error { error_msg }
+          handler_logger.error { error_msg }
           raise Error, error_msg
         end
 
@@ -96,7 +97,7 @@ module Messaging
 
         unless handler_method.arity == 1
           error_msg = "Handler for #{message_class.name} is not correctly defined. It can only have a single parameter."
-          logger.error { error_msg }
+          handler_logger.error { error_msg }
           raise Error, error_msg
         end
 
@@ -119,8 +120,8 @@ module Messaging
     end
 
     def handle_message(message)
-      logger.trace(tags: [:handle, :message]) { "Handling message (Message class: #{message.class.name})" }
-      logger.trace(tags: [:data, :message, :handle]) { message.pretty_inspect }
+      handler_logger.trace(tags: [:handle, :message]) { "Handling message (Message class: #{message.class.name})" }
+      handler_logger.trace(tags: [:data, :message, :handle]) { message.pretty_inspect }
 
       handler = self.class.handler(message)
 
@@ -129,20 +130,20 @@ module Messaging
       else
         if strict
           error_msg = "#{self.class.name} does not implement a handler for #{message.message_type}. Cannot handle the message."
-          logger.error { error_msg }
+          handler_logger.error { error_msg }
           raise Error, error_msg
         end
       end
 
-      logger.info(tags: [:handle, :message]) { "Handled message (Message class: #{message.class.name})" }
-      logger.trace(tags: [:data, :message, :handle]) { message.pretty_inspect }
+      handler_logger.info(tags: [:handle, :message]) { "Handled message (Message class: #{message.class.name})" }
+      handler_logger.trace(tags: [:data, :message, :handle]) { message.pretty_inspect }
 
       message
     end
 
     def handle_event_data(event_data)
-      logger.trace(tags: [:handle, :event_data]) { "Handling event data (Type: #{event_data.type})" }
-      logger.trace(tags: [:data, :event_data, :handle]) { event_data.pretty_inspect }
+      handler_logger.trace(tags: [:handle, :event_data]) { "Handling event data (Type: #{event_data.type})" }
+      handler_logger.trace(tags: [:data, :event_data, :handle]) { event_data.pretty_inspect }
 
       res = nil
 
@@ -159,14 +160,14 @@ module Messaging
         else
           if strict
             error_msg = "#{self.class.name} does not implement `handle'. Cannot handle event data."
-            logger.error { error_msg }
+            handler_logger.error { error_msg }
             raise Error, error_msg
           end
         end
       end
 
-      logger.info(tags: [:handle, :event_data]) { "Handled event data (Type: #{event_data.type})" }
-      logger.info(tags: [:data, :event_data, :handle]) { event_data.pretty_inspect }
+      handler_logger.info(tags: [:handle, :event_data]) { "Handled event data (Type: #{event_data.type})" }
+      handler_logger.info(tags: [:data, :event_data, :handle]) { event_data.pretty_inspect }
 
       res
     end
