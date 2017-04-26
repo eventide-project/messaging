@@ -109,7 +109,6 @@ module Messaging
 
           messages.first
         end
-        alias :message :one_message_write
         alias :one_message :one_message_write
 
         def message_replies(&blk)
