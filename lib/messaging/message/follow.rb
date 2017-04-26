@@ -1,8 +1,6 @@
 module Messaging
   module Message
     module Follow
-      class Error < RuntimeError; end
-
       extend self
 
       def self.call(source, receiver=nil, copy: nil, include: nil, exclude: nil, strict: nil)
