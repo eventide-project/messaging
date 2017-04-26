@@ -38,9 +38,16 @@ module Messaging
         self.causation_event_stream_name = other_metadata.source_event_stream_name
         self.causation_event_position = other_metadata.source_event_position
 
-        unless follows?(other_metadata)
-          raise Error, "Metadata doesn't have precedence (Metadata: #{self.inspect}, Other Metadata #{other_metadata.inspect})"
-        end
+        self.correlation_stream_name = other_metadata.correlation_stream_name
+
+        self.reply_stream_name = other_metadata.reply_stream_name
+
+
+
+# TODO reconsider this
+        # unless follows?(other_metadata)
+        #   raise Error, "Metadata doesn't have precedence (Metadata: #{self.inspect}, Other Metadata #{other_metadata.inspect})"
+        # end
       end
 
       def follows?(other_metadata)
