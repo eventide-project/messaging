@@ -6,6 +6,14 @@ context "Message" do
 
     receiver = source.class.new
 
+    metadata = receiver.metadata
+    source_metadata = source.metadata
+
+    refute(metadata.causation_event_stream_name == source_metadata.source_event_stream_name)
+    refute(metadata.causation_event_position == source_metadata.source_event_position)
+    refute(metadata.correlation_stream_name == source_metadata.correlation_stream_name)
+    refute(metadata.reply_stream_name == source_metadata.reply_stream_name)
+
     Message::Follow.(source, receiver)
 
     test "Attributes are copied" do
@@ -13,9 +21,6 @@ context "Message" do
     end
 
     context "Metadata" do
-      metadata = receiver.metadata
-      source_metadata = source.metadata
-
       context "Copied from Source Metadata" do
         context "causation_event_stream_name" do
           test "Set from source_event_stream_name" do
