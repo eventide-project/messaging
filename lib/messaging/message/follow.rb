@@ -18,15 +18,7 @@ module Messaging
           receiver = receiver.build
         end
 
-        unchanged_source_event_stream_name = receiver.metadata.source_event_stream_name
-        unchanged_source_event_position = receiver.metadata.source_event_position
-        unchanged_schema_version = receiver.metadata.schema_version
-
-        Copy.(source, receiver, copy: copy, include: include, exclude: exclude, strict: strict, metadata: true)
-
-        receiver.metadata.source_event_stream_name = unchanged_source_event_stream_name
-        receiver.metadata.source_event_position = unchanged_source_event_position
-        receiver.metadata.schema_version = unchanged_schema_version
+        Copy.(source, receiver, copy: copy, include: include, exclude: exclude, strict: strict, metadata: false)
 
         receiver.metadata.follow(source.metadata)
 
