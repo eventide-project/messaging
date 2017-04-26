@@ -8,43 +8,50 @@ context "Message" do
 
     Message::Follow.(source, receiver)
 
-    context "Workflow attributes are copied" do
-      test "causation_event_stream_name is copied from source_event_stream_name" do
-        assert(receiver.metadata.causation_event_stream_name == source.metadata.source_event_stream_name)
-      end
-
-      test "causation_event_position is copied from source_event_position" do
-        assert(receiver.metadata.causation_event_position == source.metadata.source_event_position)
-      end
+    test "Attributes are copied" do
+      assert(receiver == source)
     end
 
-    context "Non-Workflow Attributes" do
-      test "correlation_stream_name is copied" do
-        assert(receiver.metadata.correlation_stream_name == source.metadata.correlation_stream_name)
+    context "Metadata" do
+      metadata = receiver.metadata
+      source_metadata = source.metadata
+
+      context "Copied from Source Metadata" do
+        context "causation_event_stream_name" do
+          test "Set from source_event_stream_name" do
+            assert(metadata.causation_event_stream_name == source_metadata.source_event_stream_name)
+          end
+        end
+
+        context "causation_event_position" do
+          test "Set from source_event_position" do
+            assert(metadata.causation_event_position == source_metadata.source_event_position)
+          end
+        end
+
+        test "correlation_stream_name" do
+          assert(metadata.correlation_stream_name == source_metadata.correlation_stream_name)
+        end
+
+        test "reply_stream_name" do
+          assert(metadata.reply_stream_name == source_metadata.reply_stream_name)
+        end
       end
 
-      test "reply_stream_name is copied" do
-        assert(receiver.metadata.reply_stream_name == source.metadata.reply_stream_name)
-      end
-    end
+      context "Not Copied from Source Metadata" do
+        unchanged_metadata = Message::Metadata.new
 
-    context "Receiver's source event attributes are unchanged" do
-      unchanged_receiver = source.class.new
-
-      test "source_event_stream_name" do
-        assert(receiver.metadata.source_event_stream_name == unchanged_receiver.metadata.source_event_stream_name)
-      end
-
-      test "source_event_position" do
-        assert(receiver.metadata.source_event_position == unchanged_receiver.metadata.source_event_position)
-      end
-    end
-
-    context "Receiver's schema version attribute is unchanged" do
-      unchanged_receiver = source.class.new
-
-      test "schema_version" do
-        assert(receiver.metadata.schema_version == unchanged_receiver.metadata.schema_version)
+        [
+          :source_event_stream_name,
+          :source_event_position,
+          :global_position,
+          :time,
+          :schema_version
+        ].each do |attribute|
+          test attribute.to_s do
+            assert(metadata.public_send(attribute) == unchanged_metadata.public_send(attribute))
+          end
+        end
       end
     end
   end

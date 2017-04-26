@@ -41,13 +41,6 @@ module Messaging
         self.correlation_stream_name = other_metadata.correlation_stream_name
 
         self.reply_stream_name = other_metadata.reply_stream_name
-
-
-
-# TODO reconsider this
-        # unless follows?(other_metadata)
-        #   raise Error, "Metadata doesn't have precedence (Metadata: #{self.inspect}, Other Metadata #{other_metadata.inspect})"
-        # end
       end
 
       def follows?(other_metadata)
