@@ -121,6 +121,17 @@ module Messaging
           end.map { |record| record.data.message }
         end
         alias :replies :message_replies
+
+        def one_message_reply(&blk)
+          messages = message_replies(&blk)
+
+          if messages.length > 1
+            raise Error, "More than one matching message reply was written"
+          end
+
+          messages.first
+        end
+        alias :one_reply :one_message_reply
       end
     end
   end
