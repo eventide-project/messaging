@@ -53,6 +53,10 @@ module Messaging
         self.reply_stream_name = nil
       end
 
+      def reply?
+        !reply_stream_name.nil?
+      end
+
       def self.transient_attributes
         [
           :source_event_stream_name,
