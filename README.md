@@ -8,8 +8,8 @@ The `messaging` library contains the abstract primitives used by the data storag
 
 See the specific implementations for more details:
 
-[messaging-postgres](https://github.com/eventide-project/messaging-postgres)
-[messaging-event_store](https://github.com/eventide-project/messaging-event-store)
+- [messaging-postgres](https://github.com/eventide-project/messaging-postgres)
+- [messaging-event_store](https://github.com/eventide-project/messaging-event-store)
 
 ## License
 
