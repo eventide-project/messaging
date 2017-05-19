@@ -6,7 +6,7 @@ Messaging primitives for Eventide
 
 The `messaging` library contains the common and abstract primitives used by the data storage platform-specific messaging libraries.
 
-See the specific implementations for more details:
+See the platform-specific libraries for more details:
 
 - [messaging-postgres](https://github.com/eventide-project/messaging-postgres)
 - [messaging-event_store](https://github.com/eventide-project/messaging-event-store)
