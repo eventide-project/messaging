@@ -4,7 +4,7 @@ Messaging primitives for Eventide
 
 ## Summary
 
-The `messaging` library contains the abstract primitives used by the data storage platform-specific messaging libraries.
+The `messaging` library contains the common and abstract primitives used by the data storage platform-specific messaging libraries.
 
 See the specific implementations for more details:
 
