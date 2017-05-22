@@ -1,4 +1,4 @@
-require 'event_source'
+require 'message_store'
 
 require 'messaging/log'
 

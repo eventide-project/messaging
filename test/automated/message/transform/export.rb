@@ -4,10 +4,10 @@ context "Message" do
   context "Export" do
     message = Controls::Message.example
 
-    event_data = Message::Export.(message)
+    message_data = Message::Export.(message)
 
-    test "Message exported to EventData" do
-      refute(event_data.nil?)
+    test "Message exported to MessageData" do
+      refute(message_data.nil?)
     end
   end
 end

@@ -6,11 +6,11 @@ context "Message" do
     metadata = Controls::Metadata::Written.data
     data = Controls::Message.data
 
-    event_data = Controls::EventData::Read.example(type: type, data: data, metadata: metadata)
+    message_data = Controls::MessageData::Read.example(type: type, data: data, metadata: metadata)
 
-    message = Message::Import.(event_data, Controls::Message::SomeMessage)
+    message = Message::Import.(message_data, Controls::Message::SomeMessage)
 
-    test "EventData imported into message" do
+    test "MessageData imported into message" do
       refute(message.nil?)
     end
   end

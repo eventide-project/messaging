@@ -10,13 +10,13 @@ context "Message" do
           message.metadata.send("#{metadata_attribute}=", nil)
         end
 
-        event_data = Transform::Write.(message, :event_data)
+        message_data = Transform::Write.(message, :message_data)
 
         context "Metadata" do
-          metadata = event_data.metadata
+          metadata = message_data.metadata
 
-          test "EventData metadata has no fields" do
-            assert(event_data.metadata.keys.empty?)
+          test "MessageData metadata has no fields" do
+            assert(message_data.metadata.keys.empty?)
           end
         end
       end

@@ -6,21 +6,21 @@ context "Message" do
       context "Data" do
         message = Controls::Message.example
 
-        event_data = Transform::Write.(message, :event_data)
+        message_data = Transform::Write.(message, :message_data)
 
         test "ID" do
-          assert(event_data.id == message.id)
+          assert(message_data.id == message.id)
         end
 
         test "Type is the message's message type" do
-          assert(event_data.type == 'SomeMessage')
+          assert(message_data.type == 'SomeMessage')
         end
 
         context "Data" do
           data = Controls::Message.data
 
           test "Data is the message's data" do
-            assert(event_data.data == data)
+            assert(message_data.data == data)
           end
 
           context "Transient Attributes" do
@@ -33,7 +33,7 @@ context "Message" do
         end
 
         context "Metadata" do
-          metadata = event_data.metadata
+          metadata = message_data.metadata
 
           test "causation_event_stream_name" do
             assert(metadata[:causation_event_stream_name] == message.metadata.causation_event_stream_name)

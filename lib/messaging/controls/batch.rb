@@ -9,8 +9,8 @@ module Messaging
         end
 
         values = [
-          EventSource::Controls::RandomValue.example,
-          EventSource::Controls::RandomValue.example
+          MessageStore::Controls::RandomValue.example,
+          MessageStore::Controls::RandomValue.example
         ]
 
         batch = Messages.example(id: id)

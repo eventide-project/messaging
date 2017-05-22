@@ -1,6 +1,6 @@
 module Messaging
   module Controls
-    StreamName = EventSource::Controls::StreamName
+    StreamName = MessageStore::Controls::StreamName
 
     module StreamName
       module Named

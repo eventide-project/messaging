@@ -1,10 +1,10 @@
 require 'clock/controls'
-require 'event_source/controls'
+require 'message_store/controls'
 
 require 'messaging/controls/time'
 require 'messaging/controls/id'
 require 'messaging/controls/stream_name'
-require 'messaging/controls/event_data'
+require 'messaging/controls/message_data'
 require 'messaging/controls/message'
 require 'messaging/controls/metadata'
 require 'messaging/controls/batch'

@@ -14,8 +14,8 @@ module Messaging
         class Example
           include Messaging::Handle
 
-          def handle(event_data)
-            event_data.data = 'some value set by handle method'
+          def handle(message_data)
+            message_data.data = 'some value set by handle method'
           end
         end
       end
@@ -29,8 +29,8 @@ module Messaging
             some_message.some_attribute = 'some attribute value set by handler'
           end
 
-          def handle(event_data)
-            event_data.data = 'some data value set by handler'
+          def handle(message_data)
+            message_data.data = 'some data value set by handler'
           end
         end
       end

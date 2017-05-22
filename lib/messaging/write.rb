@@ -51,15 +51,15 @@ module Messaging
 
       message_batch = Array(message_or_batch)
 
-      event_data_batch = event_data_batch(message_batch, reply_stream_name)
-      last_position = event_writer.(event_data_batch, stream_name, expected_version: expected_version)
+      message_data_batch = message_data_batch(message_batch, reply_stream_name)
+      last_position = event_writer.(message_data_batch, stream_name, expected_version: expected_version)
 
       unless message_or_batch.is_a? Array
         logger.info(tag: :write) { "Wrote message (Position: #{last_position}, Stream Name: #{stream_name}, Type: #{message_or_batch.class.message_type}, Expected Version: #{expected_version.inspect}, Reply Stream Name: #{reply_stream_name.inspect})" }
       else
         logger.info(tag: :write) { "Wrote batch (Position: #{last_position}, Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect}, Reply Stream Name: #{reply_stream_name.inspect})" }
       end
-      logger.info(tags: [:write, :data, :message]) { event_data_batch.pretty_inspect }
+      logger.info(tags: [:write, :data, :message]) { message_data_batch.pretty_inspect }
 
       message_batch.each do |message|
         telemetry.record :written, Telemetry::Data.new(message, stream_name, expected_version, reply_stream_name)
@@ -69,17 +69,17 @@ module Messaging
     end
     alias :write :call
 
-    def event_data_batch(message_batch, reply_stream_name=nil)
-      event_data_batch = []
+    def message_data_batch(message_batch, reply_stream_name=nil)
+      message_data_batch = []
       message_batch.each do |message|
         unless reply_stream_name.nil?
            message.metadata.reply_stream_name = reply_stream_name
         end
 
-        event_data_batch << Message::Export.(message)
+        message_data_batch << Message::Export.(message)
       end
 
-      event_data_batch
+      message_data_batch
     end
 
     def reply(message)

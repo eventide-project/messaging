@@ -11,7 +11,7 @@ context "Handles" do
       end
     end
 
-    context "Handler Does not Implement Message Handler for EventData's Type" do
+    context "Handler Does not Implement Message Handler for MessageData's Type" do
       message = Controls::Message::OtherMessage.new
       handles = Controls::Handler::Example.handles? message
 

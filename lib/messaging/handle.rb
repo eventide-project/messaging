@@ -33,17 +33,17 @@ module Messaging
     end
 
     module Call
-      def call(message_or_event_data, strict: nil)
+      def call(message_or_message_data, strict: nil)
         instance = build(strict: strict)
-        instance.(message_or_event_data)
+        instance.(message_or_message_data)
       end
     end
 
     module Info
       extend self
 
-      def handler(message_or_event_data)
-        name = handler_name(message_or_event_data)
+      def handler(message_or_message_data)
+        name = handler_name(message_or_message_data)
 
         if method_defined?(name)
           return name
@@ -52,17 +52,17 @@ module Messaging
         end
       end
 
-      def handles?(message_or_event_data)
-        method_defined? handler_name(message_or_event_data)
+      def handles?(message_or_message_data)
+        method_defined? handler_name(message_or_message_data)
       end
 
-      def handler_name(message_or_event_data)
+      def handler_name(message_or_message_data)
         name = nil
 
-        if message_or_event_data.is_a? EventSource::EventData::Read
-          name = Messaging::Message::Info.canonize_name(message_or_event_data.type)
+        if message_or_message_data.is_a? MessageStore::MessageData::Read
+          name = Messaging::Message::Info.canonize_name(message_or_message_data.type)
         else
-          name = message_or_event_data.message_name
+          name = message_or_message_data.message_name
         end
 
         "handle_#{name}"
@@ -111,11 +111,11 @@ module Messaging
       end
     end
 
-    def call(message_or_event_data)
-      if message_or_event_data.is_a? Message
-        handle_message(message_or_event_data)
+    def call(message_or_message_data)
+      if message_or_message_data.is_a? Message
+        handle_message(message_or_message_data)
       else
-        handle_event_data(message_or_event_data)
+        handle_message_data(message_or_message_data)
       end
     end
 
@@ -141,22 +141,22 @@ module Messaging
       message
     end
 
-    def handle_event_data(event_data)
-      handler_logger.trace(tags: [:handle, :event_data]) { "Handling event data (Type: #{event_data.type})" }
-      handler_logger.trace(tags: [:data, :event_data, :handle]) { event_data.pretty_inspect }
+    def handle_message_data(message_data)
+      handler_logger.trace(tags: [:handle, :message_data]) { "Handling event data (Type: #{message_data.type})" }
+      handler_logger.trace(tags: [:data, :message_data, :handle]) { message_data.pretty_inspect }
 
       res = nil
 
-      handler = self.class.handler(event_data)
+      handler = self.class.handler(message_data)
 
       unless handler.nil?
-        message_name = Messaging::Message::Info.canonize_name(event_data.type)
+        message_name = Messaging::Message::Info.canonize_name(message_data.type)
         message_class = self.class.message_registry.get(message_name)
-        res = Message::Import.(event_data, message_class)
+        res = Message::Import.(message_data, message_class)
         public_send(handler, res)
       else
         if respond_to?(:handle)
-          res = handle(event_data)
+          res = handle(message_data)
         else
           if strict
             error_msg = "#{self.class.name} does not implement `handle'. Cannot handle event data."
@@ -166,8 +166,8 @@ module Messaging
         end
       end
 
-      handler_logger.info(tags: [:handle, :event_data]) { "Handled event data (Type: #{event_data.type})" }
-      handler_logger.info(tags: [:data, :event_data, :handle]) { event_data.pretty_inspect }
+      handler_logger.info(tags: [:handle, :message_data]) { "Handled event data (Type: #{message_data.type})" }
+      handler_logger.info(tags: [:data, :message_data, :handle]) { message_data.pretty_inspect }
 
       res
     end

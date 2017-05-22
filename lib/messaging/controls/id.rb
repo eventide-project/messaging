@@ -1,5 +1,5 @@
 module Messaging
   module Controls
-    ID = EventSource::Controls::ID
+    ID = MessageStore::Controls::ID
   end
 end
