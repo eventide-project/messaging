@@ -6,7 +6,7 @@ module Messaging
       cls.class_exec do
         include Log::Dependency
 
-        dependency :event_writer
+        dependency :message_data_writer
         dependency :telemetry, ::Telemetry
 
         cls.extend Build
@@ -52,7 +52,7 @@ module Messaging
       message_batch = Array(message_or_batch)
 
       message_data_batch = message_data_batch(message_batch, reply_stream_name)
-      last_position = event_writer.(message_data_batch, stream_name, expected_version: expected_version)
+      last_position = message_data_writer.(message_data_batch, stream_name, expected_version: expected_version)
 
       unless message_or_batch.is_a? Array
         logger.info(tag: :write) { "Wrote message (Position: #{last_position}, Stream Name: #{stream_name}, Type: #{message_or_batch.class.message_type}, Expected Version: #{expected_version.inspect}, Reply Stream Name: #{reply_stream_name.inspect})" }
