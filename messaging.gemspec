@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
   s.files = Dir.glob('{lib}/**/*')
   s.platform = Gem::Platform::RUBY
-  s.required_ruby_version = '>= 2.3.3'
+  s.required_ruby_version = '>= 2.4.0'
 
   s.add_runtime_dependency 'evt-event_source'
 
