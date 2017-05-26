@@ -19,7 +19,7 @@ context "Write" do
       end
 
       test "Clears the reply stream from the metadata" do
-        assert(read_event.metadata[:reply_stream_name].nil?)
+        assert(read_message.metadata[:reply_stream_name].nil?)
       end
     end
   end
