@@ -11,3 +11,8 @@ gems_backup
 *scratch*
 *notes*
 loader.rb
+
+lib/messaging/event_store
+lib/messaging/event_store.rb
+lib/messaging/postgres
+lib/messaging/postgres.rb
