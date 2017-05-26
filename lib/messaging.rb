@@ -2,6 +2,8 @@ require 'message_store'
 
 require 'messaging/log'
 
+require 'messaging/stream_name'
+
 require 'messaging/message'
 require 'messaging/message/metadata'
 require 'messaging/message/copy'

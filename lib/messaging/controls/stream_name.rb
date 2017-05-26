@@ -9,7 +9,7 @@ module Messaging
         end
 
         class Example
-          include Messaging::Category
+          include Messaging::StreamName
 
           category :some_category
         end
