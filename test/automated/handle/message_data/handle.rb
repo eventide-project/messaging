@@ -8,7 +8,7 @@ context "Handle" do
 
         Controls::Handler::HandleMethod::Example.(message_data)
 
-        test "Event data is handled" do
+        test "Message data is handled" do
           assert(message_data.data == 'some value set by handle method')
         end
       end
@@ -20,7 +20,7 @@ context "Handle" do
 
         Controls::Handler::Anomaly::NoHandle::Example.(message_data)
 
-        test "Event data is not handled" do
+        test "Message data is not handled" do
           assert(message_data.data == unchanged_data)
         end
       end

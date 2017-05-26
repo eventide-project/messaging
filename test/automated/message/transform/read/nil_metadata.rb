@@ -21,12 +21,12 @@ context "Message" do
           context "Metadata" do
             metadata = message.metadata
 
-            test "source_event_stream_name" do
-              assert(metadata.source_event_stream_name = message_data.stream_name)
+            test "source_message_stream_name" do
+              assert(metadata.source_message_stream_name = message_data.stream_name)
             end
 
-            test "source_event_stream_position" do
-              assert(metadata.source_event_position = message_data.position)
+            test "source_message_stream_position" do
+              assert(metadata.source_message_position = message_data.position)
             end
 
             test "global_position" do
@@ -38,12 +38,12 @@ context "Message" do
             end
 
             context "Nil attributes" do
-              test "causation_event_stream_name" do
-                assert(metadata.causation_event_stream_name.nil?)
+              test "causation_message_stream_name" do
+                assert(metadata.causation_message_stream_name.nil?)
               end
 
-              test "causation_event_position" do
-                assert(metadata.causation_event_position.nil?)
+              test "causation_message_position" do
+                assert(metadata.causation_message_position.nil?)
               end
 
               test "correlation_stream_name" do

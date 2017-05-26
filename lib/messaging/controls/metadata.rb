@@ -5,19 +5,19 @@ module Messaging
         Messaging::Message::Metadata.build(data)
       end
 
-      def self.source_event_stream_name
+      def self.source_message_stream_name
         'someSource'
       end
 
-      def self.source_event_position
+      def self.source_message_position
         1
       end
 
-      def self.causation_event_stream_name
+      def self.causation_message_stream_name
         "someCausation"
       end
 
-      def self.causation_event_position
+      def self.causation_message_position
         11
       end
 
@@ -33,12 +33,12 @@ module Messaging
         '1.1'
       end
 
-      def self.source_event_identifier
-        "#{source_event_stream_name}/#{source_event_position}"
+      def self.source_message_identifier
+        "#{source_message_stream_name}/#{source_message_position}"
       end
 
-      def self.causation_event_identifier
-        "#{causation_event_stream_name}/#{causation_event_position}"
+      def self.causation_message_identifier
+        "#{causation_message_stream_name}/#{causation_message_position}"
       end
 
       def self.global_position
@@ -51,11 +51,11 @@ module Messaging
 
       def self.data
         {
-          source_event_stream_name: source_event_stream_name,
-          source_event_position: source_event_position,
+          source_message_stream_name: source_message_stream_name,
+          source_message_position: source_message_position,
 
-          causation_event_stream_name: causation_event_stream_name,
-          causation_event_position: causation_event_position,
+          causation_message_stream_name: causation_message_stream_name,
+          causation_message_position: causation_message_position,
 
           correlation_stream_name: correlation_stream_name,
 

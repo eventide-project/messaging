@@ -6,23 +6,23 @@ context "Message" do
       source_metadata = Controls::Metadata.example
       metadata = Message::Metadata.new
 
-      refute(metadata.causation_event_stream_name == source_metadata.source_event_stream_name)
-      refute(metadata.causation_event_position == source_metadata.source_event_position)
+      refute(metadata.causation_message_stream_name == source_metadata.source_message_stream_name)
+      refute(metadata.causation_message_position == source_metadata.source_message_position)
       refute(metadata.correlation_stream_name == source_metadata.correlation_stream_name)
       refute(metadata.reply_stream_name == source_metadata.reply_stream_name)
 
       metadata.follow(source_metadata)
 
       context "Copied from Source Metadata" do
-        context "causation_event_stream_name" do
-          test "Set from source_event_stream_name" do
-            assert(metadata.causation_event_stream_name == source_metadata.source_event_stream_name)
+        context "causation_message_stream_name" do
+          test "Set from source_message_stream_name" do
+            assert(metadata.causation_message_stream_name == source_metadata.source_message_stream_name)
           end
         end
 
-        context "causation_event_position" do
-          test "Set from source_event_position" do
-            assert(metadata.causation_event_position == source_metadata.source_event_position)
+        context "causation_message_position" do
+          test "Set from source_message_position" do
+            assert(metadata.causation_message_position == source_metadata.source_message_position)
           end
         end
 
@@ -39,8 +39,8 @@ context "Message" do
         unchanged_metadata = Message::Metadata.new
 
         [
-          :source_event_stream_name,
-          :source_event_position,
+          :source_message_stream_name,
+          :source_message_position,
           :global_position,
           :time,
           :schema_version

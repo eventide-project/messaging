@@ -35,12 +35,12 @@ context "Message" do
         context "Metadata" do
           metadata = message_data.metadata
 
-          test "causation_event_stream_name" do
-            assert(metadata[:causation_event_stream_name] == message.metadata.causation_event_stream_name)
+          test "causation_message_stream_name" do
+            assert(metadata[:causation_message_stream_name] == message.metadata.causation_message_stream_name)
           end
 
-          test "causation_event_position" do
-            assert(metadata[:causation_event_position] == message.metadata.causation_event_position)
+          test "causation_message_position" do
+            assert(metadata[:causation_message_position] == message.metadata.causation_message_position)
           end
 
           test "correlation_stream_name" do

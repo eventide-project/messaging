@@ -142,7 +142,7 @@ module Messaging
     end
 
     def handle_message_data(message_data)
-      handler_logger.trace(tags: [:handle, :message_data]) { "Handling event data (Type: #{message_data.type})" }
+      handler_logger.trace(tags: [:handle, :message_data]) { "Handling message data (Type: #{message_data.type})" }
       handler_logger.trace(tags: [:data, :message_data, :handle]) { message_data.pretty_inspect }
 
       res = nil
@@ -159,14 +159,14 @@ module Messaging
           res = handle(message_data)
         else
           if strict
-            error_msg = "#{self.class.name} does not implement `handle'. Cannot handle event data."
+            error_msg = "#{self.class.name} does not implement `handle'. Cannot handle message data."
             handler_logger.error { error_msg }
             raise Error, error_msg
           end
         end
       end
 
-      handler_logger.info(tags: [:handle, :message_data]) { "Handled event data (Type: #{message_data.type})" }
+      handler_logger.info(tags: [:handle, :message_data]) { "Handled message data (Type: #{message_data.type})" }
       handler_logger.info(tags: [:data, :message_data, :handle]) { message_data.pretty_inspect }
 
       res
