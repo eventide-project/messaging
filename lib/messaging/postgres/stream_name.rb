@@ -11,7 +11,7 @@ module Messaging
 
       def stream_name(id, category=nil, type: nil)
         category ||= self.category
-        EventSource::Postgres::StreamName.stream_name(category, id, type: type)
+        MessageStore::Postgres::StreamName.stream_name(category, id, type: type)
       end
 
       def category_stream_name(category=nil)
@@ -21,20 +21,20 @@ module Messaging
 
       def command_stream_name(id, category=nil)
         category ||= self.category
-        EventSource::Postgres::StreamName.stream_name(category, id, type: 'command')
+        MessageStore::Postgres::StreamName.stream_name(category, id, type: 'command')
       end
 
       def command_category_stream_name(category=nil)
         category ||= self.category
-        EventSource::Postgres::StreamName.stream_name(category, type: 'command')
+        MessageStore::Postgres::StreamName.stream_name(category, type: 'command')
       end
 
       def self.get_category(stream_name)
-        EventSource::Postgres::StreamName.get_category(stream_name)
+        MessageStore::Postgres::StreamName.get_category(stream_name)
       end
 
       def self.get_id(stream_name)
-        EventSource::Postgres::StreamName.get_id stream_name
+        MessageStore::Postgres::StreamName.get_id stream_name
       end
     end
   end
