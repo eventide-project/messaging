@@ -15,11 +15,11 @@ context "Write" do
 
       context "Individual Events are Written" do
         2.times do |i|
-          read_event = MessageStore::Postgres::Get.(stream_name, position: i, batch_size: 1).first
+          read_message = MessageStore::Postgres::Get.(stream_name, position: i, batch_size: 1).first
 
           context "Assigns an ID" do
             test "Event #{i + 1}" do
-              refute(read_event.id.nil?)
+              refute(read_message.id.nil?)
             end
           end
         end

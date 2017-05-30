@@ -2,7 +2,7 @@ require_relative '../../automated_init'
 
 context "Write" do
   context "Message" do
-    context "Writing the initial event to a stream that has not been created yet" do
+    context "Writing the initial message to a stream that has not been created yet" do
       stream_name = Controls::StreamName.example
 
       message = Controls::Message.example
@@ -11,14 +11,14 @@ context "Write" do
 
       write.initial(message, stream_name)
 
-      read_event = MessageStore::Postgres::Get.(stream_name, position: 0, batch_size: 1).first
+      read_message = MessageStore::Postgres::Get.(stream_name, position: 0, batch_size: 1).first
 
       test "Writes the message" do
-        assert(read_event.data == message.to_h)
+        assert(read_message.data == message.to_h)
       end
     end
 
-    context "Writing the initial event to a stream that already exists" do
+    context "Writing the initial message to a stream that already exists" do
       stream_name = Controls::StreamName.example
 
       message = Controls::Message.example

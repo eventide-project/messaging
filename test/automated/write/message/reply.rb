@@ -12,14 +12,14 @@ context "Write" do
 
       position = write.reply(message)
 
-      read_event = MessageStore::Postgres::Get.(reply_stream_name, position: position, batch_size: 1).first
+      read_message = MessageStore::Postgres::Get.(reply_stream_name, position: position, batch_size: 1).first
 
       test "Writes the message to the reply stream" do
-        assert(read_event.data == message.to_h)
+        assert(read_message.data == message.to_h)
       end
 
       test "Clears the reply stream from the metadata" do
-        assert(read_event.metadata[:reply_stream_name].nil?)
+        assert(read_message.metadata[:reply_stream_name].nil?)
       end
     end
   end
