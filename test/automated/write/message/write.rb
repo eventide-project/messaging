@@ -8,7 +8,7 @@ context "Write" do
 
     position = Write.(message, stream_name)
 
-    read_event = EventSource::Postgres::Get.(stream_name, position: position, batch_size: 1).first
+    read_event = MessageStore::Postgres::Get.(stream_name, position: position, batch_size: 1).first
 
     test "Writes the message" do
       assert(read_event.data == message.to_h)

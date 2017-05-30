@@ -4,7 +4,7 @@ module Messaging
       include Messaging::Write
 
       def configure(session: nil)
-        MessageStore::Postgres::Write.configure(self, attr_name: :event_writer, session: nil)
+        MessageStore::Postgres::Write.configure(self, attr_name: :message_writer, session: nil)
       end
     end
   end

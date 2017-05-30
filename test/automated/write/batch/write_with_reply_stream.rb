@@ -12,7 +12,7 @@ context "Write" do
 
       context "Individual Events are Written" do
         2.times do |i|
-          read_event = EventSource::Postgres::Get.(stream_name, position: i, batch_size: 1).first
+          read_event = MessageStore::Postgres::Get.(stream_name, position: i, batch_size: 1).first
 
           test "Event #{i + 1}" do
             assert(read_event.data[:some_attribute] == values[i])

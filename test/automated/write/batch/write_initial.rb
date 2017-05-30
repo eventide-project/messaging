@@ -13,7 +13,7 @@ context "Write" do
 
       context "Individual Events are Written" do
         2.times do |i|
-          read_event = EventSource::Postgres::Get.(stream_name, position: i, batch_size: 1).first
+          read_event = MessageStore::Postgres::Get.(stream_name, position: i, batch_size: 1).first
 
           test "Event #{i + 1}" do
             assert(read_event.data[:some_attribute] == values[i])
@@ -34,7 +34,7 @@ context "Write" do
 
       test "Is an error" do
         assert proc { write.initial(batch, stream_name) } do
-          raises_error? EventSource::ExpectedVersion::Error
+          raises_error? MessageStore::ExpectedVersion::Error
         end
       end
     end

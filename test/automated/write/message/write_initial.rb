@@ -11,7 +11,7 @@ context "Write" do
 
       write.initial(message, stream_name)
 
-      read_event = EventSource::Postgres::Get.(stream_name, position: 0, batch_size: 1).first
+      read_event = MessageStore::Postgres::Get.(stream_name, position: 0, batch_size: 1).first
 
       test "Writes the message" do
         assert(read_event.data == message.to_h)
@@ -29,7 +29,7 @@ context "Write" do
 
       test "Is an error" do
         assert proc { write.initial(message, stream_name) } do
-          raises_error? EventSource::ExpectedVersion::Error
+          raises_error? MessageStore::ExpectedVersion::Error
         end
       end
     end

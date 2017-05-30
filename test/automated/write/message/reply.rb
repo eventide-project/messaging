@@ -12,7 +12,7 @@ context "Write" do
 
       position = write.reply(message)
 
-      read_event = EventSource::Postgres::Get.(reply_stream_name, position: position, batch_size: 1).first
+      read_event = MessageStore::Postgres::Get.(reply_stream_name, position: position, batch_size: 1).first
 
       test "Writes the message to the reply stream" do
         assert(read_event.data == message.to_h)
