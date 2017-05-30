@@ -2,7 +2,7 @@
 Gem::Specification.new do |s|
   s.name = 'evt-messaging-postgres'
   s.version = '0.6.0.0'
-  s.summary = 'Eventide messaging for Eventide'
+  s.summary = 'Eventide messaging for Postgres'
   s.description = ' '
 
   s.authors = ['The Eventide Project']
