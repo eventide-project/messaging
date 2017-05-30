@@ -1,7 +1,7 @@
 module Messaging
   module Postgres
     module Controls
-      StreamName = EventSource::Postgres::Controls::StreamName
+      StreamName = MessageStore::Postgres::Controls::StreamName
 
       module StreamName
         module Named
