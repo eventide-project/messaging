@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name = 'evt-messaging-postgres'
-  s.version = '0.7.0.0'
+  s.version = '0.7.0.1'
   s.summary = 'Eventide messaging for Postgres'
   s.description = ' '
 
