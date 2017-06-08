@@ -42,6 +42,10 @@ module Messaging
         class_name(msg).split('::').last
       end
 
+      def message_type?(type)
+        message_type == type
+      end
+
       def message_name(msg=self)
         Info.canonize_name(message_type(msg))
       end

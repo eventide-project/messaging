@@ -13,6 +13,22 @@ context "Message" do
         end
       end
 
+      context "Message Type Predicate" do
+        context "Affirmative" do
+          type = message_class.message_type
+
+          test "Message's type is equal to the compare value" do
+            assert(message_class.message_type?(type))
+          end
+        end
+
+        context "Negative" do
+          test "Message's type is not equal to the compare value" do
+            refute(message_class.message_type?(SecureRandom.hex))
+          end
+        end
+      end
+
       context "Message Name" do
         name = message_class.message_name
 
