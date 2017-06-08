@@ -126,6 +126,9 @@ module Messaging
       handler = self.class.handler(message)
 
       unless handler.nil?
+        message_type = message.message_type
+
+        handler_logger.debug("Handling Message (Type: #{message_type}, Method: #{handler})")
         public_send(handler, message)
       else
         if strict
@@ -136,7 +139,7 @@ module Messaging
       end
 
       handler_logger.info(tags: [:handle, :message]) { "Handled message (Message class: #{message.class.name})" }
-      handler_logger.trace(tags: [:data, :message, :handle]) { message.pretty_inspect }
+      handler_logger.info(tags: [:data, :message, :handle]) { message.pretty_inspect }
 
       message
     end
@@ -145,18 +148,25 @@ module Messaging
       handler_logger.trace(tags: [:handle, :message_data]) { "Handling message data (Type: #{message_data.type})" }
       handler_logger.trace(tags: [:data, :message_data, :handle]) { message_data.pretty_inspect }
 
-      res = nil
+      message = nil
 
       handler = self.class.handler(message_data)
 
       unless handler.nil?
         message_name = Messaging::Message::Info.canonize_name(message_data.type)
         message_class = self.class.message_registry.get(message_name)
-        res = Message::Import.(message_data, message_class)
-        public_send(handler, res)
+        message = Message::Import.(message_data, message_class)
+
+        message_type = message.message_type
+
+        handler_logger.debug("Handling Message (Type: #{message_type}, Method: #{handler})")
+        public_send(handler, message)
       else
         if respond_to?(:handle)
-          res = handle(message_data)
+          message_type = message_data.type
+          handler_logger.debug("Handling Message Data (Type: #{message_type}, Method: handle")
+
+          message = handle(message_data)
         else
           if strict
             error_msg = "#{self.class.name} does not implement `handle'. Cannot handle message data."
@@ -169,7 +179,7 @@ module Messaging
       handler_logger.info(tags: [:handle, :message_data]) { "Handled message data (Type: #{message_data.type})" }
       handler_logger.info(tags: [:data, :message_data, :handle]) { message_data.pretty_inspect }
 
-      res
+      message
     end
   end
 end
