@@ -57,6 +57,19 @@ module Messaging
         !reply_stream_name.nil?
       end
 
+      def correlated?(stream_name)
+        correlation_stream_name = self.correlation_stream_name
+
+        stream_name = Category.normalize(stream_name)
+
+        if MessageStore::StreamName.category?(stream_name)
+          correlation_stream_name = MessageStore::StreamName.get_category(correlation_stream_name)
+        end
+
+        correlation_stream_name == stream_name
+      end
+      alias :correlates? :correlated?
+
       def self.transient_attributes
         [
           :source_message_stream_name,
