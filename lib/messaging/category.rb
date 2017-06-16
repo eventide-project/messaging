@@ -4,9 +4,13 @@ module Messaging
       cls.extend Macro
     end
 
+    def self.normalize(category)
+      Casing::Camel.(category, symbol_to_string: true)
+    end
+
     module Macro
       def category_macro(category)
-        category = Casing::Camel.(category, symbol_to_string: true)
+        category = Category.normalize(category)
         self.send :define_method, :category do
           @category ||= category
         end
