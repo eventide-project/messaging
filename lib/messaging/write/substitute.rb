@@ -98,7 +98,6 @@ module Messaging
             blk.call(record.data.message, record.data.stream_name, record.data.expected_version, record.data.reply_stream_name)
           end.map { |record| record.data.message }
         end
-        alias :messages :message_writes
 
         def one_message_write(&blk)
           messages = message_writes(&blk)
@@ -120,7 +119,6 @@ module Messaging
             blk.call(record.data.message, record.data.stream_name)
           end.map { |record| record.data.message }
         end
-        alias :replies :message_replies
 
         def one_message_reply(&blk)
           messages = message_replies(&blk)
