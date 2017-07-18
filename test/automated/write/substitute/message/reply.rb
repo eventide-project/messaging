@@ -12,7 +12,7 @@ context "Write" do
 
         writer.reply(message)
 
-        context "Detection Interrogatives" do
+        context "Detection Predicates" do
           context "No Message Argument" do
             test "No block arguments" do
               assert(writer.replied?)

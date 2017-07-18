@@ -15,7 +15,7 @@ context "Write" do
 
         write.(batch, stream_name, expected_version: 11, reply_stream_name: 'someReplyStreamName')
 
-        context "Detection Interrogatives" do
+        context "Detection Predicates" do
           test "No block arguments" do
             assert(write.written?)
           end

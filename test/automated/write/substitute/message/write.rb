@@ -11,7 +11,7 @@ context "Write" do
 
         writer.write(message, stream_name, expected_version: 11, reply_stream_name: 'someReplyStreamName')
 
-        context "Detection Interrogatives" do
+        context "Detection Predicates" do
           context "No Message Argument" do
             test "No block argument" do
               assert(writer.written?)
