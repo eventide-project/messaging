@@ -15,10 +15,26 @@ module Messaging
 
         attr_accessor :sink
 
+        def raise_expected_version_error
+          @raise_expected_version_error ||= false
+        end
+        attr_writer :raise_expected_version_error
+
         def self.build(session: nil)
           new.tap do |instance|
             ::Telemetry.configure instance
           end
+        end
+
+        def call(*args, **keyword_args)
+          raise MessageStore::ExpectedVersion::Error if raise_expected_version_error
+          super(*args, **keyword_args)
+        end
+        alias :write :call
+
+        def raise_expected_version_error!
+          self.raise_expected_version_error = true
+          nil
         end
 
         def writes(&blk)
