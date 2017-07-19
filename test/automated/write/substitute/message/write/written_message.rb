@@ -5,12 +5,9 @@ context "Write" do
         message = Controls::Message.example
         stream_name = Controls::StreamName.example(category: 'testSubstituteWrite')
 
-        writer = Write::Substitute.build
-
-        writer.(message, stream_name, expected_version: 11, reply_stream_name: 'someReplyStreamName')
-
         context "Written Message" do
           context "More than One Matching Message" do
+
             duplicate_writer = Write::Substitute.build
 
             2.times do
@@ -25,6 +22,9 @@ context "Write" do
           end
 
           context "One Matching Message" do
+            writer = Write::Substitute.build
+            writer.(message, stream_name, expected_version: 11, reply_stream_name: 'someReplyStreamName')
+
             test "No block arguments" do
               assert(writer.one_message_write == message)
             end

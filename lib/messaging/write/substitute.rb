@@ -9,9 +9,9 @@ module Messaging
       end
 
       class Write
-        Error = Class.new(RuntimeError)
-
         include Messaging::Write
+
+        Error = Class.new(RuntimeError)
 
         attr_accessor :sink
 
