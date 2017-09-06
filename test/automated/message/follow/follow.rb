@@ -2,15 +2,16 @@ require_relative '../../automated_init'
 
 context "Message" do
   context "Follow" do
-    source = Controls::Message.example
+    source = Controls::Message.example(metadata: Controls::Metadata::Random.example)
 
     receiver = source.class.new
 
-    metadata = receiver.metadata
     source_metadata = source.metadata
+    metadata = receiver.metadata
 
     refute(metadata.causation_message_stream_name == source_metadata.source_message_stream_name)
     refute(metadata.causation_message_position == source_metadata.source_message_position)
+    refute(metadata.causation_message_global_position == source_metadata.source_message_global_position)
     refute(metadata.correlation_stream_name == source_metadata.correlation_stream_name)
     refute(metadata.reply_stream_name == source_metadata.reply_stream_name)
 
@@ -31,6 +32,12 @@ context "Message" do
         context "causation_message_position" do
           test "Set from source_message_position" do
             assert(metadata.causation_message_position == source_metadata.source_message_position)
+          end
+        end
+
+        context "causation_message_global_position" do
+          test "Set from source_message_global_position" do
+            assert(metadata.causation_message_global_position == source_metadata.source_message_global_position)
           end
         end
 
