@@ -11,6 +11,7 @@ context "Message" do
 
     refute(metadata.causation_message_stream_name == source_metadata.source_message_stream_name)
     refute(metadata.causation_message_position == source_metadata.source_message_position)
+    refute(metadata.causation_message_global_position == source_metadata.source_message_global_position)
     refute(metadata.correlation_stream_name == source_metadata.correlation_stream_name)
     refute(metadata.reply_stream_name == source_metadata.reply_stream_name)
 

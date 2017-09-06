@@ -21,6 +21,10 @@ module Messaging
         11
       end
 
+      def self.causation_message_global_position
+        222
+      end
+
       def self.correlation_stream_name
         "someCorrelation"
       end
@@ -56,6 +60,7 @@ module Messaging
 
           causation_message_stream_name: causation_message_stream_name,
           causation_message_position: causation_message_position,
+          causation_message_global_position: causation_message_global_position,
 
           correlation_stream_name: correlation_stream_name,
 
@@ -88,6 +93,80 @@ module Messaging
           end
 
           data
+        end
+      end
+
+      module Random
+        def self.example
+          Messaging::Message::Metadata.build(data)
+        end
+
+        def self.source_message_stream_name
+          Controls::Random::Text.example
+        end
+
+        def self.source_message_position
+          Controls::Random::Number.example
+        end
+
+        def self.causation_message_stream_name
+          Controls::Random::Text.example
+        end
+
+        def self.causation_message_position
+          Controls::Random::Number.example
+        end
+
+        def self.causation_message_global_position
+          Controls::Random::Number.example
+        end
+
+        def self.correlation_stream_name
+          Controls::Random::Text.example
+        end
+
+        def self.reply_stream_name
+          Controls::Random::Text.example
+        end
+
+        def self.schema_version
+          Controls::Random::Number.example.to_s
+        end
+
+        def self.source_message_identifier
+          "#{source_message_stream_name}/#{source_message_position}"
+        end
+
+        def self.causation_message_identifier
+          "#{causation_message_stream_name}/#{causation_message_position}"
+        end
+
+        def self.global_position
+          Controls::Random::Number.example
+        end
+
+        def self.time
+          (::Time.now + Controls::Random::Number.example).utc
+        end
+
+        def self.data
+          {
+            source_message_stream_name: source_message_stream_name,
+            source_message_position: source_message_position,
+
+            causation_message_stream_name: causation_message_stream_name,
+            causation_message_position: causation_message_position,
+            causation_message_global_position: causation_message_global_position,
+
+            correlation_stream_name: correlation_stream_name,
+
+            reply_stream_name: reply_stream_name,
+
+            global_position: global_position,
+            time: time,
+
+            schema_version: schema_version
+          }
         end
       end
     end

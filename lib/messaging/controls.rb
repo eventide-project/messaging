@@ -1,6 +1,9 @@
+require 'securerandom'
+
 require 'clock/controls'
 require 'message_store/controls'
 
+require 'messaging/controls/random'
 require 'messaging/controls/time'
 require 'messaging/controls/id'
 require 'messaging/controls/stream_name'
