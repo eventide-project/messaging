@@ -6,11 +6,6 @@ context "Message" do
       source_metadata = Controls::Metadata.example
       metadata = Message::Metadata.new
 
-      ## TODO Use:
-      # - stream_name
-      # - position
-      # - global_position
-
       refute(metadata.causation_message_stream_name == source_metadata.source_message_stream_name)
       refute(metadata.causation_message_position == source_metadata.source_message_position)
       refute(metadata.causation_message_global_position == source_metadata.source_message_global_position)

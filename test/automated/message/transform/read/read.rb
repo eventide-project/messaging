@@ -51,6 +51,10 @@ context "Message" do
             assert(metadata.causation_message_position = message_data.metadata[:causation_message_position])
           end
 
+          test "causation_message_global_position" do
+            assert(metadata.causation_message_global_position = message_data.metadata[:causation_message_global_position])
+          end
+
           test "correlation_stream_name" do
             assert(metadata.correlation_stream_name = message_data.metadata[:correlation_stream_name])
           end
