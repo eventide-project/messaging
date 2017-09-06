@@ -1,16 +1,21 @@
 require_relative '../automated_init'
 
 context "Message" do
-  context "SequenceAttribute Mixin" do
-    message = Controls::Message.example
+  context "Sequenced Mixin" do
+    message = Controls::Message::Sequenced.example
 
     refute(message.metadata.causation_message_global_position.nil?)
-    refute(message.respond_to?(:sequence))
 
-    message.extend Message::SequenceAttribute
+    test "Message is a Messaging::Message" do
+      assert(message.is_a?(Messaging::Message))
+    end
+
+    test "Message is a Messaging::SequenceAttribute" do
+      assert(message.is_a?(Messaging::Message))
+    end
 
     test "Adds a 'sequence' attribute" do
-      assert(message.respond_to? :sequence)
+      assert(message.respond_to?(:sequence))
     end
 
     context "Sequence Attribute" do

@@ -9,6 +9,7 @@ require 'messaging/message/metadata'
 require 'messaging/message/copy'
 require 'messaging/message/follow'
 require 'messaging/message/sequence_attribute'
+require 'messaging/message/sequenced'
 
 require 'messaging/message/transformer'
 require 'messaging/message/import'
