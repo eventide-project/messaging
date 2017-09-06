@@ -93,6 +93,7 @@ module Messaging
       alias :correlates? :correlated?
 
       def self.transient_attributes
+        ## TODO change global_position to source_message_global_position
         [
           :source_message_stream_name,
           :source_message_position,

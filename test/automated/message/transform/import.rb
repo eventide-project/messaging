@@ -18,6 +18,21 @@ context "Message" do
       test "Message's attributes are equal to the message data's attributes" do
         assert(message.to_h == message_data.data)
       end
+
+      context "Message's metadata attributes are equal to the message data's metadata attributes" do
+        [
+          :causation_message_stream_name,
+          :causation_message_position,
+          :causation_message_global_position,
+          :correlation_stream_name,
+          :reply_stream_name,
+          :schema_version
+        ].each do |attribute|
+          test "#{attribute}" do
+            assert(message.metadata.send(attribute) == message_data.metadata[attribute])
+          end
+        end
+      end
     end
   end
 

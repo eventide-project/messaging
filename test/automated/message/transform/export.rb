@@ -8,21 +8,27 @@ context "Message" do
 
     context "Message is exported to MessageData" do
       test "MessageData type is Message's type" do
-        assert(message.message_type == message.message_type)
+        assert(message.message_type == message_data.type)
       end
 
-      test "Message's attributes are equal to the message data's attributes" do
-        assert(message.to_h == message_data.data)
+      test "MessageData's attributes are equal to the message's attributes" do
+        assert(message_data.data == message.to_h)
       end
-    end
-  end
 
-
-
-
-
-    test "Message exported to MessageData" do
-      refute(message_data.nil?)
+      context "MessageData's metadata attributes are equal to the message's metadata attributes" do
+        [
+          :causation_message_stream_name,
+          :causation_message_position,
+          :causation_message_global_position,
+          :correlation_stream_name,
+          :reply_stream_name,
+          :schema_version
+        ].each do |attribute|
+          test "#{attribute}" do
+            assert(message.metadata.send(attribute) == message_data.metadata[attribute])
+          end
+        end
+      end
     end
   end
 end
