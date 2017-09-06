@@ -3,7 +3,7 @@ module Messaging
     module Random
       module Number
         def self.example
-          rand(99999)
+          rand(10000..999999)
         end
       end
 
