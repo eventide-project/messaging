@@ -12,7 +12,7 @@ context "Message" do
 
     context "MessageData imported into message" do
       test "Message's type is the MessageData type" do
-        assert(message.message_type == message.message_type)
+        assert(message.message_type == message_data.type)
       end
 
       test "Message's attributes are equal to the message data's attributes" do
