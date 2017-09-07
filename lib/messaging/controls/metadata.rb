@@ -5,7 +5,7 @@ module Messaging
         Messaging::Message::Metadata.build(data)
       end
 
-      def self.source_message_stream_name
+      def self.stream_name
         'someSource'
       end
 
@@ -38,7 +38,7 @@ module Messaging
       end
 
       def self.source_message_identifier
-        "#{source_message_stream_name}/#{source_message_position}"
+        "#{stream_name}/#{source_message_position}"
       end
 
       def self.causation_message_identifier
@@ -55,7 +55,7 @@ module Messaging
 
       def self.data
         {
-          source_message_stream_name: source_message_stream_name,
+          stream_name: stream_name,
           source_message_position: source_message_position,
 
           causation_message_stream_name: causation_message_stream_name,
@@ -101,7 +101,7 @@ module Messaging
           Messaging::Message::Metadata.build(data)
         end
 
-        def self.source_message_stream_name
+        def self.stream_name
           Controls::Random::Text.example
         end
 
@@ -134,7 +134,7 @@ module Messaging
         end
 
         def self.source_message_identifier
-          "#{source_message_stream_name}/#{source_message_position}"
+          "#{stream_name}/#{source_message_position}"
         end
 
         def self.causation_message_identifier
@@ -151,7 +151,7 @@ module Messaging
 
         def self.data
           {
-            source_message_stream_name: source_message_stream_name,
+            stream_name: stream_name,
             source_message_position: source_message_position,
 
             causation_message_stream_name: causation_message_stream_name,

@@ -6,7 +6,7 @@ context "Message" do
       source_metadata = Controls::Metadata.example
       metadata = Message::Metadata.new
 
-      refute(metadata.causation_message_stream_name == source_metadata.source_message_stream_name)
+      refute(metadata.causation_message_stream_name == source_metadata.stream_name)
       refute(metadata.causation_message_position == source_metadata.source_message_position)
       refute(metadata.causation_message_global_position == source_metadata.source_message_global_position)
       refute(metadata.correlation_stream_name == source_metadata.correlation_stream_name)
@@ -16,8 +16,8 @@ context "Message" do
 
       context "Copied from Source Metadata" do
         context "causation_message_stream_name" do
-          test "Set from source_message_stream_name" do
-            assert(metadata.causation_message_stream_name == source_metadata.source_message_stream_name)
+          test "Set from stream_name" do
+            assert(metadata.causation_message_stream_name == source_metadata.stream_name)
           end
         end
 
@@ -46,7 +46,7 @@ context "Message" do
         unchanged_metadata = Message::Metadata.new
 
         [
-          :source_message_stream_name,
+          :stream_name,
           :source_message_position,
           :global_position,
           :time,

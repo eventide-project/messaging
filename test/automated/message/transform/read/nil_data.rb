@@ -21,8 +21,8 @@ context "Message" do
           context "Metadata" do
             metadata = message.metadata
 
-            test "source_message_stream_name" do
-              assert(metadata.source_message_stream_name = message_data.stream_name)
+            test "stream_name" do
+              assert(metadata.stream_name = message_data.stream_name)
             end
 
             test "source_message_stream_position" do
