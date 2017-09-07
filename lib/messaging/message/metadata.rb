@@ -32,8 +32,8 @@ module Messaging
       attribute :schema_version, String
 
       def source_message_identifier
-        return nil if source_message_stream_name.nil? || source_message_position.nil?
-        "#{source_message_stream_name}/#{source_message_position}"
+        return nil if source_message_stream_name.nil? || position.nil?
+        "#{source_message_stream_name}/#{position}"
       end
 
       def causation_message_identifier
@@ -43,7 +43,7 @@ module Messaging
 
       def follow(other_metadata)
         self.causation_message_stream_name = other_metadata.source_message_stream_name
-        self.causation_message_position = other_metadata.source_message_position
+        self.causation_message_position = other_metadata.position
         self.causation_message_global_position = other_metadata.source_message_global_position
 
         self.correlation_stream_name = other_metadata.correlation_stream_name
@@ -83,7 +83,7 @@ module Messaging
         ## TODO change global_position to source_message_global_position
         [
           :source_message_stream_name,
-          :source_message_position,
+          :position,
           :global_position,
           :time
         ]

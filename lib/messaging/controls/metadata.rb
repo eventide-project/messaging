@@ -9,7 +9,7 @@ module Messaging
         'someSource'
       end
 
-      def self.source_message_position
+      def self.position
         1
       end
 
@@ -38,7 +38,7 @@ module Messaging
       end
 
       def self.source_message_identifier
-        "#{stream_name}/#{source_message_position}"
+        "#{stream_name}/#{position}"
       end
 
       def self.causation_message_identifier
@@ -56,7 +56,7 @@ module Messaging
       def self.data
         {
           stream_name: stream_name,
-          source_message_position: source_message_position,
+          position: position,
 
           causation_message_stream_name: causation_message_stream_name,
           causation_message_position: causation_message_position,
@@ -105,7 +105,7 @@ module Messaging
           Controls::Random::Text.example
         end
 
-        def self.source_message_position
+        def self.position
           Controls::Random::Number.example
         end
 
@@ -134,7 +134,7 @@ module Messaging
         end
 
         def self.source_message_identifier
-          "#{stream_name}/#{source_message_position}"
+          "#{stream_name}/#{position}"
         end
 
         def self.causation_message_identifier
@@ -152,7 +152,7 @@ module Messaging
         def self.data
           {
             stream_name: stream_name,
-            source_message_position: source_message_position,
+            position: position,
 
             causation_message_stream_name: causation_message_stream_name,
             causation_message_position: causation_message_position,

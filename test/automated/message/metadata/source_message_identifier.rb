@@ -16,7 +16,7 @@ context "Message" do
         end
 
         context "Not Set" do
-          [:stream_name, :source_message_position].each do |attribute|
+          [:stream_name, :position].each do |attribute|
             metadata = Controls::Metadata.example
 
             context "#{attribute}" do

@@ -28,7 +28,7 @@ context "Message" do
           end
 
           test "source_message_stream_position" do
-            assert(metadata.source_message_position = message_data.position)
+            assert(metadata.position = message_data.position)
           end
 
           test "global_position" do

@@ -8,13 +8,13 @@ context "Message" do
         metadata = Controls::Metadata::Random.example
 
         refute(metadata.causation_message_stream_name == source_metadata.stream_name)
-        refute(metadata.causation_message_position == source_metadata.source_message_position)
+        refute(metadata.causation_message_position == source_metadata.position)
         refute(metadata.causation_message_global_position == source_metadata.source_message_global_position)
         refute(metadata.correlation_stream_name == source_metadata.correlation_stream_name)
         refute(metadata.reply_stream_name == source_metadata.reply_stream_name)
 
         metadata.causation_message_stream_name = source_metadata.stream_name
-        metadata.causation_message_position = source_metadata.source_message_position
+        metadata.causation_message_position = source_metadata.position
         metadata.causation_message_global_position = source_metadata.source_message_global_position
         metadata.correlation_stream_name = source_metadata.correlation_stream_name
         metadata.reply_stream_name = source_metadata.reply_stream_name
@@ -36,7 +36,7 @@ context "Message" do
           metadata = Controls::Metadata::Random.example
 
           metadata.causation_message_stream_name = source_metadata.stream_name
-          metadata.causation_message_position = source_metadata.source_message_position
+          metadata.causation_message_position = source_metadata.position
           metadata.causation_message_global_position = source_metadata.source_message_global_position
           metadata.correlation_stream_name = source_metadata.correlation_stream_name
           metadata.reply_stream_name = source_metadata.reply_stream_name
@@ -55,7 +55,7 @@ context "Message" do
         metadata = Controls::Metadata::Random.example
 
         metadata.causation_message_stream_name = source_metadata.stream_name
-        metadata.causation_message_position = source_metadata.source_message_position
+        metadata.causation_message_position = source_metadata.position
         metadata.causation_message_global_position = source_metadata.source_message_global_position
         metadata.correlation_stream_name = source_metadata.correlation_stream_name
         metadata.reply_stream_name = source_metadata.reply_stream_name
@@ -71,7 +71,7 @@ context "Message" do
         metadata = Controls::Metadata::Random.example
 
         metadata.causation_message_stream_name = source_metadata.stream_name
-        metadata.causation_message_position = source_metadata.source_message_position
+        metadata.causation_message_position = source_metadata.position
         metadata.causation_message_global_position = source_metadata.source_message_global_position
         metadata.correlation_stream_name = source_metadata.correlation_stream_name
         metadata.reply_stream_name = source_metadata.reply_stream_name

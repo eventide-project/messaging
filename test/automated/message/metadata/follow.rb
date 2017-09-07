@@ -7,7 +7,7 @@ context "Message" do
       metadata = Message::Metadata.new
 
       refute(metadata.causation_message_stream_name == source_metadata.stream_name)
-      refute(metadata.causation_message_position == source_metadata.source_message_position)
+      refute(metadata.causation_message_position == source_metadata.position)
       refute(metadata.causation_message_global_position == source_metadata.source_message_global_position)
       refute(metadata.correlation_stream_name == source_metadata.correlation_stream_name)
       refute(metadata.reply_stream_name == source_metadata.reply_stream_name)
@@ -22,8 +22,8 @@ context "Message" do
         end
 
         context "causation_message_position" do
-          test "Set from source_message_position" do
-            assert(metadata.causation_message_position == source_metadata.source_message_position)
+          test "Set from position" do
+            assert(metadata.causation_message_position == source_metadata.position)
           end
         end
 
@@ -47,7 +47,7 @@ context "Message" do
 
         [
           :stream_name,
-          :source_message_position,
+          :position,
           :global_position,
           :time,
           :schema_version
