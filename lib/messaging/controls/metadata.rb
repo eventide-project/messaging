@@ -37,7 +37,7 @@ module Messaging
         '1.1'
       end
 
-      def self.source_message_identifier
+      def self.identifier
         "#{stream_name}/#{position}"
       end
 
@@ -133,7 +133,7 @@ module Messaging
           Controls::Random::Number.example.to_s
         end
 
-        def self.source_message_identifier
+        def self.identifier
           "#{stream_name}/#{position}"
         end
 

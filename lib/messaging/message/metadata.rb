@@ -31,10 +31,11 @@ module Messaging
 
       attribute :schema_version, String
 
-      def source_message_identifier
+      def identifier
         return nil if stream_name.nil? || position.nil?
         "#{stream_name}/#{position}"
       end
+      alias :source_message_identifier :identifier
 
       def causation_message_identifier
         return nil if causation_message_stream_name.nil? || causation_message_position.nil?
@@ -52,7 +53,7 @@ module Messaging
       end
 
       def follows?(other_metadata)
-        causation_message_identifier == other_metadata.source_message_identifier &&
+        causation_message_identifier == other_metadata.identifier &&
           causation_message_global_position == other_metadata.global_position &&
           correlation_stream_name == other_metadata.correlation_stream_name &&
           reply_stream_name == other_metadata.reply_stream_name

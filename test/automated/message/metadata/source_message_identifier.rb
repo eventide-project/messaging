@@ -7,11 +7,11 @@ context "Message" do
         context "Set" do
           metadata = Controls::Metadata.example
 
-          source_message_identifier = metadata.source_message_identifier
-          source_message_identifier_control = Controls::Metadata.source_message_identifier
+          identifier = metadata.identifier
+          identifier_control = Controls::Metadata.identifier
 
           test "Join of stream name and position" do
-            assert(source_message_identifier == source_message_identifier_control)
+            assert(identifier == identifier_control)
           end
         end
 
@@ -22,10 +22,10 @@ context "Message" do
             context "#{attribute}" do
               metadata.public_send("#{attribute}=", nil)
 
-              source_message_identifier = metadata.source_message_identifier
+              identifier = metadata.identifier
 
               test "Identifier is nil" do
-                assert(source_message_identifier.nil?)
+                assert(identifier.nil?)
               end
             end
           end
