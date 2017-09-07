@@ -44,7 +44,7 @@ module Messaging
       def follow(other_metadata)
         self.causation_message_stream_name = other_metadata.stream_name
         self.causation_message_position = other_metadata.position
-        self.causation_message_global_position = other_metadata.source_message_global_position
+        self.causation_message_global_position = other_metadata.global_position
 
         self.correlation_stream_name = other_metadata.correlation_stream_name
 
@@ -53,7 +53,7 @@ module Messaging
 
       def follows?(other_metadata)
         causation_message_identifier == other_metadata.source_message_identifier &&
-          causation_message_global_position == other_metadata.source_message_global_position &&
+          causation_message_global_position == other_metadata.global_position &&
           correlation_stream_name == other_metadata.correlation_stream_name &&
           reply_stream_name == other_metadata.reply_stream_name
       end
@@ -80,7 +80,6 @@ module Messaging
       alias :correlates? :correlated?
 
       def self.transient_attributes
-        ## TODO change global_position to source_message_global_position
         [
           :stream_name,
           :position,

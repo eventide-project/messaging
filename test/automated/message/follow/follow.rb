@@ -11,7 +11,7 @@ context "Message" do
 
     refute(metadata.causation_message_stream_name == source_metadata.stream_name)
     refute(metadata.causation_message_position == source_metadata.position)
-    refute(metadata.causation_message_global_position == source_metadata.source_message_global_position)
+    refute(metadata.causation_message_global_position == source_metadata.global_position)
     refute(metadata.correlation_stream_name == source_metadata.correlation_stream_name)
     refute(metadata.reply_stream_name == source_metadata.reply_stream_name)
 
@@ -36,8 +36,8 @@ context "Message" do
         end
 
         context "causation_message_global_position" do
-          test "Set from source_message_global_position" do
-            assert(metadata.causation_message_global_position == source_metadata.source_message_global_position)
+          test "Set from global_position" do
+            assert(metadata.causation_message_global_position == source_metadata.global_position)
           end
         end
 
