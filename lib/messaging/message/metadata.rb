@@ -5,26 +5,17 @@ module Messaging
 
       include Schema::DataStructure
 
-      attribute :source_message_stream_name, String
-      alias :stream_name :source_message_stream_name
-      alias :stream_name= :source_message_stream_name=
+      attribute :stream_name, String
+      alias :source_message_stream_name :stream_name
+      alias :source_message_stream_name= :stream_name=
 
-      ## TODO Plan: Switch to this in subsequent commit
-      # attribute :stream_name, String
-      # alias :source_message_stream_name :stream_name
-      # alias :source_message_stream_name= :stream_name=
+      attribute :position, Integer
+      alias :source_message_position :position
+      alias :source_message_position= :position=
 
-      attribute :source_message_position, Integer
-      alias :position :source_message_position
-      alias :position= :source_message_position=
-
-      ## TODO Plan: Switch to this in subsequent commit
-      # attribute :position, Integer
-      # alias :source_message_position :position
-      # alias :source_message_position= :position=
-
-      ## TODO make this point to previous_message_global_position
-      # alias :sequence :source_message_position
+      attribute :global_position, Integer
+      alias :source_message_global_position :global_position
+      alias :source_message_global_position= :global_position=
 
       attribute :causation_message_stream_name, String
       attribute :causation_message_position, Integer
@@ -36,18 +27,15 @@ module Messaging
 
       attribute :reply_stream_name, String
 
-      attribute :global_position, Integer
-      alias :source_message_global_position :global_position
-      alias :source_message_global_position= :global_position=
-
       attribute :time, Time
 
       attribute :schema_version, String
 
-      def source_message_identifier
-        return nil if source_message_stream_name.nil? || source_message_position.nil?
-        "#{source_message_stream_name}/#{source_message_position}"
+      def identifier
+        return nil if stream_name.nil? || position.nil?
+        "#{stream_name}/#{position}"
       end
+      alias :source_message_identifier :identifier
 
       def causation_message_identifier
         return nil if causation_message_stream_name.nil? || causation_message_position.nil?
@@ -55,9 +43,9 @@ module Messaging
       end
 
       def follow(other_metadata)
-        self.causation_message_stream_name = other_metadata.source_message_stream_name
-        self.causation_message_position = other_metadata.source_message_position
-        self.causation_message_global_position = other_metadata.source_message_global_position
+        self.causation_message_stream_name = other_metadata.stream_name
+        self.causation_message_position = other_metadata.position
+        self.causation_message_global_position = other_metadata.global_position
 
         self.correlation_stream_name = other_metadata.correlation_stream_name
 
@@ -65,8 +53,8 @@ module Messaging
       end
 
       def follows?(other_metadata)
-        causation_message_identifier == other_metadata.source_message_identifier &&
-          causation_message_global_position == other_metadata.source_message_global_position &&
+        causation_message_identifier == other_metadata.identifier &&
+          causation_message_global_position == other_metadata.global_position &&
           correlation_stream_name == other_metadata.correlation_stream_name &&
           reply_stream_name == other_metadata.reply_stream_name
       end
@@ -93,10 +81,9 @@ module Messaging
       alias :correlates? :correlated?
 
       def self.transient_attributes
-        ## TODO change global_position to source_message_global_position
         [
-          :source_message_stream_name,
-          :source_message_position,
+          :stream_name,
+          :position,
           :global_position,
           :time
         ]

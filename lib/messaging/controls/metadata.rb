@@ -5,11 +5,11 @@ module Messaging
         Messaging::Message::Metadata.build(data)
       end
 
-      def self.source_message_stream_name
+      def self.stream_name
         'someSource'
       end
 
-      def self.source_message_position
+      def self.position
         1
       end
 
@@ -37,8 +37,8 @@ module Messaging
         '1.1'
       end
 
-      def self.source_message_identifier
-        "#{source_message_stream_name}/#{source_message_position}"
+      def self.identifier
+        "#{stream_name}/#{position}"
       end
 
       def self.causation_message_identifier
@@ -55,8 +55,8 @@ module Messaging
 
       def self.data
         {
-          source_message_stream_name: source_message_stream_name,
-          source_message_position: source_message_position,
+          stream_name: stream_name,
+          position: position,
 
           causation_message_stream_name: causation_message_stream_name,
           causation_message_position: causation_message_position,
@@ -101,11 +101,11 @@ module Messaging
           Messaging::Message::Metadata.build(data)
         end
 
-        def self.source_message_stream_name
+        def self.stream_name
           Controls::Random::Text.example
         end
 
-        def self.source_message_position
+        def self.position
           Controls::Random::Number.example
         end
 
@@ -133,8 +133,8 @@ module Messaging
           Controls::Random::Number.example.to_s
         end
 
-        def self.source_message_identifier
-          "#{source_message_stream_name}/#{source_message_position}"
+        def self.identifier
+          "#{stream_name}/#{position}"
         end
 
         def self.causation_message_identifier
@@ -151,8 +151,8 @@ module Messaging
 
         def self.data
           {
-            source_message_stream_name: source_message_stream_name,
-            source_message_position: source_message_position,
+            stream_name: stream_name,
+            position: position,
 
             causation_message_stream_name: causation_message_stream_name,
             causation_message_position: causation_message_position,

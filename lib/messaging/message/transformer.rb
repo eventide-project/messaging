@@ -43,8 +43,8 @@ module Messaging
 
           metadata = data[:metadata]
 
-          metadata[:source_message_stream_name] = data[:stream_name]
-          metadata[:source_message_position] = data[:position]
+          metadata[:stream_name] = data[:stream_name]
+          metadata[:position] = data[:position]
 
           metadata[:global_position] = data[:global_position]
           metadata[:time] = data[:time]
