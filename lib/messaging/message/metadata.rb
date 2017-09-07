@@ -5,26 +5,17 @@ module Messaging
 
       include Schema::DataStructure
 
-      attribute :source_message_stream_name, String
-      alias :stream_name :source_message_stream_name
-      alias :stream_name= :source_message_stream_name=
+      attribute :stream_name, String
+      alias :source_message_stream_name :stream_name
+      alias :source_message_stream_name= :stream_name=
 
-      ## TODO Plan: Switch to this in subsequent commit
-      # attribute :stream_name, String
-      # alias :source_message_stream_name :stream_name
-      # alias :source_message_stream_name= :stream_name=
+      attribute :position, Integer
+      alias :source_message_position :position
+      alias :source_message_position= :position=
 
-      attribute :source_message_position, Integer
-      alias :position :source_message_position
-      alias :position= :source_message_position=
-
-      ## TODO Plan: Switch to this in subsequent commit
-      # attribute :position, Integer
-      # alias :source_message_position :position
-      # alias :source_message_position= :position=
-
-      ## TODO make this point to previous_message_global_position
-      # alias :sequence :source_message_position
+      attribute :global_position, Integer
+      alias :source_message_global_position :global_position
+      alias :source_message_global_position= :global_position=
 
       attribute :causation_message_stream_name, String
       attribute :causation_message_position, Integer
@@ -35,10 +26,6 @@ module Messaging
       attribute :correlation_stream_name, String
 
       attribute :reply_stream_name, String
-
-      attribute :global_position, Integer
-      alias :source_message_global_position :global_position
-      alias :source_message_global_position= :global_position=
 
       attribute :time, Time
 
