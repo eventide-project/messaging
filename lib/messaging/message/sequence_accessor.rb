@@ -1,6 +1,6 @@
 module Messaging
   module Message
-    module SequenceAttribute
+    module SequenceAccessor
       def sequence
         metadata.causation_message_global_position
       end

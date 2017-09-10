@@ -7,7 +7,7 @@ context "Message" do
     refute(message.metadata.causation_message_global_position.nil?)
     refute(message.respond_to?(:sequence))
 
-    message.extend Message::SequenceAttribute
+    message.extend Message::SequenceAccessor
 
     test "Adds a 'sequence' attribute" do
       assert(message.respond_to? :sequence)
