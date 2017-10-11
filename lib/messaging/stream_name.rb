@@ -28,6 +28,16 @@ module Messaging
       MessageStore::StreamName.stream_name(category, type: 'command')
     end
 
+    def exclusive_command_stream_name(id, category=nil)
+      category ||= self.category
+      MessageStore::StreamName.stream_name(category, id, types: ['command', 'exclusive'])
+    end
+
+    def exclusive_command_category_stream_name(category=nil)
+      category ||= self.category
+      MessageStore::StreamName.stream_name(category, types: ['command', 'exclusive'])
+    end
+
     def self.get_category(stream_name)
       MessageStore::StreamName.get_category(stream_name)
     end

@@ -20,7 +20,7 @@ context "Stream Name" do
   context "Command Stream Name" do
     command_stream_name = StreamName.command_stream_name('some_id', 'someCategory')
 
-    test "Composed of the command stream type token, category name, and an ID" do
+    test "Composed of the category name, the command stream type token, and the ID" do
       assert(command_stream_name == 'someCategory:command-some_id')
     end
   end
@@ -28,8 +28,24 @@ context "Stream Name" do
   context "Command Category Stream Name" do
     command_category_stream_name = StreamName.command_category_stream_name('someCategory')
 
-    test "Composed of the command stream type token and the category name" do
+    test "Composed of the category name and the command stream type token" do
       assert(command_category_stream_name == 'someCategory:command')
+    end
+  end
+
+  context "Exclusive Command Stream Name" do
+    exclusive_command_stream_name = StreamName.exclusive_command_stream_name('some_id', 'someCategory')
+
+    test "Composed of the category name, the command stream type token, the exclusive type token, and the ID" do
+      assert(exclusive_command_stream_name == 'someCategory:command+exclusive-some_id')
+    end
+  end
+
+  context "Exclusive Command Category Stream Name" do
+    exclusive_command_category_stream_name = StreamName.exclusive_command_category_stream_name('someCategory')
+
+    test "Composed of the category name, the command stream type token, and the exclusive type token" do
+      assert(exclusive_command_category_stream_name == 'someCategory:command+exclusive')
     end
   end
 end
