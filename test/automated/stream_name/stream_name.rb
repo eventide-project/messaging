@@ -32,20 +32,4 @@ context "Stream Name" do
       assert(command_category_stream_name == 'someCategory:command')
     end
   end
-
-  context "Exclusive Command Stream Name" do
-    exclusive_command_stream_name = StreamName.exclusive_command_stream_name('some_id', 'someCategory')
-
-    test "Composed of the category name, the command stream type token, the exclusive type token, and the ID" do
-      assert(exclusive_command_stream_name == 'someCategory:command+exclusive-some_id')
-    end
-  end
-
-  context "Exclusive Command Category Stream Name" do
-    exclusive_command_category_stream_name = StreamName.exclusive_command_category_stream_name('someCategory')
-
-    test "Composed of the category name, the command stream type token, and the exclusive type token" do
-      assert(exclusive_command_category_stream_name == 'someCategory:command+exclusive')
-    end
-  end
 end
