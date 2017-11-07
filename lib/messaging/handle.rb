@@ -18,10 +18,6 @@ module Messaging
       end
     end
 
-    def strict
-      @strict ||= false
-    end
-
     module Build
       def build(strict: nil)
         instance = new
@@ -111,11 +107,15 @@ module Messaging
       end
     end
 
+    def strict
+      @strict ||= false
+    end
+
     def call(message_or_message_data, strict: nil)
       if message_or_message_data.is_a? Message
         handle_message(message_or_message_data, strict: strict)
       else
-        handle_message_data(message_or_message_data)
+        handle_message_data(message_or_message_data, strict: strict)
       end
     end
 
@@ -146,7 +146,9 @@ module Messaging
       message
     end
 
-    def handle_message_data(message_data)
+    def handle_message_data(message_data, strict: nil)
+      strict ||= self.strict
+
       handler_logger.trace(tags: [:handle, :message_data]) { "Handling message data (Type: #{message_data.type})" }
       handler_logger.trace(tags: [:data, :message_data, :handle]) { message_data.pretty_inspect }
 
