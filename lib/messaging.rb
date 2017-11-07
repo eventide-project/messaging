@@ -22,3 +22,4 @@ require 'messaging/write/substitute'
 
 require 'messaging/message_registry'
 require 'messaging/handle'
+require 'messaging/handle/defaults'

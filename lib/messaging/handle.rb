@@ -108,8 +108,9 @@ module Messaging
     end
 
     def strict
-      @strict ||= false
+      @strict ||= Defaults.strict
     end
+    alias :strict? :strict
 
     def call(message_or_message_data, strict: nil)
       if message_or_message_data.is_a? Message
@@ -120,7 +121,7 @@ module Messaging
     end
 
     def handle_message(message, strict: nil)
-      strict ||= self.strict
+      strict ||= self.strict?
 
       handler_logger.trace(tags: [:handle, :message]) { "Handling message (Message class: #{message.class.name})" }
       handler_logger.trace(tags: [:data, :message, :handle]) { message.pretty_inspect }
@@ -147,7 +148,7 @@ module Messaging
     end
 
     def handle_message_data(message_data, strict: nil)
-      strict ||= self.strict
+      strict ||= self.strict?
 
       handler_logger.trace(tags: [:handle, :message_data]) { "Handling message data (Type: #{message_data.type})" }
       handler_logger.trace(tags: [:data, :message_data, :handle]) { message_data.pretty_inspect }
