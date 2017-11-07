@@ -111,15 +111,17 @@ module Messaging
       end
     end
 
-    def call(message_or_message_data)
+    def call(message_or_message_data, strict: nil)
       if message_or_message_data.is_a? Message
-        handle_message(message_or_message_data)
+        handle_message(message_or_message_data, strict: strict)
       else
         handle_message_data(message_or_message_data)
       end
     end
 
-    def handle_message(message)
+    def handle_message(message, strict: nil)
+      strict ||= self.strict
+
       handler_logger.trace(tags: [:handle, :message]) { "Handling message (Message class: #{message.class.name})" }
       handler_logger.trace(tags: [:data, :message, :handle]) { message.pretty_inspect }
 
