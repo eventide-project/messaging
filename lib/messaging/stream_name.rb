@@ -8,24 +8,30 @@ module Messaging
       end
     end
 
-    def stream_name(id, category=nil, type: nil)
+    def stream_name(id, category=nil, type: nil, types: nil)
       category ||= self.category
-      MessageStore::StreamName.stream_name(category, id, type: type)
+      MessageStore::StreamName.stream_name(category, id, type: type, types: types)
     end
 
-    def category_stream_name(category=nil)
+    def category_stream_name(category=nil, type: nil, types: nil)
       category ||= self.category
-      category
+      MessageStore::StreamName.stream_name(category, type: type, types: types)
     end
 
-    def command_stream_name(id, category=nil)
+    def command_stream_name(id, category=nil, type: nil, types: nil)
       category ||= self.category
-      MessageStore::StreamName.stream_name(category, id, type: 'command')
+      types ||= []
+      types.unshift('command')
+      types << type unless type == nil
+      MessageStore::StreamName.stream_name(category, id, types: types)
     end
 
-    def command_category_stream_name(category=nil)
+    def command_category_stream_name(category=nil, type: nil, types: nil)
       category ||= self.category
-      MessageStore::StreamName.stream_name(category, type: 'command')
+      types ||= []
+      types.unshift('command')
+      types << type unless type == nil
+      MessageStore::StreamName.stream_name(category, types: types)
     end
 
     def self.get_category(stream_name)
