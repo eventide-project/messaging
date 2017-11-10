@@ -48,27 +48,6 @@ module Messaging
         attribute :some_attribute
       end
 
-      module Sequenced
-        def self.example
-          message = Example.new
-
-          message.id = Message.id
-          message.some_attribute = Message.attribute
-          message.other_attribute = Message.other_attribute
-
-          message.metadata = Controls::Metadata.example
-
-          message
-        end
-
-        class Example
-          include Messaging::Message::Sequenced
-
-          attribute :some_attribute
-          attribute :other_attribute
-        end
-      end
-
       def self.message_class
         SomeMessage
       end
