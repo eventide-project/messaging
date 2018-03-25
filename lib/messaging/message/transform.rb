@@ -1,6 +1,6 @@
 module Messaging
   module Message
-    module Transformer
+    module Transform
       def self.message_data
         MessageData
       end
