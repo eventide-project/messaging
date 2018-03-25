@@ -9,7 +9,7 @@ module Messaging
         extend Copy
         extend Follow
         extend Correlate
-        extend Transformer
+        extend Transform
 
         attribute :id, String
         attribute :metadata, Metadata, default: -> { Metadata.new }
