@@ -53,6 +53,35 @@ module Messaging
             self.session = session
           end
         end
+
+        module Invalid
+          module Required
+            class Example
+              include Messaging::Handle
+
+              def configure(session:)
+              end
+            end
+          end
+
+          module Positional
+            class Example
+              include Messaging::Handle
+
+              def configure(session)
+              end
+            end
+
+            module Optional
+              class Example
+                include Messaging::Handle
+
+                def configure(session=nil)
+                end
+              end
+            end
+          end
+        end
       end
     end
   end

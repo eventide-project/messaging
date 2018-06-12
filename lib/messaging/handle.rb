@@ -36,11 +36,21 @@ module Messaging
       def self.configure_session?(instance)
         configure_method = instance.method(:configure)
 
-        if configure_method.parameters.any?
-          true
-        else
-          false
+        parameter_type, _ = configure_method.parameters.find do |type, name|
+          name == :session
         end
+
+        return false if parameter_type.nil?
+
+        return true if parameter_type == :key
+
+        error_message = "Optional session parameter of configure is not a keyword argument (Type: #{parameter_type.inspect})"
+        logger.error { error_message }
+        raise ArgumentError, error_message
+      end
+
+      def self.logger
+        @logger ||= Log.build(self)
       end
     end
 
