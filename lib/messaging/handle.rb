@@ -19,18 +19,44 @@ module Messaging
     end
 
     module Build
-      def build(strict: nil)
+      def build(strict: nil, session: nil)
         instance = new
         instance.strict = strict
         Log.configure(instance, attr_name: :handler_logger)
-        instance.configure
+
+        if Build.configure_session?(instance)
+          instance.configure(session: session)
+        else
+          instance.configure
+        end
+
         instance
+      end
+
+      def self.configure_session?(instance)
+        configure_method = instance.method(:configure)
+
+        parameter_type, _ = configure_method.parameters.find do |type, name|
+          name == :session
+        end
+
+        return false if parameter_type.nil?
+
+        return true if parameter_type == :key
+
+        error_message = "Optional session parameter of configure is not a keyword argument (Type: #{parameter_type.inspect})"
+        logger.error { error_message }
+        raise ArgumentError, error_message
+      end
+
+      def self.logger
+        @logger ||= Log.build(self)
       end
     end
 
     module Call
-      def call(message_or_message_data, strict: nil)
-        instance = build(strict: strict)
+      def call(message_or_message_data, strict: nil, session: nil)
+        instance = build(strict: strict, session: session)
         instance.(message_or_message_data)
       end
     end

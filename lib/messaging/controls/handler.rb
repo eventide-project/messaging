@@ -42,6 +42,47 @@ module Messaging
           end
         end
       end
+
+      module SessionArgument
+        class Example
+          include Messaging::Handle
+
+          attr_accessor :session
+
+          def configure(session: nil)
+            self.session = session
+          end
+        end
+
+        module Anomaly
+          module Required
+            class Example
+              include Messaging::Handle
+
+              def configure(session:)
+              end
+            end
+          end
+
+          module Positional
+            class Example
+              include Messaging::Handle
+
+              def configure(session)
+              end
+            end
+
+            module Optional
+              class Example
+                include Messaging::Handle
+
+                def configure(session=nil)
+                end
+              end
+            end
+          end
+        end
+      end
     end
   end
 end
