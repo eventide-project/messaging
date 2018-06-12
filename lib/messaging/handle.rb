@@ -19,18 +19,34 @@ module Messaging
     end
 
     module Build
-      def build(strict: nil)
+      def build(strict: nil, session: nil)
         instance = new
         instance.strict = strict
         Log.configure(instance, attr_name: :handler_logger)
-        instance.configure
+
+        if Build.configure_session?(instance)
+          instance.configure(session: session)
+        else
+          instance.configure
+        end
+
         instance
+      end
+
+      def self.configure_session?(instance)
+        configure_method = instance.method(:configure)
+
+        if configure_method.parameters.any?
+          true
+        else
+          false
+        end
       end
     end
 
     module Call
-      def call(message_or_message_data, strict: nil)
-        instance = build(strict: strict)
+      def call(message_or_message_data, strict: nil, session: session)
+        instance = build(strict: strict, session: session)
         instance.(message_or_message_data)
       end
     end
