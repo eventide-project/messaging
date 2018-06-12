@@ -55,7 +55,7 @@ module Messaging
     end
 
     module Call
-      def call(message_or_message_data, strict: nil, session: session)
+      def call(message_or_message_data, strict: nil, session: nil)
         instance = build(strict: strict, session: session)
         instance.(message_or_message_data)
       end
