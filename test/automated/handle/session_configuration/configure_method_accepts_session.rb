@@ -11,7 +11,7 @@ context "Handle" do
         handler = handler_class.build(session: session)
 
         test "Session is passed to configure method" do
-          assert(handler.session.eql?(session))
+          assert(handler.session.equal?(session))
         end
       end
 
