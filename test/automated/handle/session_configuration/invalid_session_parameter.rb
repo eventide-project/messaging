@@ -2,9 +2,9 @@ require_relative '../../automated_init'
 
 context "Handle" do
   context "Session Configuration" do
-    context "Configure Method Includes Invalid Session Parameter" do
+    context "Configure Method Includes Incorrect Session Parameter" do
       context "Session is positional argument" do
-        handler_class = Controls::Handler::SessionArgument::Invalid::Positional::Example
+        handler_class = Controls::Handler::SessionArgument::Anomaly::Positional::Example
 
         context "Given" do
           session = Object.new
@@ -26,7 +26,7 @@ context "Handle" do
       end
 
       context "Session is optional positional argument" do
-        handler_class = Controls::Handler::SessionArgument::Invalid::Positional::Optional::Example
+        handler_class = Controls::Handler::SessionArgument::Anomaly::Positional::Optional::Example
 
         context "Given" do
           session = Object.new
@@ -48,7 +48,7 @@ context "Handle" do
       end
 
       context "Session is required keyword argument" do
-        handler_class = Controls::Handler::SessionArgument::Invalid::Required::Example
+        handler_class = Controls::Handler::SessionArgument::Anomaly::Required::Example
 
         context "Given" do
           session = Object.new

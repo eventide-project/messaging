@@ -54,7 +54,7 @@ module Messaging
           end
         end
 
-        module Invalid
+        module Anomaly
           module Required
             class Example
               include Messaging::Handle
