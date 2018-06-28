@@ -1,7 +1,7 @@
 require_relative '../../automated_init'
 
 context "Handle" do
-  context "MessageData" do
+  context "MessageData as Data" do
     context "Handle" do
       context "Handler Implements Message Handler for MessageData's Type" do
         context "Message Handler" do

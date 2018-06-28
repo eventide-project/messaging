@@ -184,8 +184,14 @@ module Messaging
       handler = self.class.handler(message_data)
 
       unless handler.nil?
-        message_name = Messaging::Message::Info.canonize_name(message_data.type)
+        message_type = message_data.type
+        message_name = Messaging::Message::Info.canonize_name(message_type)
         message_class = self.class.message_registry.get(message_name)
+
+        if message_class == nil
+          raise Error, "No message class is registered (Message Type: #{message_type}, Handler: #{self.class.name})"
+        end
+
         message = Message::Import.(message_data, message_class)
 
         message_type = message.message_type

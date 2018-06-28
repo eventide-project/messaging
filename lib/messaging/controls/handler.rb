@@ -20,6 +20,16 @@ module Messaging
         end
       end
 
+      module UnregisteredMessage
+        class Example
+          include Messaging::Handle
+
+          def handle_unregistered_message(message_data)
+            fail "Should not reach here"
+          end
+        end
+      end
+
       module BlockAndHandleMethod
         class Example
           include Messaging::Handle
