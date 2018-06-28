@@ -203,7 +203,9 @@ module Messaging
           message_type = message_data.type
           handler_logger.debug("Handling Message Data (Type: #{message_type}, Method: handle")
 
-          message = handle(message_data)
+          handle(message_data)
+
+          message = message_data
         else
           if strict
             error_msg = "#{self.class.name} does not implement `handle'. Cannot handle message data."
