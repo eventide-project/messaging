@@ -45,7 +45,7 @@ module Messaging
         return true if parameter_type == :key
 
         error_message = "Optional session parameter of configure is not a keyword argument (Type: #{parameter_type.inspect})"
-        logger.error { error_message }
+        logger.error(tag: :handle) { error_message }
         raise ArgumentError, error_message
       end
 
@@ -109,7 +109,7 @@ module Messaging
 
         if blk.nil?
           error_msg = "Handler for #{message_class.name} is not correctly defined. It must have a block."
-          handler_logger.error { error_msg }
+          handler_logger.error(tag: :handle) { error_msg }
           raise Error, error_msg
         end
 
@@ -119,7 +119,7 @@ module Messaging
 
         unless handler_method.arity == 1
           error_msg = "Handler for #{message_class.name} is not correctly defined. It can only have a single parameter."
-          handler_logger.error { error_msg }
+          handler_logger.error(tag: :handle) { error_msg }
           raise Error, error_msg
         end
 
@@ -157,12 +157,12 @@ module Messaging
       unless handler.nil?
         message_type = message.message_type
 
-        handler_logger.debug("Handling Message (Type: #{message_type}, Method: #{handler})")
+        handler_logger.debug(tag: :handle) { "Handling Message (Type: #{message_type}, Method: #{handler})" }
         public_send(handler, message)
       else
         if strict
           error_msg = "#{self.class.name} does not implement a handler for #{message.message_type}. Cannot handle the message."
-          handler_logger.error { error_msg }
+          handler_logger.error(tag: :handle) { error_msg }
           raise Error, error_msg
         end
       end
@@ -189,19 +189,21 @@ module Messaging
         message_class = self.class.message_registry.get(message_name)
 
         if message_class == nil
-          raise Error, "No message class is registered (Message Type: #{message_type}, Handler: #{self.class.name})"
+          error_msg = "No message class is registered (Message Type: #{message_type}, Handler: #{self.class.name})"
+          handler_logger.error(tag: :handle) { error_msg }
+          raise Error, error_msg
         end
 
         message = Message::Import.(message_data, message_class)
 
         message_type = message.message_type
 
-        handler_logger.debug("Handling Message (Type: #{message_type}, Method: #{handler})")
+        handler_logger.debug(tag: :handle) { "Handling Message (Type: #{message_type}, Method: #{handler})" }
         public_send(handler, message)
       else
         if respond_to?(:handle)
           message_type = message_data.type
-          handler_logger.debug("Handling Message Data (Type: #{message_type}, Method: handle")
+          handler_logger.debug(tag: :handle) { "Handling Message Data (Type: #{message_type}, Method: handle" }
 
           handle(message_data)
 
@@ -209,7 +211,7 @@ module Messaging
         else
           if strict
             error_msg = "#{self.class.name} does not implement `handle'. Cannot handle message data."
-            handler_logger.error { error_msg }
+            handler_logger.error(tag: :handle) { error_msg }
             raise Error, error_msg
           end
         end
