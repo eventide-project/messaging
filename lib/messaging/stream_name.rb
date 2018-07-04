@@ -25,6 +25,10 @@ module Messaging
     end
 
     def command_stream_name(id, category=nil, type: nil, types: nil)
+      if id == nil
+        raise Error, "ID must not be omitted from command stream name"
+      end
+
       category ||= self.category
       types ||= []
       types.unshift('command')
@@ -45,7 +49,7 @@ module Messaging
     end
 
     def self.get_id(stream_name)
-      MessageStore::StreamName.get_id stream_name
+      MessageStore::StreamName.get_id(stream_name)
     end
   end
 end
