@@ -2,6 +2,8 @@ module Messaging
   module StreamName
     extend self
 
+    Error = Class.new(RuntimeError)
+
     def self.included(cls)
       cls.class_exec do
         include Messaging::Category
@@ -9,6 +11,10 @@ module Messaging
     end
 
     def stream_name(id, category=nil, type: nil, types: nil)
+      if id == nil
+        raise Error, "ID must not be omitted from stream name"
+      end
+
       category ||= self.category
       MessageStore::StreamName.stream_name(category, id, type: type, types: types)
     end
