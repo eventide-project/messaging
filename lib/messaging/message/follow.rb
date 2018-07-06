@@ -3,24 +3,24 @@ module Messaging
     module Follow
       extend self
 
-      def self.call(source, receiver=nil, copy: nil, include: nil, exclude: nil, strict: nil)
-        follow(source, receiver, copy: copy, include: include, exclude: exclude, strict: strict)
+      def self.call(preceding_message, subsequent_message=nil, copy: nil, include: nil, exclude: nil, strict: nil)
+        follow(preceding_message, subsequent_message, copy: copy, include: include, exclude: exclude, strict: strict)
       end
 
-      def follow(source, receiver=nil, copy: nil, include: nil, exclude: nil, strict: nil)
-        if receiver.nil?
-          receiver = self
+      def follow(preceding_message, subsequent_message=nil, copy: nil, include: nil, exclude: nil, strict: nil)
+        if subsequent_message.nil?
+          subsequent_message = self
         end
 
-        if receiver.class == Class
-          receiver = receiver.build
+        if subsequent_message.class == Class
+          subsequent_message = subsequent_message.build
         end
 
-        Copy.(source, receiver, copy: copy, include: include, exclude: exclude, strict: strict, metadata: false)
+        Copy.(preceding_message, subsequent_message, copy: copy, include: include, exclude: exclude, strict: strict, metadata: false)
 
-        receiver.metadata.follow(source.metadata)
+        subsequent_message.metadata.follow(preceding_message.metadata)
 
-        receiver
+        subsequent_message
       end
     end
   end
