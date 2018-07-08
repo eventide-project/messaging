@@ -40,7 +40,7 @@ module Messaging
       extend self
 
       def message_type(msg=self)
-        class_name(msg).split('::').last
+        Info.class_name(msg).split('::').last
       end
 
       def message_type?(type)
@@ -55,7 +55,7 @@ module Messaging
         name.gsub(/([^\^])([A-Z])/,'\1_\2').downcase
       end
 
-      def class_name(message)
+      def self.class_name(message)
         class_name = nil
         class_name = message if message.instance_of? String
         class_name ||= message.name if message.instance_of? Class
