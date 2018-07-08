@@ -2,12 +2,6 @@ module Messaging
   module Controls
     module Batch
       def self.example(id: nil)
-        if id == :none
-          id = nil
-        else
-          id ||= self.id
-        end
-
         values = [
           MessageStore::Controls::RandomValue.example,
           MessageStore::Controls::RandomValue.example
@@ -28,10 +22,18 @@ module Messaging
 
       module Messages
         def self.example(id: nil)
-          [
-            Controls::Message.example.tap { |m| m.id = id },
-            Controls::Message.example.tap { |m| m.id = id }
-          ]
+          batch = []
+
+          2.times do
+            message_id = nil
+            if id != :none
+              message_id = Batch.id
+            end
+
+            batch << Controls::Message.example.tap { |m| m.id = message_id }
+          end
+
+          batch
         end
       end
     end
