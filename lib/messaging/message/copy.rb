@@ -11,7 +11,6 @@ module Messaging
 
       def copy(source, receiver=nil, copy: nil, include: nil, exclude: nil, metadata: nil, strict: nil)
         metadata ||= false
-        # strict = true if strict.nil?
         strict ||= false
 
         if receiver.nil?

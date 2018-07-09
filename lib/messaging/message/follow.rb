@@ -16,6 +16,8 @@ module Messaging
           subsequent_message = subsequent_message.build
         end
 
+        strict = true if strict.nil?
+
         Copy.(preceding_message, subsequent_message, copy: copy, include: include, exclude: exclude, strict: strict, metadata: false)
 
         subsequent_message.metadata.follow(preceding_message.metadata)

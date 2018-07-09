@@ -1,14 +1,14 @@
 require_relative '../../automated_init'
 
 context "Message" do
-  context "Copy" do
-    context "Strict" do
+  context "Follow" do
+    context "Strict (Default)" do
       context "Receiver has same attributes as the source" do
         source = Controls::Message.example
         receiver = source.class.new
 
         test "Is not an error" do
-          refute proc { Message::Copy.(source, receiver, strict: true) } do
+          refute proc { Message::Follow.(source, receiver) } do
             raises_error? Message::Copy::Error
           end
         end
@@ -19,7 +19,7 @@ context "Message" do
         receiver = Controls::Message::SingleAttribute.new
 
         test "Is an error" do
-          assert proc { Message::Copy.(source, receiver, strict: true) } do
+          assert proc { Message::Follow.(source, receiver) } do
             raises_error? Message::Copy::Error
           end
         end
@@ -27,13 +27,13 @@ context "Message" do
     end
   end
 
-  context "Not Strict (Default)" do
+  context "Not Strict" do
     context "Receiver doesn't have all of the source's attributes" do
       source = Controls::Message.example
       receiver = Controls::Message::SingleAttribute.new
 
       test "Is not an error" do
-        refute proc { Message::Copy.(source, receiver) } do
+        refute proc { Message::Follow.(source, receiver, strict: false) } do
           raises_error? Message::Copy::Error
         end
       end
