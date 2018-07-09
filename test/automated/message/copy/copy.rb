@@ -5,7 +5,7 @@ context "Message" do
     context "Object Form" do
       source = Controls::Message.example
 
-      context "Default" do
+      context "Source and Receiver Have Same Attributes" do
         receiver = source.class.new
 
         Message::Copy.(source, receiver)
