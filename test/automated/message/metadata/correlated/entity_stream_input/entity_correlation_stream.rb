@@ -10,7 +10,7 @@ context "Message" do
           metadata.correlation_stream_name = 'someStream-123'
 
           context "Correlation Stream Name Is the Stream Name" do
-            test "Is not correlated" do
+            test "Is correlated" do
               assert(metadata.correlated?('someStream-123'))
             end
           end
