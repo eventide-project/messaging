@@ -42,21 +42,21 @@ module Messaging
         "#{causation_message_stream_name}/#{causation_message_position}"
       end
 
-      def follow(other_metadata)
-        self.causation_message_stream_name = other_metadata.stream_name
-        self.causation_message_position = other_metadata.position
-        self.causation_message_global_position = other_metadata.global_position
+      def follow(preceding_metadata)
+        self.causation_message_stream_name = preceding_metadata.stream_name
+        self.causation_message_position = preceding_metadata.position
+        self.causation_message_global_position = preceding_metadata.global_position
 
-        self.correlation_stream_name = other_metadata.correlation_stream_name
+        self.correlation_stream_name = preceding_metadata.correlation_stream_name
 
-        self.reply_stream_name = other_metadata.reply_stream_name
+        self.reply_stream_name = preceding_metadata.reply_stream_name
       end
 
-      def follows?(other_metadata)
-        causation_message_identifier == other_metadata.identifier &&
-          causation_message_global_position == other_metadata.global_position &&
-          correlation_stream_name == other_metadata.correlation_stream_name &&
-          reply_stream_name == other_metadata.reply_stream_name
+      def follows?(metadata)
+        causation_message_identifier == metadata.identifier &&
+          causation_message_global_position == metadata.global_position &&
+          correlation_stream_name == metadata.correlation_stream_name &&
+          reply_stream_name == metadata.reply_stream_name
       end
 
       def clear_reply_stream_name
