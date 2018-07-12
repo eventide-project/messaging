@@ -5,7 +5,7 @@ context "Handle" do
     context "Strict" do
       context "Class Interface" do
         context "Handler Does Not Implement Handle" do
-          message_data = Controls::MessageData::Read.example(data: 1)
+          message_data = Controls::MessageData::Read.example
 
           test "Is an error" do
             assert proc { Controls::Handler::Anomaly::NoHandle::Example.(message_data, strict: true) } do

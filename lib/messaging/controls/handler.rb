@@ -15,8 +15,12 @@ module Messaging
           include Messaging::Handle
 
           def handle(message_data)
-            message_data.data = 'some value set by handle method'
+            message_data.data = HandleMethod.data
           end
+        end
+
+        def self.data
+          { attribute: 'some value set by handle method' }
         end
       end
 
@@ -40,7 +44,7 @@ module Messaging
           end
 
           def handle(message_data)
-            message_data.data = 'some data value set by handler'
+            message_data.data = { attribute: 'some data value set by handler' }
           end
         end
       end
