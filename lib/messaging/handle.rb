@@ -150,7 +150,7 @@ module Messaging
       strict ||= self.strict?
 
       handler_logger.trace(tags: [:handle, :message]) { "Handling message (Message class: #{message.class.name})" }
-      handler_logger.trace(tags: [:data, :message, :handle]) { message.pretty_inspect }
+      handler_logger.trace(tags: [:data, :message]) { message.pretty_inspect }
 
       handler = self.class.handler(message)
 
@@ -168,7 +168,7 @@ module Messaging
       end
 
       handler_logger.info(tags: [:handle, :message]) { "Handled message (Message class: #{message.class.name})" }
-      handler_logger.info(tags: [:data, :message, :handle]) { message.pretty_inspect }
+      handler_logger.info(tags: [:data, :message]) { message.pretty_inspect }
 
       message
     end
@@ -177,7 +177,7 @@ module Messaging
       strict ||= self.strict?
 
       handler_logger.trace(tags: [:handle, :message_data]) { "Handling message data (Type: #{message_data.type})" }
-      handler_logger.trace(tags: [:data, :message_data, :handle]) { message_data.pretty_inspect }
+      handler_logger.trace(tags: [:data, :message_data]) { message_data.pretty_inspect }
 
       message = nil
 
@@ -218,7 +218,7 @@ module Messaging
       end
 
       handler_logger.info(tags: [:handle, :message_data]) { "Handled message data (Type: #{message_data.type})" }
-      handler_logger.info(tags: [:data, :message_data, :handle]) { message_data.pretty_inspect }
+      handler_logger.info(tags: [:data, :message_data]) { message_data.pretty_inspect }
 
       message
     end
