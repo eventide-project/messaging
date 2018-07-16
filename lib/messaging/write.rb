@@ -43,11 +43,11 @@ module Messaging
 
     def call(message_or_batch, stream_name, expected_version: nil, reply_stream_name: nil)
       unless message_or_batch.is_a? Array
-        logger.trace(tag: :write) { "Writing message (Stream Name: #{stream_name}, Type: #{message_or_batch.class.message_type}, Expected Version: #{expected_version.inspect}, Reply Stream Name: #{reply_stream_name.inspect})" }
+        logger.trace(tag: :write) { "Writing message (Type: #{message_or_batch.class.message_type}, Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect}, Reply Stream Name: #{reply_stream_name.inspect})" }
       else
         logger.trace(tag: :write) do
           message_types = message_or_batch.map {|message| message.class.message_type }.uniq.join(', ')
-          "Writing batch (Stream Name: #{stream_name}, Types: #{message_types}, Expected Version: #{expected_version.inspect}, Reply Stream Name: #{reply_stream_name.inspect})"
+          "Writing batch (Types: #{message_types}, Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect}, Reply Stream Name: #{reply_stream_name.inspect})"
         end
       end
       logger.trace(tags: [:data, :message]) { message_or_batch.pretty_inspect }
@@ -58,14 +58,14 @@ module Messaging
       last_position = message_writer.(message_data_batch, stream_name, expected_version: expected_version)
 
       unless message_or_batch.is_a? Array
-        logger.info(tag: :write) { "Wrote message (Position: #{last_position}, Stream Name: #{stream_name}, Type: #{message_or_batch.class.message_type}, Expected Version: #{expected_version.inspect}, Reply Stream Name: #{reply_stream_name.inspect})" }
+        logger.info(tag: :write) { "Wrote message (Type: #{message_or_batch.class.message_type}, Stream Name: #{stream_name}, Position: #{last_position}, Expected Version: #{expected_version.inspect}, Reply Stream Name: #{reply_stream_name.inspect})" }
       else
         logger.info(tag: :write) do
           message_types = message_or_batch.map {|message| message.class.message_type }.uniq.join(', ')
-          "Wrote batch (Position: #{last_position}, Stream Name: #{stream_name}, Types: #{message_types}, Expected Version: #{expected_version.inspect}, Reply Stream Name: #{reply_stream_name.inspect})"
+          "Wrote batch (Types: #{message_types}, Stream Name: #{stream_name}, Position: #{last_position}, Expected Version: #{expected_version.inspect}, Reply Stream Name: #{reply_stream_name.inspect})"
         end
       end
-      # logger.info(tags: [:data, :message]) { message_data_batch.pretty_inspect }
+      logger.info(tags: [:data, :message]) { message_data_batch.pretty_inspect }
 
       message_batch.each do |message|
         telemetry.record :written, Telemetry::Data.new(message, stream_name, expected_version, reply_stream_name)
