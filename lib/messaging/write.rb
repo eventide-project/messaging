@@ -47,7 +47,7 @@ module Messaging
       else
         logger.trace(tag: :write) { "Writing batch (Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect}, Reply Stream Name: #{reply_stream_name.inspect})" }
       end
-      logger.trace(tags: [:write, :data, :message]) { message_or_batch.pretty_inspect }
+      logger.trace(tags: [:data, :message]) { message_or_batch.pretty_inspect }
 
       message_batch = Array(message_or_batch)
 
@@ -59,7 +59,7 @@ module Messaging
       else
         logger.info(tag: :write) { "Wrote batch (Position: #{last_position}, Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect}, Reply Stream Name: #{reply_stream_name.inspect})" }
       end
-      logger.info(tags: [:write, :data, :message]) { message_data_batch.pretty_inspect }
+      logger.info(tags: [:data, :message]) { message_data_batch.pretty_inspect }
 
       message_batch.each do |message|
         telemetry.record :written, Telemetry::Data.new(message, stream_name, expected_version, reply_stream_name)
