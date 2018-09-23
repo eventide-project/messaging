@@ -40,7 +40,8 @@ context "Write" do
             end
 
             test "Stream name block argument" do
-              assert(writer.written?(message) { |stream| stream == stream_name })
+              # assert(writer.written?(message) { |stream| stream == stream_name })
+              assert(writer.written?(Object.new) { |stream| stream == stream_name })
             end
 
             test "Stream name, and expected_version block arguments" do
@@ -82,11 +83,13 @@ context "Write" do
 
           context "Message Argument" do
             test "No block argument" do
-              refute(writer.written?(message))
+              # refute(writer.written?(message))
+              refute(writer.written?(Object.new))
             end
 
             test "Stream name block argument" do
-              refute(writer.written?(message) { |stream| stream == stream_name })
+              # refute(writer.written?(message) { |stream| stream == stream_name })
+              refute(writer.written?(Object.new) { |stream| stream == stream_name })
             end
 
             test "Stream name, and expected_version block arguments" do

@@ -68,7 +68,7 @@ module Messaging
           end
 
 ## TODO Why does this evaluate without the message arg?
-          sink.recorded_written? do |record|
+          return written && sink.recorded_written? do |record|
             blk.call(record.data.stream_name, record.data.expected_version, record.data.reply_stream_name)
           end
         end
