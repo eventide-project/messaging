@@ -36,7 +36,6 @@ module Messaging
           self.raise_expected_version_error = true
           nil
         end
-## TODO Alias to method without bang
 
         def writes(&blk)
           if blk.nil?
@@ -63,12 +62,15 @@ module Messaging
             record.data.message == message
           end
 
-          if blk.nil?
-            return written
+          if !written
+            return false
           end
 
-## TODO Why does this evaluate without the message arg?
-          sink.recorded_written? do |record|
+          if blk.nil?
+            return true
+          end
+
+          return sink.recorded_written? do |record|
             blk.call(record.data.stream_name, record.data.expected_version, record.data.reply_stream_name)
           end
         end
@@ -83,6 +85,7 @@ module Messaging
           end
         end
 
+## TODO need to make same changes as made to written?
         def replied?(message=nil, &blk)
           if message.nil?
             if blk.nil?
@@ -98,8 +101,12 @@ module Messaging
             record.data.message == message
           end
 
+          if !written
+            return false
+          end
+
           if blk.nil?
-            return written
+            return true
           end
 
           sink.recorded_replied? do |record|
