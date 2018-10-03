@@ -101,8 +101,12 @@ module Messaging
             record.data.message == message
           end
 
+          if !written
+            return false
+          end
+
           if blk.nil?
-            return written
+            return true
           end
 
           sink.recorded_replied? do |record|

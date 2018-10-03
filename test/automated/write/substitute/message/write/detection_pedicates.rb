@@ -52,6 +52,12 @@ context "Write" do
                 assert(writer.written?(message) { |stream, expected_version, reply_stream_name| reply_stream_name == 'someReplyStreamName' })
               end
             end
+
+            context "Message That Was Not Written" do
+              test "No block argument" do
+                refute(writer.written?(Object.new))
+              end
+            end
           end
         end
       end
