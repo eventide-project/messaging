@@ -6,11 +6,11 @@ module Messaging
       cls.class_exec do
         dependency :handler_logger, ::Log
 
-        cls.extend Build
-        cls.extend Call
-        cls.extend Info
-        cls.extend HandleMacro
-        cls.extend MessageRegistry
+        extend Build
+        extend Call
+        extend Info
+        extend HandleMacro
+        extend MessageRegistry
 
         virtual :configure
 
