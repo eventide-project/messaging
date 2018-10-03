@@ -89,7 +89,6 @@ module Messaging
     end
 
     def reply(message)
-## TODO should be enumerable
       if message.is_a? Array
         error_msg = "Cannot reply with a batch"
         logger.error { error_msg }
