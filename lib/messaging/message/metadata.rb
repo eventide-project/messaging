@@ -53,9 +53,9 @@ module Messaging
       end
 
       def follows?(metadata)
-        causation_message_identifier == metadata.identifier &&
+        causation_message_stream_name == metadata.stream_name &&
+          causation_message_position == metadata.position &&
           causation_message_global_position == metadata.global_position &&
-          correlation_stream_name == metadata.correlation_stream_name &&
           reply_stream_name == metadata.reply_stream_name
       end
 
