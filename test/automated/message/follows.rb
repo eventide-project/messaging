@@ -16,7 +16,10 @@ context "Message" do
 
   context "Metadata doesn't follow" do
     context "Any workflow attribute isn't equal" do
-      [:causation_message_stream_name, :correlation_stream_name, :reply_stream_name].each do |attribute|
+      [
+        :causation_message_stream_name,
+        :reply_stream_name
+      ].each do |attribute|
         source_message = Controls::Message.example
         message = Controls::Message.example
 
@@ -36,6 +39,17 @@ context "Message" do
         message.metadata.follow(source_message.metadata)
 
         message.metadata.causation_message_position = -1
+
+        refute(message.follows?(source_message))
+      end
+
+      test "causation_message_global_position" do
+        source_message = Controls::Message.example
+        message = Controls::Message.example
+
+        message.metadata.follow(source_message.metadata)
+
+        message.metadata.causation_message_global_position = -1
 
         refute(message.follows?(source_message))
       end
