@@ -70,6 +70,8 @@ module Messaging
       def correlated?(stream_name)
         correlation_stream_name = self.correlation_stream_name
 
+        return false if correlation_stream_name.nil?
+
         stream_name = Category.normalize(stream_name)
 
         if MessageStore::StreamName.category?(stream_name)
