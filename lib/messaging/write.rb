@@ -9,9 +9,9 @@ module Messaging
         dependency :message_writer
         dependency :telemetry, ::Telemetry
 
-        cls.extend Build
-        cls.extend Call
-        cls.extend Configure
+        extend Build
+        extend Call
+        extend Configure
 
         abstract :configure
       end
