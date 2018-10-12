@@ -6,8 +6,7 @@ module Messaging
 
     def self.included(cls)
       cls.class_exec do
-        Virtual.activate(self)
-
+        include Virtual
         include Messaging::Category
 
         virtual :category
