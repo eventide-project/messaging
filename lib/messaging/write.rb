@@ -16,6 +16,8 @@ module Messaging
         extend Configure
 
         abstract :configure
+
+        const_set :Substitute, Substitute
       end
     end
 
