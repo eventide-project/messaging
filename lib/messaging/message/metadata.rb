@@ -16,12 +16,14 @@ module Messaging
       attribute :global_position, Integer
       alias :source_message_global_position :global_position
       alias :source_message_global_position= :global_position=
+      alias :sequence :global_position
+      alias :sequence= :global_position=
 
       attribute :causation_message_stream_name, String
       attribute :causation_message_position, Integer
       attribute :causation_message_global_position, Integer
-      alias :sequence :causation_message_global_position
-      alias :sequence= :causation_message_global_position=
+      alias :causation_sequence :causation_message_global_position
+      alias :causation_sequence= :causation_message_global_position=
 
       attribute :correlation_stream_name, String
 
