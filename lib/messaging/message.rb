@@ -72,6 +72,7 @@ module Messaging
         metadata = build_metadata(metadata)
 
         new.tap do |instance|
+          instance.import(data)
           set_attributes(instance, data)
           instance.metadata = metadata
         end

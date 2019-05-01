@@ -48,6 +48,16 @@ module Messaging
         attribute :some_attribute
       end
 
+      class Import
+        include Messaging::Message
+
+        attribute :some_attribute
+
+        def import(data)
+          data[:some_attribute] = "#{data[:some_attribute]} imported"
+        end
+      end
+
       def self.message_class
         SomeMessage
       end
