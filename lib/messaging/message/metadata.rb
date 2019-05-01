@@ -43,6 +43,7 @@ module Messaging
         return nil if causation_message_stream_name.nil? || causation_message_position.nil?
         "#{causation_message_stream_name}/#{causation_message_position}"
       end
+      alias :causation_identifier :causation_message_identifier
 
       def follow(preceding_metadata)
         self.causation_message_stream_name = preceding_metadata.stream_name
