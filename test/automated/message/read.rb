@@ -1,13 +1,13 @@
 require_relative '../automated_init'
 
 context "Message" do
-  context "Import" do
+  context "Read" do
     attribute_value = SecureRandom.hex
 
-    context "Message Has Import Template Method" do
-      message = Controls::Message::Import.build(some_attribute: attribute_value)
+    context "Message Has Read Template Method" do
+      message = Controls::Message::Read.build(some_attribute: attribute_value)
 
-      control_imported_value = "#{attribute_value} imported"
+      control_imported_value = "#{attribute_value} read"
 
       imported_value = message.some_attribute
 
@@ -16,10 +16,10 @@ context "Message" do
       end
     end
 
-    context "Message Does Not Have Import Template Method" do
+    context "Message Does Not Have Read Template Method" do
       message = Controls::Message::SingleAttribute.build(some_attribute: attribute_value)
 
-      control_imported_value = "#{attribute_value} imported"
+      control_imported_value = "#{attribute_value} read"
 
       imported_value = message.some_attribute
 

@@ -48,13 +48,13 @@ module Messaging
         attribute :some_attribute
       end
 
-      class Import
+      class Read
         include Messaging::Message
 
         attribute :some_attribute
 
-        def import(data)
-          data[:some_attribute] = "#{data[:some_attribute]} imported"
+        def read(data)
+          data[:some_attribute] = "#{data[:some_attribute]} read"
         end
       end
 
