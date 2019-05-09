@@ -53,7 +53,7 @@ module Messaging
 
         attribute :some_attribute
 
-        def read(data)
+        def transform_read(data)
           data[:some_attribute] = "#{data[:some_attribute]} read"
         end
       end
