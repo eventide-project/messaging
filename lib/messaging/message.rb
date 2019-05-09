@@ -72,7 +72,11 @@ module Messaging
         metadata = build_metadata(metadata)
 
         new.tap do |instance|
-          instance.read(data)
+          # Needed because Schema::DataStructure classes are expected
+          # to support this protocol, but Message overrides build
+          instance.transform_read(data)
+          #
+
           set_attributes(instance, data)
           instance.metadata = metadata
         end
