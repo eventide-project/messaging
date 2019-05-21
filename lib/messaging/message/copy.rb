@@ -21,6 +21,10 @@ module Messaging
           receiver = receiver.build
         end
 
+        if include.nil?
+          include = source.class.attribute_names
+        end
+
         begin
           SetAttributes.(receiver, source, copy: copy, include: include, exclude: exclude, strict: strict)
         rescue SetAttributes::Attribute::Error => e
