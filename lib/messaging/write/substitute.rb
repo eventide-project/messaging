@@ -75,7 +75,7 @@ module Messaging
           end
 
           # Otherwise, proceed to subsequent inspecting using the block
-          return sink.recorded_written? do |record|
+          sink.recorded_written? do |record|
             blk.call(record.data.stream_name, record.data.expected_version, record.data.reply_stream_name)
           end
         end
@@ -90,7 +90,6 @@ module Messaging
           end
         end
 
-## TODO need to make same changes as made to written?
         def replied?(message=nil, &blk)
           if message.nil?
             if blk.nil?
