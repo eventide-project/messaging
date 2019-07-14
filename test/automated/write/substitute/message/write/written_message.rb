@@ -1,3 +1,5 @@
+require_relative '../../../../automated_init'
+
 context "Write" do
   context "Substitute" do
     context "Message" do
@@ -6,21 +8,6 @@ context "Write" do
         stream_name = Controls::StreamName.example(category: 'testSubstituteWrite')
 
         context "Written Message" do
-          context "More than One Matching Message" do
-
-            duplicate_writer = Write::Substitute.build
-
-            2.times do
-              duplicate_writer.write(message, stream_name, expected_version: 11, reply_stream_name: 'someReplyStreamName')
-            end
-
-            test "Is an error" do
-              assert proc { duplicate_writer.one_message_write { |msg| msg.instance_of?(message.class) }} do
-                raises_error? Write::Substitute::Write::Error
-              end
-            end
-          end
-
           context "One Matching Message" do
             writer = Write::Substitute.build
             writer.(message, stream_name, expected_version: 11, reply_stream_name: 'someReplyStreamName')
@@ -43,6 +30,30 @@ context "Write" do
 
             test "Message, stream name, expected_version, and reply_stream_name block arguments" do
               assert(writer.one_message_write { |msg, stream, expected_version, reply_stream_name | reply_stream_name == 'someReplyStreamName' } == message)
+            end
+          end
+
+          context "More than One Matching Message" do
+            writer = Write::Substitute.build
+
+            2.times do
+              writer.write(message, stream_name, expected_version: 11, reply_stream_name: 'someReplyStreamName')
+            end
+
+            test "Is an error" do
+              assert proc { writer.one_message_write { |msg| msg.instance_of?(message.class) }} do
+                raises_error? Write::Substitute::Error
+              end
+            end
+          end
+
+          context "No Matching Message" do
+            writer = Write::Substitute.build
+
+            message = writer.one_message_write
+
+            test "Message is nil" do
+              assert(message.nil?)
             end
           end
         end

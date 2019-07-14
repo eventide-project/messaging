@@ -6,7 +6,7 @@ context "Write" do
       message = Controls::Message.example
       stream_name = Controls::StreamName.example(category: 'testSubstituteWrite')
 
-      context "Written" do
+      context "Message Is Determined to Be Written" do
         writer = Write::Substitute.build
 
         writer.(message, stream_name, expected_version: 11, reply_stream_name: 'someReplyStreamName')
@@ -62,7 +62,7 @@ context "Write" do
         end
       end
 
-      context "Not Written" do
+      context "Message Is Determined to Not Be Written" do
         writer = Write::Substitute.build
 
         context "Detection Predicates" do

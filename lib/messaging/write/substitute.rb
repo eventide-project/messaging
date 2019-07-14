@@ -8,10 +8,10 @@ module Messaging
         end
       end
 
+      Error = Class.new(RuntimeError)
+
       class Write
         include Messaging::Write
-
-        Error = Class.new(RuntimeError)
 
         attr_accessor :sink
 
@@ -66,11 +66,16 @@ module Messaging
             return false
           end
 
+          # Is written and no inspection block is provided,
+          # therefore no subsequent inspection beyond the
+          # message being found in the telemetry
+          # Is written
           if blk.nil?
             return true
           end
 
-          return sink.recorded_written? do |record|
+          # Otherwise, proceed to subsequent inspecting using the block
+          sink.recorded_written? do |record|
             blk.call(record.data.stream_name, record.data.expected_version, record.data.reply_stream_name)
           end
         end
@@ -85,7 +90,6 @@ module Messaging
           end
         end
 
-## TODO need to make same changes as made to written?
         def replied?(message=nil, &blk)
           if message.nil?
             if blk.nil?
@@ -105,10 +109,15 @@ module Messaging
             return false
           end
 
+          # Is written and no inspection block is provided,
+          # therefore no subsequent inspection beyond the
+          # message being found in the telemetry
+          # Is written
           if blk.nil?
             return true
           end
 
+          # Otherwise, proceed to subsequent inspecting using the block
           sink.recorded_replied? do |record|
             blk.call(record.data.stream_name)
           end
@@ -128,7 +137,7 @@ module Messaging
           messages = message_writes(&blk)
 
           if messages.length > 1
-            raise Error, "More than one matching message was written"
+            raise Substitute::Error, "More than one matching message was written"
           end
 
           messages.first
@@ -149,7 +158,7 @@ module Messaging
           messages = message_replies(&blk)
 
           if messages.length > 1
-            raise Error, "More than one matching message reply was written"
+            raise Substitute::Error, "More than one matching message reply was written"
           end
 
           messages.first
