@@ -48,10 +48,10 @@ context "Write" do
           context "No Matching Message" do
             writer = Write::Substitute.build
 
-            test "Is an error" do
-              assert proc { writer.one_message_reply {} } do
-                raises_error? Write::Substitute::Error
-              end
+            message = writer.one_message_reply
+
+            test "Message is nil" do
+              assert(message.nil?)
             end
           end
         end

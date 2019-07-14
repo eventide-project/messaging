@@ -140,10 +140,6 @@ module Messaging
             raise Substitute::Error, "More than one matching message was written"
           end
 
-          if messages.length == 0
-            raise Substitute::Error, "No matching message was written"
-          end
-
           messages.first
         end
         alias :one_message :one_message_write
@@ -163,10 +159,6 @@ module Messaging
 
           if messages.length > 1
             raise Substitute::Error, "More than one matching message reply was written"
-          end
-
-          if messages.length == 0
-            raise Substitute::Error, "No matching message reply was written"
           end
 
           messages.first
