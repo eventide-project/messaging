@@ -8,10 +8,10 @@ module Messaging
         end
       end
 
+      Error = Class.new(RuntimeError)
+
       class Write
         include Messaging::Write
-
-        Error = Class.new(RuntimeError)
 
         attr_accessor :sink
 
@@ -131,11 +131,11 @@ module Messaging
           messages = message_writes(&blk)
 
           if messages.length > 1
-            raise Error, "More than one matching message was written"
+            raise Substitute::Error, "More than one matching message was written"
           end
 
           if messages.length == 0
-            raise Error, "No matching message was written"
+            raise Substitute::Error, "No matching message was written"
           end
 
           messages.first
@@ -156,11 +156,11 @@ module Messaging
           messages = message_replies(&blk)
 
           if messages.length > 1
-            raise Error, "More than one matching message reply was written"
+            raise Substitute::Error, "More than one matching message reply was written"
           end
 
           if messages.length == 0
-            raise Error, "No matching message reply was written"
+            raise Substitute::Error, "No matching message reply was written"
           end
 
           messages.first

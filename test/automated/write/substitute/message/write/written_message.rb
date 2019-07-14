@@ -42,7 +42,7 @@ context "Write" do
 
             test "Is an error" do
               assert proc { writer.one_message_write { |msg| msg.instance_of?(message.class) }} do
-                raises_error? Write::Substitute::Write::Error
+                raises_error? Write::Substitute::Error
               end
             end
           end
@@ -52,7 +52,7 @@ context "Write" do
 
             test "Is an error" do
               assert proc { writer.one_message_write {} } do
-                raises_error? Write::Substitute::Write::Error
+                raises_error? Write::Substitute::Error
               end
             end
           end
