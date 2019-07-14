@@ -9,16 +9,16 @@ context "Write" do
             message = Controls::Message.example
             reply_stream_name = message.metadata.reply_stream_name
 
-            duplicate_writer = Write::Substitute.build
+            writer = Write::Substitute.build
 
             2.times do
               message = Controls::Message.example
 
-              duplicate_writer.reply(message)
+              writer.reply(message)
             end
 
             test "Is an error" do
-              assert proc { duplicate_writer.one_message_reply { |msg| msg.instance_of?(message.class) }} do
+              assert proc { writer.one_message_reply { |msg| msg.instance_of?(message.class) }} do
                 raises_error? Write::Substitute::Write::Error
               end
             end

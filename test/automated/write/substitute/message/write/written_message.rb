@@ -10,14 +10,14 @@ context "Write" do
         context "Written Message" do
           context "More than One Matching Message" do
 
-            duplicate_writer = Write::Substitute.build
+            writer = Write::Substitute.build
 
             2.times do
-              duplicate_writer.write(message, stream_name, expected_version: 11, reply_stream_name: 'someReplyStreamName')
+              writer.write(message, stream_name, expected_version: 11, reply_stream_name: 'someReplyStreamName')
             end
 
             test "Is an error" do
-              assert proc { duplicate_writer.one_message_write { |msg| msg.instance_of?(message.class) }} do
+              assert proc { writer.one_message_write { |msg| msg.instance_of?(message.class) }} do
                 raises_error? Write::Substitute::Write::Error
               end
             end
