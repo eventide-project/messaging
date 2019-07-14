@@ -1,3 +1,5 @@
+require_relative '../../../../automated_init'
+
 context "Write" do
   context "Substitute" do
     context "Message" do
