@@ -6,7 +6,7 @@ context "Write" do
       message = Controls::Message.example
       reply_stream_name = message.metadata.reply_stream_name
 
-      context "Replied" do
+      context "Reply Is Determined to Be Written" do
         writer = Write::Substitute.build
 
         writer.reply(message)
@@ -38,7 +38,7 @@ context "Write" do
         end
       end
 
-      context "Not Replied" do
+      context "Reply Is Determined to Not Be Written" do
         writer = Write::Substitute.build
 
         context "Detection Predicates" do

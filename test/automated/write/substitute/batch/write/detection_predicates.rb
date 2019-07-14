@@ -10,7 +10,7 @@ context "Write" do
 
       batch = [message_1, message_2]
 
-      context "Written" do
+      context "Batch Is Determined to Be Written" do
         write = Write::Substitute.build
 
         write.(batch, stream_name, expected_version: 11, reply_stream_name: 'someReplyStreamName')
@@ -42,7 +42,7 @@ context "Write" do
         end
       end
 
-      context "Written" do
+      context "Batch Is Determined to Not Be Written" do
         write = Write::Substitute.build
 
         context "Detection Predicates" do
