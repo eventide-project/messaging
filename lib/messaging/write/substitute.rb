@@ -66,13 +66,15 @@ module Messaging
             return false
           end
 
-          # Is written an no inspection block is provided
-          # So, the answer to written? is true
+          # Is written and no inspection block is provided,
+          # therefore no subsequent inspection beyond the
+          # message being found in the telemetry
+          # Is written
           if blk.nil?
             return true
           end
 
-          # Otherwise, proceed to inspecting using the block
+          # Otherwise, proceed to subsequent inspecting using the block
           return sink.recorded_written? do |record|
             blk.call(record.data.stream_name, record.data.expected_version, record.data.reply_stream_name)
           end
@@ -108,10 +110,15 @@ module Messaging
             return false
           end
 
+          # Is written and no inspection block is provided,
+          # therefore no subsequent inspection beyond the
+          # message being found in the telemetry
+          # Is written
           if blk.nil?
             return true
           end
 
+          # Otherwise, proceed to subsequent inspecting using the block
           sink.recorded_replied? do |record|
             blk.call(record.data.stream_name)
           end
