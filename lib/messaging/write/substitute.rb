@@ -66,10 +66,13 @@ module Messaging
             return false
           end
 
+          # Is written an no inspection block is provided
+          # So, the answer to written? is true
           if blk.nil?
             return true
           end
 
+          # Otherwise, proceed to inspecting using the block
           return sink.recorded_written? do |record|
             blk.call(record.data.stream_name, record.data.expected_version, record.data.reply_stream_name)
           end
@@ -131,6 +134,10 @@ module Messaging
             raise Error, "More than one matching message was written"
           end
 
+          if messages.length == 0
+            raise Error, "No matching message was written"
+          end
+
           messages.first
         end
         alias :one_message :one_message_write
@@ -150,6 +157,10 @@ module Messaging
 
           if messages.length > 1
             raise Error, "More than one matching message reply was written"
+          end
+
+          if messages.length == 0
+            raise Error, "No matching message reply was written"
           end
 
           messages.first
