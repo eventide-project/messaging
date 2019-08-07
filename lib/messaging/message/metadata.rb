@@ -26,6 +26,10 @@ module Messaging
       alias :causation_sequence= :causation_message_global_position=
 
       attribute :correlation_stream_name, String
+      alias :origin_stream_name :correlation_stream_name
+      alias :origin_stream_name= :correlation_stream_name=
+      alias :origin :correlation_stream_name
+      alias :origin= :correlation_stream_name=
 
       attribute :reply_stream_name, String
 
