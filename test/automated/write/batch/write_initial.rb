@@ -33,8 +33,8 @@ context "Write" do
       Write.(message, stream_name)
 
       test "Is an error" do
-        assert proc { write.initial(batch, stream_name) } do
-          raises_error? MessageStore::ExpectedVersion::Error
+        assert_raises MessageStore::ExpectedVersion::Error do
+          write.initial(batch, stream_name)
         end
       end
     end
