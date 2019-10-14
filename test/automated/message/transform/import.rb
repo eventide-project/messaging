@@ -38,8 +38,8 @@ context "Message" do
 
   context "MessageData type is not the message's type" do
     test "Is an error" do
-      assert proc { Message::Import.(message_data, Controls::Message::OtherMessage) } do
-        raises_error? Message::Import::Error
+      assert_raises Message::Import::Error do
+        Message::Import.(message_data, Controls::Message::OtherMessage)
       end
     end
   end

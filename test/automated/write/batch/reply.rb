@@ -13,8 +13,8 @@ context "Write" do
       write = Controls::Write.example
 
       test "Is an error" do
-        assert proc { write.reply(batch) } do
-          raises_error? Messaging::Write::Error
+        assert_raises Messaging::Write::Error do
+          write.reply(batch)
         end
       end
     end

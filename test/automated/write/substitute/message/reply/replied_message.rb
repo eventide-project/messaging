@@ -39,8 +39,8 @@ context "Write" do
             end
 
             test "Is an error" do
-              assert proc { writer.one_message_reply { |msg| msg.instance_of?(message.class) }} do
-                raises_error? Write::Substitute::Error
+              assert_raises Write::Substitute::Error do
+                writer.one_message_reply { |msg| msg.instance_of?(message.class) }
               end
             end
           end

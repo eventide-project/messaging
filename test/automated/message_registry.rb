@@ -16,8 +16,8 @@ context "Message Registry" do
 
   context "Registering message classes more than once" do
     test "Is an error" do
-      assert proc { registry.register(message_class) } do
-        raises_error? MessageRegistry::Error
+      assert_raises MessageRegistry::Error do
+        registry.register(message_class)
       end
     end
   end

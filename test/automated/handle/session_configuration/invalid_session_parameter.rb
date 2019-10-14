@@ -10,16 +10,16 @@ context "Handle" do
           session = Object.new
 
           test "Argument error is raised" do
-            assert proc { handler_class.build(session: session) } do
-              raises_error?(ArgumentError)
+            assert_raises ArgumentError do
+              handler_class.build(session: session)
             end
           end
         end
 
         context "Not Given" do
           test "Argument error is raised" do
-            assert proc { handler_class.build } do
-              raises_error?(ArgumentError)
+            assert_raises ArgumentError do
+              handler_class.build
             end
           end
         end
@@ -32,16 +32,16 @@ context "Handle" do
           session = Object.new
 
           test "Argument error is raised" do
-            assert proc { handler_class.build(session: session) } do
-              raises_error?(ArgumentError)
+            assert_raises ArgumentError do
+              handler_class.build(session: session)
             end
           end
         end
 
         context "Not Given" do
           test "Argument error is raised" do
-            assert proc { handler_class.build } do
-              raises_error?(ArgumentError)
+            assert_raises ArgumentError do
+              handler_class.build
             end
           end
         end
@@ -54,16 +54,16 @@ context "Handle" do
           session = Object.new
 
           test "Argument error is raised" do
-            assert proc { handler_class.build(session: session) } do
-              raises_error?(ArgumentError)
+            assert_raises ArgumentError do
+              handler_class.build(session: session)
             end
           end
         end
 
         context "Not Given" do
           test "Argument error is raised" do
-            assert proc { handler_class.build } do
-              raises_error?(ArgumentError)
+            assert_raises ArgumentError do
+              handler_class.build
             end
           end
         end

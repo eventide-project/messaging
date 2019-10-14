@@ -12,8 +12,8 @@ context "Write" do
           writer.raise_expected_version_error!
 
           test "Expected version is no_stream" do
-            assert proc { writer.reply(message) } do
-              raises_error? MessageStore::ExpectedVersion::Error
+            assert_raises MessageStore::ExpectedVersion::Error do
+              writer.reply(message)
             end
           end
         end

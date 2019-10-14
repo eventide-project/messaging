@@ -17,8 +17,8 @@ context "Handle" do
 
       context "Not Given" do
         test "Argument error not raised" do
-          refute proc { handler_class.build } do
-            raises_error?(ArgumentError)
+          refute_raises ArgumentError do
+            handler_class.build
           end
         end
       end
