@@ -28,7 +28,7 @@ context "Write" do
       write.(message, stream_name)
 
       test "Is an error" do
-        assert_raises MessageStore::ExpectedVersion::Error do
+        assert_raises(MessageStore::ExpectedVersion::Error) do
           write.initial(message, stream_name)
         end
       end

@@ -11,7 +11,7 @@ context "Write" do
       write = Write.build
 
       test "Is an error" do
-        assert_raises Messaging::Write::Error do
+        assert_raises(Messaging::Write::Error) do
           write.reply(message)
         end
       end

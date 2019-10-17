@@ -33,7 +33,7 @@ context "Write" do
       Write.(message, stream_name)
 
       test "Is an error" do
-        assert_raises MessageStore::ExpectedVersion::Error do
+        assert_raises(MessageStore::ExpectedVersion::Error) do
           write.initial(batch, stream_name)
         end
       end

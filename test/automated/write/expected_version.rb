@@ -18,7 +18,7 @@ context "Write" do
 
     context "Wrong Version" do
       test "Fails" do
-        assert_raises MessageStore::ExpectedVersion::Error do
+        assert_raises(MessageStore::ExpectedVersion::Error) do
           Write.(message_2, stream_name, expected_version: 11)
         end
       end
