@@ -38,7 +38,7 @@ context "Message" do
 
   context "MessageData type is not the message's type" do
     test "Is an error" do
-      assert_raises Message::Import::Error do
+      assert_raises(Message::Import::Error) do
         Message::Import.(message_data, Controls::Message::OtherMessage)
       end
     end

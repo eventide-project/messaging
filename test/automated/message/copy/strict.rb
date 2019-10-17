@@ -8,7 +8,7 @@ context "Message" do
         receiver = source.class.new
 
         test "Is not an error" do
-          refute_raises Message::Copy::Error do
+          refute_raises(Message::Copy::Error) do
             Message::Copy.(source, receiver, strict: true)
           end
         end
@@ -19,7 +19,7 @@ context "Message" do
         receiver = Controls::Message::SingleAttribute.new
 
         test "Is an error" do
-          assert_raises Message::Copy::Error do
+          assert_raises(Message::Copy::Error) do
             Message::Copy.(source, receiver, strict: true)
           end
         end
@@ -33,7 +33,7 @@ context "Message" do
       receiver = Controls::Message::SingleAttribute.new
 
       test "Is not an error" do
-        refute_raises Message::Copy::Error do
+        refute_raises(Message::Copy::Error) do
           Message::Copy.(source, receiver)
         end
       end

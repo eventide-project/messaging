@@ -8,7 +8,7 @@ context "Handle" do
           message = Controls::Message::New.example
 
           test "Is an error" do
-            assert_raises Handle::Error do
+            assert_raises(Handle::Error) do
               Controls::Handler::Anomaly::NoHandle::Example.new.(message, strict: true)
             end
           end

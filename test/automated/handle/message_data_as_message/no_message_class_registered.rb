@@ -8,7 +8,7 @@ context "Handle" do
           message_data = Controls::MessageData::Read.example(type: 'UnregisteredMessage')
 
           test "Is an error" do
-            assert_raises Messaging::Handle::Error do
+            assert_raises(Messaging::Handle::Error) do
               Controls::Handler::UnregisteredMessage::Example.(message_data)
             end
           end

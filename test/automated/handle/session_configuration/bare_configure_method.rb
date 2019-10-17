@@ -9,7 +9,7 @@ context "Handle" do
         session = Object.new
 
         test "Argument error not raised" do
-          refute_raises ArgumentError do
+          refute_raises(ArgumentError) do
             handler_class.build(session: session)
           end
         end
@@ -17,7 +17,7 @@ context "Handle" do
 
       context "Not Given" do
         test "Argument error not raised" do
-          refute_raises ArgumentError do
+          refute_raises(ArgumentError) do
             handler_class.build
           end
         end

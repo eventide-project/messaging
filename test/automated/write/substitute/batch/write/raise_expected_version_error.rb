@@ -17,7 +17,7 @@ context "Write" do
           writer.raise_expected_version_error!
 
           test "Expected version is no_stream" do
-            assert_raises MessageStore::ExpectedVersion::Error do
+            assert_raises(MessageStore::ExpectedVersion::Error) do
               writer.(batch, stream_name)
             end
           end

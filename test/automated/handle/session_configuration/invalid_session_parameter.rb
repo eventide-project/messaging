@@ -10,7 +10,7 @@ context "Handle" do
           session = Object.new
 
           test "Argument error is raised" do
-            assert_raises ArgumentError do
+            assert_raises(ArgumentError) do
               handler_class.build(session: session)
             end
           end
@@ -18,7 +18,7 @@ context "Handle" do
 
         context "Not Given" do
           test "Argument error is raised" do
-            assert_raises ArgumentError do
+            assert_raises(ArgumentError) do
               handler_class.build
             end
           end
@@ -32,7 +32,7 @@ context "Handle" do
           session = Object.new
 
           test "Argument error is raised" do
-            assert_raises ArgumentError do
+            assert_raises(ArgumentError) do
               handler_class.build(session: session)
             end
           end
@@ -40,7 +40,7 @@ context "Handle" do
 
         context "Not Given" do
           test "Argument error is raised" do
-            assert_raises ArgumentError do
+            assert_raises(ArgumentError) do
               handler_class.build
             end
           end
@@ -54,7 +54,7 @@ context "Handle" do
           session = Object.new
 
           test "Argument error is raised" do
-            assert_raises ArgumentError do
+            assert_raises(ArgumentError) do
               handler_class.build(session: session)
             end
           end
@@ -62,7 +62,7 @@ context "Handle" do
 
         context "Not Given" do
           test "Argument error is raised" do
-            assert_raises ArgumentError do
+            assert_raises(ArgumentError) do
               handler_class.build
             end
           end
