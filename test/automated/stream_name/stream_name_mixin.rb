@@ -1,7 +1,7 @@
 require_relative '../automated_init'
 
 context "Stream Name" do
-  example = Controls::StreamName::Named.example
+  example = Controls::StreamName::NamedCategory.example
 
   context "Category Macro" do
     context "Specify Category" do
@@ -13,7 +13,7 @@ context "Stream Name" do
     context "Overridden" do
       category = 'otherCategory'
 
-      overridden_example = Controls::StreamName::Named.example
+      overridden_example = Controls::StreamName::NamedCategory.example
 
       overridden_example.category = category
 

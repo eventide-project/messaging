@@ -1,7 +1,7 @@
 require_relative 'automated_init'
 
 context "Stream Name" do
-  example = Controls::StreamName::Named.example
+  example = Controls::StreamName::NamedCategory.example
 
   context "Macro" do
     test "Adds the category getter" do

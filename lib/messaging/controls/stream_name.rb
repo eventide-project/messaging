@@ -3,7 +3,7 @@ module Messaging
     StreamName = MessageStore::Controls::StreamName
 
     module StreamName
-      module Named
+      module NamedCategory
         def self.example
           Example.new
         end
