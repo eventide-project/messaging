@@ -1,19 +1,35 @@
 require_relative '../automated_init'
 
 context "Stream Name" do
-  context "Get ID" do
-    test "Is the part of a stream name after the first dash" do
-      id = Identifier::UUID.random
-      stream_name = "someStream-#{id}"
+  context "Get IDs" do
+    context "Compound ID in the Stream Name" do
+      id = 'some_id+some_other_id'
+      stream_name = "someCategory-#{id}"
 
-      stream_id = StreamName.get_id(stream_name)
+      stream_ids = StreamName.get_ids(stream_name)
 
-      assert(stream_id == id)
+      test "ID is a list of values" do
+        assert(stream_ids == ['some_id', 'some_other_id'])
+      end
     end
 
-    test "Is nil if there is no ID part in the stream name" do
-      stream_id = StreamName.get_id('someStream')
-      assert(stream_id.nil?)
+    context "Single ID in the Stream Name" do
+      id = 'some_id'
+      stream_name = "someCategory-#{id}"
+
+      stream_ids = StreamName.get_ids(stream_name)
+
+      test "ID list has a single entry" do
+        assert(stream_ids == ['some_id'])
+      end
+    end
+
+    context "No ID in the Stream Name" do
+      stream_ids = StreamName.get_ids('someStream')
+
+      test "ID is an empty list" do
+        assert(stream_ids == [])
+      end
     end
   end
 end

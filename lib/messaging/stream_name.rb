@@ -54,5 +54,9 @@ module Messaging
     def self.get_id(stream_name)
       MessageStore::StreamName.get_id(stream_name)
     end
+
+    def self.get_ids(stream_name)
+      MessageStore::StreamName.get_ids(stream_name)
+    end
   end
 end
