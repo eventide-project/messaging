@@ -3,8 +3,7 @@ require_relative '../automated_init'
 context "Stream Name" do
   context "Get IDs" do
     context "Compound ID in the Stream Name" do
-      id = 'some_id+some_other_id'
-      stream_name = "someCategory-#{id}"
+      stream_name = 'someCategory-some_id+some_other_id'
 
       stream_ids = StreamName.get_ids(stream_name)
 
@@ -14,8 +13,7 @@ context "Stream Name" do
     end
 
     context "Single ID in the Stream Name" do
-      id = 'some_id'
-      stream_name = "someCategory-#{id}"
+      stream_name = "someCategory-some_id"
 
       stream_ids = StreamName.get_ids(stream_name)
 
