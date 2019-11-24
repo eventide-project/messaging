@@ -2,13 +2,12 @@ require_relative '../automated_init'
 
 context "Stream Name" do
   context "Get ID" do
-    context "Single ID in the Stream Name" do
-      id = 'some_id'
-      stream_name = "someCategory-#{id}"
+    context "ID in the Stream Name" do
+      stream_name = 'someCategory-some_id'
 
       stream_id = StreamName.get_id(stream_name)
 
-      test "ID value is parsed" do
+      test "ID is parsed" do
         assert(stream_id == 'some_id')
       end
     end
