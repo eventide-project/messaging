@@ -59,6 +59,10 @@ module Messaging
       MessageStore::StreamName.get_category(stream_name)
     end
 
+    def self.category?(stream_name)
+      MessageStore::StreamName.category?(stream_name)
+    end
+
     def self.get_id(stream_name)
       MessageStore::StreamName.get_id(stream_name)
     end
