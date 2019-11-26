@@ -1,34 +1,34 @@
-require_relative '../automated_init'
+require_relative '../../automated_init'
 
 context "Stream Name" do
-  context "Get Type" do
-    context "Type in the Stream Name" do
+  context "Get Types" do
+    context "Single Type in the Stream Name" do
       stream_name = 'someCategory:someType'
 
-      type = StreamName.get_type(stream_name)
+      types = StreamName.get_types(stream_name)
 
       test "Type is parsed" do
-        assert(type == 'someType')
+        assert(types == ['someType'])
       end
     end
 
     context "Compound Type in the Stream Name" do
       stream_name = 'someCategory:someType+someOtherType'
 
-      type = StreamName.get_type(stream_name)
+      types = StreamName.get_types(stream_name)
 
       test "Type is parsed" do
-        assert(type == 'someType+someOtherType')
+        assert(types == ['someType', 'someOtherType'])
       end
     end
 
     context "No Type in the Stream Name" do
       stream_name = 'someCategory'
 
-      type = StreamName.get_type(stream_name)
+      types = StreamName.get_types(stream_name)
 
       test "Type is nil" do
-        assert(type.nil?)
+        assert(types = [])
       end
     end
   end
