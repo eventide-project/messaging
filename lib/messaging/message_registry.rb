@@ -8,6 +8,12 @@ module Messaging
       @message_classes ||= []
     end
 
+    def message_types
+      message_classes.map do |message_class|
+        message_class.message_type
+      end
+    end
+
     def get(message_name)
       message_classes.find do |message_class|
         message_class.message_name == message_name
