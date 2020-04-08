@@ -4,12 +4,12 @@ module Messaging
 
     include Log::Dependency
 
-    def entries
-      @entries ||= []
+    def message_classes
+      @message_classes ||= []
     end
 
     def get(message_name)
-      entries.find do |message_class|
+      message_classes.find do |message_class|
         message_class.message_name == message_name
       end
     end
@@ -22,19 +22,19 @@ module Messaging
         raise Error, error_msg
       end
 
-      entries << message_class
+      message_classes << message_class
 
       logger.debug { "Registered #{message_class}"}
 
-      entries
+      message_classes
     end
 
     def registered?(message_class)
-      entries.include?(message_class)
+      message_classes.include?(message_class)
     end
 
     def length
-      entries.length
+      message_classes.length
     end
   end
 end
