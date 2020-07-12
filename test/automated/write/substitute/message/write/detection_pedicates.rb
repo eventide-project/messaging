@@ -54,8 +54,10 @@ context "Write" do
             end
 
             context "Message That Was Not Written" do
+              other_message = Controls::Message::SomeMessage.build
+
               test "No block argument" do
-                refute(writer.written?(Object.new))
+                refute(writer.written?(other_message))
               end
             end
           end
