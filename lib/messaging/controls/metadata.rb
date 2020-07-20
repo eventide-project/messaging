@@ -13,6 +13,10 @@ module Messaging
         1
       end
 
+      def self.global_position
+        222
+      end
+
       def self.causation_message_stream_name
         "someCausation"
       end
@@ -22,7 +26,7 @@ module Messaging
       end
 
       def self.causation_message_global_position
-        222
+        111
       end
 
       def self.correlation_stream_name
@@ -43,10 +47,6 @@ module Messaging
 
       def self.causation_message_identifier
         "#{causation_message_stream_name}/#{causation_message_position}"
-      end
-
-      def self.global_position
-        111
       end
 
       def self.time
