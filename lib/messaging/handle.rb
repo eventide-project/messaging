@@ -7,7 +7,10 @@ module Messaging
         include Dependency
         include Virtual
 
-        dependency :handler_logger, ::Log
+        def handler_logger
+          @handler_logger ||= Log.get(self)
+        end
+        attr_writer :handler_logger
 
         extend Build
         extend Call
@@ -25,7 +28,6 @@ module Messaging
       def build(strict: nil, session: nil)
         instance = new
         instance.strict = strict
-        Log.configure(instance, attr_name: :handler_logger)
 
         if Build.configure_session?(instance)
           instance.configure(session: session)
@@ -48,12 +50,12 @@ module Messaging
         return true if parameter_type == :key
 
         error_message = "Optional session parameter of configure is not a keyword argument (Type: #{parameter_type.inspect})"
-        logger.error(tag: :handle) { error_message }
+        handler_logger.error(tag: :handle) { error_message }
         raise ArgumentError, error_message
       end
 
-      def self.logger
-        @logger ||= Log.build(self)
+      def self.handler_logger
+        @handler_logger ||= Log.get(self)
       end
     end
 
