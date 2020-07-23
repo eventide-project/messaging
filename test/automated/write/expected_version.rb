@@ -12,7 +12,9 @@ context "Write" do
 
     context "Right Version" do
       test "Succeeds" do
-        Write.(message_2, stream_name, expected_version: 0)
+        refute_raises(MessageStore::ExpectedVersion::Error) do
+          Write.(message_2, stream_name, expected_version: 0)
+        end
       end
     end
 
