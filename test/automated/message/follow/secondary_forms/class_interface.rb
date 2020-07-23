@@ -10,7 +10,7 @@ context "Message" do
           receiver = source.class.follow(source)
 
           test "Message follows the preceding message" do
-            receiver.follows?(source)
+            assert(receiver.follows?(source))
           end
 
           test "Constructs the class" do
