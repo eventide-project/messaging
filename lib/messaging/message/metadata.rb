@@ -59,11 +59,36 @@ module Messaging
         self.reply_stream_name = preceding_metadata.reply_stream_name
       end
 
-      def follows?(metadata)
-        causation_message_stream_name == metadata.stream_name &&
-          causation_message_position == metadata.position &&
-          causation_message_global_position == metadata.global_position &&
-          reply_stream_name == metadata.reply_stream_name
+      def follows?(preceding_metadata)
+        if causation_message_stream_name.nil? && preceding_metadata.stream_name.nil?
+          return false
+        end
+
+        if causation_message_position.nil? && preceding_metadata.position.nil?
+          return false
+        end
+
+        if causation_message_global_position.nil? && preceding_metadata.global_position.nil?
+          return false
+        end
+
+        if causation_message_stream_name != preceding_metadata.stream_name
+          return false
+        end
+
+        if causation_message_position != preceding_metadata.position
+          return false
+        end
+
+        if causation_message_global_position != preceding_metadata.global_position
+          return false
+        end
+
+        if reply_stream_name != preceding_metadata.reply_stream_name
+          return false
+        end
+
+        true
       end
 
       def clear_reply_stream_name
