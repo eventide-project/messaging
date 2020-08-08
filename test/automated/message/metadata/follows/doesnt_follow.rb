@@ -2,7 +2,7 @@ require_relative '../../../automated_init'
 
 context "Message" do
   context "Metadata" do
-    context "Doesn't Follow" do
+    context "Follows" do
       source_metadata = Controls::Metadata::Random.example
 
       context "Any Workflow Attribute Isn't Precedent" do
@@ -16,13 +16,13 @@ context "Message" do
 
             metadata.send "#{attribute}=", SecureRandom.hex
 
-            test attribute.to_s do
+            test "Doesn't follow" do
               refute(metadata.follows?(source_metadata))
             end
           end
         end
 
-        test "causation_message_position" do
+        context "causation_message_position" do
           metadata = Controls::Metadata::Random.example
 
           metadata.follow(source_metadata)
@@ -31,10 +31,12 @@ context "Message" do
 
           metadata.causation_message_position = Controls::Random::Number.example
 
-          refute(metadata.follows?(source_metadata))
+          test "Doesn't follow" do
+            refute(metadata.follows?(source_metadata))
+          end
         end
 
-        test "causation_message_global_position" do
+        context "causation_message_global_position" do
           metadata = Controls::Metadata::Random.example
 
           metadata.follow(source_metadata)
@@ -43,7 +45,9 @@ context "Message" do
 
           metadata.causation_message_global_position = Controls::Random::Number.example
 
-          refute(metadata.follows?(source_metadata))
+          test "Doesn't follow" do
+            refute(metadata.follows?(source_metadata))
+          end
         end
       end
     end

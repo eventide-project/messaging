@@ -1,9 +1,9 @@
-require_relative '../../../automated_init'
+require_relative '../../../../automated_init'
 
 context "Message" do
   context "Metadata" do
-    context "Doesn't Follow" do
-      context "Nil Values" do
+    context "Nil Values" do
+      context "Origin Attributes" do
         Pair = Struct.new(:source_attribute, :receiver_attribute)
 
         attribute_pairs = [
