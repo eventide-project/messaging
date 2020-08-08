@@ -127,12 +127,11 @@ module Messaging
       end
       alias :correlates? :correlated?
 
-      def self.transient_attributes
+      def self.source_attributes
         [
           :stream_name,
           :position,
-          :global_position,
-          :time
+          :global_position
         ]
       end
 
@@ -145,11 +144,12 @@ module Messaging
         ]
       end
 
-      def self.source_attributes
+      def self.transient_attributes
         [
           :stream_name,
           :position,
-          :global_position
+          :global_position,
+          :time
         ]
       end
     end
