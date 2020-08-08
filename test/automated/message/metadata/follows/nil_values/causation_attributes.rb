@@ -3,14 +3,17 @@ require_relative '../../../../automated_init'
 context "Message" do
   context "Metadata" do
     context "Nil Values" do
-      context "Origin Attributes" do
-        attributes = [
-          :correlation_stream_name,
-          :reply_stream_name
+      context "Causation Attributes" do
+        Pair = Struct.new(:source_attribute, :receiver_attribute)
+
+        attribute_pairs = [
+          Pair.new(:stream_name, :causation_message_stream_name),
+          Pair.new(:position, :causation_message_position),
+          Pair.new(:global_position, :causation_message_global_position)
         ]
 
         context "Any Pair of Workflow Attributes Where Both Values Are Nil" do
-          attributes.each do |attribute|
+          attribute_pairs.each do |pair|
             source_metadata = Controls::Metadata::Random.example
             metadata = Controls::Metadata::Random.example
 
