@@ -135,11 +135,17 @@ module Messaging
         ]
       end
 
-      def self.workflow_attributes
+      def self.causation_attributes
         [
           :causation_message_stream_name,
           :causation_message_position,
-          :causation_message_global_position,
+          :causation_message_global_position
+        ]
+      end
+
+      def self.workflow_attributes
+        causation_attributes + [
+          :correlation_stream_name,
           :reply_stream_name
         ]
       end
