@@ -17,7 +17,7 @@ context "Message" do
         detail "Control Attribute Names: #{control_attribute_names}"
         detail "Attribute Names: #{attribute_names}"
 
-        _test do
+        test do
           assert(attribute_names == control_attribute_names)
         end
       end

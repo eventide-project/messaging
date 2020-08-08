@@ -59,43 +59,44 @@ module Messaging
         self.reply_stream_name = preceding_metadata.reply_stream_name
       end
 
-      def follows?(preceding_metadata, exclude: nil)
-        exclude = Array(exclude)
+      def follows?(preceding_metadata)
+        ## TODO refactor to other methods
 
-        if not exclude.include?(:causation_message_stream_name)
-          if causation_message_stream_name.nil? && preceding_metadata.stream_name.nil?
-            return false
-          end
+        if causation_message_stream_name.nil? && preceding_metadata.stream_name.nil?
+          return false
+        end
 
-          if causation_message_stream_name != preceding_metadata.stream_name
+        if causation_message_stream_name != preceding_metadata.stream_name
+          return false
+        end
+
+
+        if causation_message_position.nil? && preceding_metadata.position.nil?
+          return false
+        end
+
+        if causation_message_position != preceding_metadata.position
+          return false
+        end
+
+
+        if causation_message_global_position.nil? && preceding_metadata.global_position.nil?
+          return false
+        end
+
+        if causation_message_global_position != preceding_metadata.global_position
+          return false
+        end
+
+
+        if not preceding_metadata.correlation_stream_name.nil?
+          if correlation_stream_name != preceding_metadata.correlation_stream_name
             return false
           end
         end
 
 
-        if not exclude.include?(:causation_message_position)
-          if causation_message_position.nil? && preceding_metadata.position.nil?
-            return false
-          end
-
-          if causation_message_position != preceding_metadata.position
-            return false
-          end
-        end
-
-
-        if not exclude.include?(:causation_message_global_position)
-          if causation_message_global_position.nil? && preceding_metadata.global_position.nil?
-            return false
-          end
-
-          if causation_message_global_position != preceding_metadata.global_position
-            return false
-          end
-        end
-
-
-        if not exclude.include?(:reply_stream_name)
+        if not preceding_metadata.reply_stream_name.nil?
           if reply_stream_name != preceding_metadata.reply_stream_name
             return false
           end

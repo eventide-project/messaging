@@ -2,31 +2,32 @@ require_relative '../../../../automated_init'
 
 context "Message" do
   context "Metadata" do
-    context "Nil Values" do
-      context "Origin Attributes" do
-        attributes = [
-          :correlation_stream_name,
-          :reply_stream_name
-        ]
-
-        context "Any Pair of Workflow Attributes Where Both Values Are Nil" do
-          attributes.each do |attribute|
-            source_metadata = Controls::Metadata::Random.example
+    context "Follows" do
+      context "Nil Values" do
+        context "Origin Attributes" do
+          context "Source Value is Not Set" do
             metadata = Controls::Metadata::Random.example
 
-            metadata.causation_message_stream_name = source_metadata.stream_name
-            metadata.causation_message_position = source_metadata.position
-            metadata.causation_message_global_position = source_metadata.global_position
-            # metadata.reply_stream_name = source_metadata.reply_stream_name
+            Message::Metadata.origin_attributes.each do |attribute|
+              source_metadata = Controls::Metadata::Random.example
 
-            source_attribute = pair.source_attribute
-            receiver_attribute = pair.receiver_attribute
+              metadata.follow(source_metadata)
 
-            source_metadata.send "#{source_attribute}=", nil
-            metadata.send "#{receiver_attribute}=", nil
+              assert(metadata.follows?(source_metadata))
 
-            context "#{source_attribute}, #{receiver_attribute}" do
-              refute(metadata.follows?(source_metadata))
+              value = metadata.send(attribute)
+              refute(value.nil?)
+
+              source_metadata.send("#{attribute}=", nil)
+
+              context "#{attribute}" do
+                detail "Source Metadata:\n#{source_metadata.all_attributes.pretty_inspect}"
+                detail "Metadata:\n#{metadata.all_attributes.pretty_inspect}"
+
+                test "Follows" do
+                  assert(metadata.follows?(source_metadata))
+                end
+              end
             end
           end
         end
