@@ -59,33 +59,46 @@ module Messaging
         self.reply_stream_name = preceding_metadata.reply_stream_name
       end
 
-      def follows?(preceding_metadata)
-        if causation_message_stream_name.nil? && preceding_metadata.stream_name.nil?
-          return false
+      def follows?(preceding_metadata, exclude: nil)
+        exclude = Array(exclude)
+
+        if not exclude.include?(:causation_message_stream_name)
+          if causation_message_stream_name.nil? && preceding_metadata.stream_name.nil?
+            return false
+          end
+
+          if causation_message_stream_name != preceding_metadata.stream_name
+            return false
+          end
         end
 
-        if causation_message_position.nil? && preceding_metadata.position.nil?
-          return false
+
+        if not exclude.include?(:causation_message_position)
+          if causation_message_position.nil? && preceding_metadata.position.nil?
+            return false
+          end
+
+          if causation_message_position != preceding_metadata.position
+            return false
+          end
         end
 
-        if causation_message_global_position.nil? && preceding_metadata.global_position.nil?
-          return false
+
+        if not exclude.include?(:causation_message_global_position)
+          if causation_message_global_position.nil? && preceding_metadata.global_position.nil?
+            return false
+          end
+
+          if causation_message_global_position != preceding_metadata.global_position
+            return false
+          end
         end
 
-        if causation_message_stream_name != preceding_metadata.stream_name
-          return false
-        end
 
-        if causation_message_position != preceding_metadata.position
-          return false
-        end
-
-        if causation_message_global_position != preceding_metadata.global_position
-          return false
-        end
-
-        if reply_stream_name != preceding_metadata.reply_stream_name
-          return false
+        if not exclude.include?(:reply_stream_name)
+          if reply_stream_name != preceding_metadata.reply_stream_name
+            return false
+          end
         end
 
         true
@@ -120,6 +133,23 @@ module Messaging
           :position,
           :global_position,
           :time
+        ]
+      end
+
+      def self.workflow_attributes
+        [
+          :causation_message_stream_name,
+          :causation_message_position,
+          :causation_message_global_position,
+          :reply_stream_name
+        ]
+      end
+
+      def self.source_attributes
+        [
+          :stream_name,
+          :position,
+          :global_position
         ]
       end
     end
