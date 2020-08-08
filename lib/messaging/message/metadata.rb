@@ -143,11 +143,15 @@ module Messaging
         ]
       end
 
-      def self.workflow_attributes
-        causation_attributes + [
+      def self.callback_attributes
+        [
           :correlation_stream_name,
           :reply_stream_name
         ]
+      end
+
+      def self.workflow_attributes
+        causation_attributes + callback_attributes
       end
 
       def self.transient_attributes
