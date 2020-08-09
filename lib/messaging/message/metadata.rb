@@ -126,7 +126,7 @@ module Messaging
       end
       alias :correlates? :correlated?
 
-      def self.source_attributes
+      def self.source_attribute_names
         [
           :stream_name,
           :position,
