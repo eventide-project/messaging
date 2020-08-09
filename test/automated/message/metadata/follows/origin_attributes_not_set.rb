@@ -7,7 +7,7 @@ context "Message" do
         detail "Source value is nil"
         metadata = Controls::Metadata::Random.example
 
-        Message::Metadata.origin_attributes.each do |attribute|
+        Message::Metadata.origin_attribute_names.each do |attribute|
           source_metadata = Controls::Metadata::Random.example
 
           metadata.follow(source_metadata)
