@@ -32,8 +32,8 @@ module Messaging
       self.class.message_name
     end
 
-    def follows?(other_message, exclude: nil)
-      metadata.follows?(other_message.metadata, exclude: exclude)
+    def follows?(other_message)
+      metadata.follows?(other_message.metadata)
     end
 
     module Info
