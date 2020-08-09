@@ -60,8 +60,6 @@ module Messaging
       end
 
       def follows?(preceding_metadata)
-        ## TODO refactor to other methods
-
         if causation_message_stream_name.nil? && preceding_metadata.stream_name.nil?
           return false
         end
