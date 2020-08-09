@@ -134,7 +134,7 @@ module Messaging
         ]
       end
 
-      def self.causation_attributes
+      def self.causation_attribute_names
         [
           :causation_message_stream_name,
           :causation_message_position,
