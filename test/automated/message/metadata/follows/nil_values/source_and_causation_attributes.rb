@@ -5,9 +5,7 @@ context "Message" do
     context "Follows" do
       context "Nil Values" do
         context "Source and Causation Attributes" do
-          context "Any Pair of Workflow Attributes Where Both Values Are Nil" do
-            fail "WIP"
-
+          context "Map of Source Attribute to Causation Attribute Where Both Values Are Nil" do
             Pair = Struct.new(:source_attribute, :receiver_attribute)
 
             attribute_pairs = [
@@ -20,19 +18,24 @@ context "Message" do
               source_metadata = Controls::Metadata::Random.example
               metadata = Controls::Metadata::Random.example
 
-              metadata.causation_message_stream_name = source_metadata.stream_name
-              metadata.causation_message_position = source_metadata.position
-              metadata.causation_message_global_position = source_metadata.global_position
-              # metadata.reply_stream_name = source_metadata.reply_stream_name
+              metadata.follow(source_metadata)
 
               source_attribute = pair.source_attribute
               receiver_attribute = pair.receiver_attribute
 
-              source_metadata.send "#{source_attribute}=", nil
-              metadata.send "#{receiver_attribute}=", nil
+              source_metadata.send("#{source_attribute}=", nil)
+              metadata.send("#{receiver_attribute}=", nil)
+
+              detail "Source Metadata:\n#{source_metadata.all_attributes.pretty_inspect}"
+              detail "Metadata:\n#{metadata.all_attributes.pretty_inspect}"
 
               context "#{source_attribute}, #{receiver_attribute}" do
-                refute(metadata.follows?(source_metadata))
+                detail "Source Value: #{source_metadata.send(source_attribute).inspect}"
+                detail "Value: #{metadata.send(receiver_attribute).inspect}"
+
+                test "Doesn't follow" do
+                  refute(metadata.follows?(source_metadata))
+                end
               end
             end
           end
