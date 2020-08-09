@@ -6,6 +6,12 @@ context "Message" do
       source_metadata = Controls::Metadata.example
       metadata = Message::Metadata.new
 
+      refute(source_metadata.stream_name.nil?)
+      refute(source_metadata.position.nil?)
+      refute(source_metadata.global_position.nil?)
+      refute(source_metadata.correlation_stream_name.nil?)
+      refute(source_metadata.reply_stream_name.nil?)
+
       refute(metadata.causation_message_stream_name == source_metadata.stream_name)
       refute(metadata.causation_message_position == source_metadata.position)
       refute(metadata.causation_message_global_position == source_metadata.global_position)
@@ -13,6 +19,9 @@ context "Message" do
       refute(metadata.reply_stream_name == source_metadata.reply_stream_name)
 
       metadata.follow(source_metadata)
+
+      detail "Source Metadata:\n#{source_metadata.all_attributes.pretty_inspect}"
+      detail "Metadata:\n#{metadata.all_attributes.pretty_inspect}"
 
       context "Copied from Source Metadata" do
         context "causation_message_stream_name" do
