@@ -28,7 +28,10 @@ module Messaging
         begin
           SetAttributes.(receiver, source, copy: copy, include: include, exclude: exclude, strict: strict)
         rescue SetAttributes::Assign::Error => e
-          raise Error, e.message, e.backtrace
+          error = Error.new(e.message)
+          error.set_backtrace(e.backtrace)
+
+          raise error
         end
 
         if metadata
