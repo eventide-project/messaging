@@ -47,23 +47,27 @@ context "Handle" do
         end
       end
 
-      context "Session is required keyword argument" do
-        handler_class = Controls::Handler::SessionArgument::Anomaly::Required::Example
+      if RUBY_ENGINE == 'mruby'
+        _context "Session is required keyword argument (does not work on MRuby 2.x)"
+      else
+        context "Session is required keyword argument" do
+          handler_class = Controls::Handler::SessionArgument::Anomaly::Required::Example
 
-        context "Given" do
-          session = Object.new
+          context "Given" do
+            session = Object.new
 
-          test "Argument error is raised" do
-            assert_raises(ArgumentError) do
-              handler_class.build(session: session)
+            test "Argument error is raised" do
+              assert_raises(ArgumentError) do
+                handler_class.build(session: session)
+              end
             end
           end
-        end
 
-        context "Not Given" do
-          test "Argument error is raised" do
-            assert_raises(ArgumentError) do
-              handler_class.build
+          context "Not Given" do
+            test "Argument error is raised" do
+              assert_raises(ArgumentError) do
+                handler_class.build
+              end
             end
           end
         end

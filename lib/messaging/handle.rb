@@ -31,6 +31,12 @@ module Messaging
 
         if Build.configure_session?(instance)
           instance.configure(session: session)
+        elsif RUBY_ENGINE == 'mruby'
+          begin
+            instance.configure(session: session)
+          rescue ArgumentError
+            instance.configure
+          end
         else
           instance.configure
         end
