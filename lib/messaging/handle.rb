@@ -181,14 +181,14 @@ module Messaging
     def handle_message_data(message_data, strict: nil)
       strict ||= self.strict?
 
-      handler_logger.trace(tags: [:handle, :message_data]) { "Handling message data (Type: #{message_data.type})" }
-      handler_logger.trace(tags: [:data, :message_data]) { message_data.pretty_inspect }
-
       message = nil
 
       handler = self.class.handler(message_data)
 
       unless handler.nil?
+        handler_logger.trace(tags: [:handle, :message_data]) { "Handling message data (Type: #{message_data.type})" }
+        handler_logger.trace(tags: [:data, :message_data]) { message_data.pretty_inspect }
+
         message_type = message_data.type
         message_name = Messaging::Message::Info.canonize_name(message_type)
         message_class = self.class.message_registry.get(message_name)
@@ -222,8 +222,10 @@ module Messaging
         end
       end
 
-      handler_logger.info(tags: [:handle, :message_data]) { "Handled message data (Type: #{message_data.type})" }
-      handler_logger.info(tags: [:data, :message_data]) { message_data.pretty_inspect }
+      if message
+        handler_logger.info(tags: [:handle, :message_data]) { "Handled message data (Type: #{message_data.type})" }
+        handler_logger.info(tags: [:data, :message_data]) { message_data.pretty_inspect }
+      end
 
       message
     end
