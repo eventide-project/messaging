@@ -110,7 +110,7 @@ module Messaging
           name = message_or_message_data.message_name
         end
 
-        "handle_#{name}"
+        "handle_#{name}".to_sym
       end
     end
 
@@ -122,8 +122,11 @@ module Messaging
       end
 
       def handle_macro(message_class, &blk)
-        define_handler_method(message_class, &blk)
+        handler_method_name = define_handler_method(message_class, &blk)
+
         message_registry.register(message_class)
+
+        handler_method_name
       end
       alias :handle :handle_macro
 
