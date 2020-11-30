@@ -6,6 +6,7 @@ module Messaging
       cls.class_exec do
         include Dependency
         include Virtual
+        include Settings::Setting
 
         def handler_logger
           @handler_logger ||= Log.get(self)
@@ -25,9 +26,13 @@ module Messaging
     end
 
     module Build
-      def build(strict: nil, session: nil)
+      def build(strict: nil, session: nil, settings: nil)
         instance = new
         instance.strict = strict
+
+        if not settings.nil?
+          settings.set(instance)
+        end
 
         if Build.configure_session?(instance)
           instance.configure(session: session)
@@ -60,8 +65,8 @@ module Messaging
     end
 
     module Call
-      def call(message_or_message_data, strict: nil, session: nil)
-        instance = build(strict: strict, session: session)
+      def call(message_or_message_data, strict: nil, session: nil, settings: nil)
+        instance = build(strict: strict, session: session, settings: settings)
         instance.(message_or_message_data)
       end
     end

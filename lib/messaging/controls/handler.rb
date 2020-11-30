@@ -1,6 +1,10 @@
 module Messaging
   module Controls
     module Handler
+      def self.example
+        Example.new
+      end
+
       class Example
         include Messaging::Handle
         include Controls::Message
@@ -94,6 +98,22 @@ module Messaging
                 end
               end
             end
+          end
+        end
+      end
+
+      module Settings
+        Error = Class.new(RuntimeError)
+
+        class Example
+          include Messaging::Handle
+
+          setting :some_setting
+
+          attr_accessor :some_other_setting
+
+          def handle(message_data)
+            raise Settings::Error if some_setting.nil?
           end
         end
       end
