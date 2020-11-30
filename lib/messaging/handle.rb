@@ -26,9 +26,13 @@ module Messaging
     end
 
     module Build
-      def build(strict: nil, session: nil)
+      def build(strict: nil, session: nil, settings: nil)
         instance = new
         instance.strict = strict
+
+        if not settings.nil?
+          settings.set(instance)
+        end
 
         if Build.configure_session?(instance)
           instance.configure(session: session)

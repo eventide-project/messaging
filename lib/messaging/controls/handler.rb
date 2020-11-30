@@ -1,7 +1,6 @@
 module Messaging
   module Controls
     module Handler
-
       def self.example
         Example.new
       end
@@ -99,6 +98,20 @@ module Messaging
                 end
               end
             end
+          end
+        end
+      end
+
+      module Settings
+        class Example
+          include Messaging::Handle
+
+          setting :some_setting
+
+          attr_accessor :some_other_setting
+
+          def handle(message_data)
+            # raise if some_setting.nil?
           end
         end
       end
