@@ -6,6 +6,7 @@ module Messaging
       cls.class_exec do
         include Dependency
         include Virtual
+        include Settings::Setting
 
         def handler_logger
           @handler_logger ||= Log.get(self)

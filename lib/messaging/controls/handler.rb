@@ -1,6 +1,11 @@
 module Messaging
   module Controls
     module Handler
+
+      def self.example
+        Example.new
+      end
+
       class Example
         include Messaging::Handle
         include Controls::Message

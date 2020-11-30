@@ -1,4 +1,5 @@
 require 'message_store'
+require 'settings'
 
 require 'messaging/log'
 
