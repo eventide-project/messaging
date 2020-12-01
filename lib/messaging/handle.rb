@@ -159,7 +159,7 @@ module Messaging
     def handle_message(message, strict: nil)
       strict ||= self.strict?
 
-      handler_logger.trace(tags: [:handle, :message]) { "Handling message (Message class: #{message.class.name})" }
+      handler_logger.trace(tags: [:dispatch, :message]) { "Dispatching message (Message class: #{message.class.name})" }
       handler_logger.trace(tags: [:data, :message]) { message.pretty_inspect }
 
       handler = self.class.handler(message)
@@ -167,8 +167,12 @@ module Messaging
       unless handler.nil?
         message_type = message.message_type
 
-        handler_logger.debug(tag: :handle) { "Handling Message (Type: #{message_type}, Method: #{handler})" }
+        handler_logger.trace(tag: [:handle, :message]) { "Handling Message (Type: #{message_type}, Method: #{handler})" }
+
         public_send(handler, message)
+
+        handler_logger.info(tags: [:handle, :message]) { "Handled message (Message class: #{message.class.name})" }
+        handler_logger.info(tags: [:data, :message]) { message.pretty_inspect }
       else
         if strict
           error_msg = "#{self.class.name} does not implement a handler for #{message.message_type}. Cannot handle the message."
@@ -177,16 +181,13 @@ module Messaging
         end
       end
 
-      handler_logger.info(tags: [:handle, :message]) { "Handled message (Message class: #{message.class.name})" }
-      handler_logger.info(tags: [:data, :message]) { message.pretty_inspect }
-
       message
     end
 
     def handle_message_data(message_data, strict: nil)
       strict ||= self.strict?
 
-      handler_logger.trace(tags: [:handle, :message_data]) { "Handling message data (Type: #{message_data.type})" }
+      handler_logger.trace(tags: [:dispatch, :message_data]) { "Dispatching message data (Type: #{message_data.type})" }
       handler_logger.trace(tags: [:data, :message_data]) { message_data.pretty_inspect }
 
       message = nil
@@ -208,14 +209,16 @@ module Messaging
 
         message_type = message.message_type
 
-        handler_logger.debug(tag: :handle) { "Handling Message (Type: #{message_type}, Method: #{handler})" }
         public_send(handler, message)
       else
         if respond_to?(:handle)
           message_type = message_data.type
-          handler_logger.debug(tag: :handle) { "Handling Message Data (Type: #{message_type}, Method: handle" }
+          handler_logger.trace(tag: [:handle, :message_data]) { "Handling Message Data (Type: #{message_type}, Method: handle" }
 
           handle(message_data)
+
+          handler_logger.info(tags: [:handle, :message_data]) { "Handled message data (Type: #{message_data.type})" }
+          handler_logger.info(tags: [:data, :message_data]) { message_data.pretty_inspect }
 
           message = message_data
         else
@@ -226,9 +229,6 @@ module Messaging
           end
         end
       end
-
-      handler_logger.info(tags: [:handle, :message_data]) { "Handled message data (Type: #{message_data.type})" }
-      handler_logger.info(tags: [:data, :message_data]) { message_data.pretty_inspect }
 
       message
     end
