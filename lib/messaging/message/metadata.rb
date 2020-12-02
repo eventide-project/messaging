@@ -128,6 +128,14 @@ module Messaging
       end
       alias :correlates? :correlated?
 
+      def set_property(name, value)
+        properties[name] = value
+      end
+
+      def get_property(name)
+        properties[name]
+      end
+
       def self.source_attribute_names
         [
           :stream_name,
