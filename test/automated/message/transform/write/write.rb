@@ -6,7 +6,11 @@ context "Message" do
       context "Data" do
         message = Controls::Message.example
 
+        message.metadata.properties[:some_property] = 'some value'
+
         message_data = Transform::Write.(message, :message_data)
+
+        detail "MessageData: #{message_data.pretty_inspect}"
 
         test "ID" do
           assert(message_data.id == message.id)
@@ -57,6 +61,10 @@ context "Message" do
 
           test "schema_version" do
             assert(metadata[:schema_version] == message.metadata.schema_version)
+          end
+
+          test "properties" do
+            assert(metadata[:properties] == message.metadata.properties)
           end
 
           context "Transient Attributes" do

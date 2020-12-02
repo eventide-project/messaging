@@ -33,6 +33,8 @@ module Messaging
 
       attribute :reply_stream_name, String
 
+      attribute :properties, Hash, default: -> { Hash.new }
+
       attribute :time, Time
 
       attribute :schema_version, String
