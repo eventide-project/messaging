@@ -49,6 +49,12 @@ module Messaging
         "#{causation_message_stream_name}/#{causation_message_position}"
       end
 
+      def self.properties
+        {
+          some_property: 'some property value'
+        }
+      end
+
       def self.time
         Time::Raw.example
       end
@@ -57,6 +63,7 @@ module Messaging
         {
           stream_name: stream_name,
           position: position,
+          global_position: global_position,
 
           causation_message_stream_name: causation_message_stream_name,
           causation_message_position: causation_message_position,
@@ -66,7 +73,8 @@ module Messaging
 
           reply_stream_name: reply_stream_name,
 
-          global_position: global_position,
+          properties: properties,
+
           time: time,
 
           schema_version: schema_version
