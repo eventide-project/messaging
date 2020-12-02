@@ -25,6 +25,11 @@ module Messaging
           message_data.data = message.to_h
 
           metadata = message.metadata.to_h
+
+          if metadata[:properties].empty?
+            metadata[:properties] = nil
+          end
+
           metadata.delete_if { |k, v| v.nil? }
 
           message_data.metadata = metadata
