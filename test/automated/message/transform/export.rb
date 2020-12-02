@@ -6,6 +6,9 @@ context "Message" do
 
     message_data = Message::Export.(message)
 
+    detail "Message: #{message.pretty_inspect}"
+    detail "MessageData: #{message_data.pretty_inspect}"
+
     context "Message is exported to MessageData" do
       test "MessageData type is Message's type" do
         assert(message.message_type == message_data.type)
@@ -22,6 +25,7 @@ context "Message" do
           :causation_message_global_position,
           :correlation_stream_name,
           :reply_stream_name,
+          :properties,
           :schema_version
         ].each do |attribute|
           test "#{attribute}" do

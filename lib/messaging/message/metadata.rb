@@ -33,6 +33,8 @@ module Messaging
 
       attribute :reply_stream_name, String
 
+      attribute :properties, Hash, default: -> { Hash.new }
+
       attribute :time, Time
 
       attribute :schema_version, String
@@ -125,6 +127,14 @@ module Messaging
         correlation_stream_name == stream_name
       end
       alias :correlates? :correlated?
+
+      def set_property(name, value)
+        properties[name] = value
+      end
+
+      def get_property(name)
+        properties[name]
+      end
 
       def self.source_attribute_names
         [

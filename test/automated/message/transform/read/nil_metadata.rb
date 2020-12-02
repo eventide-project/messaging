@@ -13,6 +13,9 @@ context "Message" do
 
         message = Transform::Read.(message_data, :message_data, Controls::Message::SomeMessage)
 
+        detail "MessageData: #{message_data.pretty_inspect}"
+        detail "Message: #{message.pretty_inspect}"
+
         context "Message Data" do
           test "Attributes" do
             assert(message.to_h == data)
@@ -35,6 +38,16 @@ context "Message" do
 
             test "time" do
               assert(metadata.time = message_data.time)
+            end
+
+            context "properties" do
+              test "Is a hash" do
+                assert(metadata.properties.is_a?(Hash))
+              end
+
+              test "Is empty" do
+                assert(metadata.properties.empty?)
+              end
             end
 
             context "Nil attributes" do

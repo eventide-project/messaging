@@ -10,6 +10,9 @@ context "Message" do
   context "Import" do
     message = Message::Import.(message_data, Controls::Message::SomeMessage)
 
+    detail "MessageData: #{message_data.pretty_inspect}"
+    detail "Message: #{message.pretty_inspect}"
+
     context "MessageData imported into message" do
       test "Message's type is the MessageData type" do
         assert(message.message_type == message_data.type)
@@ -25,6 +28,7 @@ context "Message" do
           :causation_message_position,
           :causation_message_global_position,
           :correlation_stream_name,
+          :properties,
           :reply_stream_name,
           :schema_version
         ].each do |attribute|

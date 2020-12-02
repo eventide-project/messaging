@@ -6,11 +6,18 @@ context "Message" do
       context "Data" do
         message = Controls::Message.example
 
-        message.metadata.class.attribute_names.each do |metadata_attribute|
+        metadata = message.metadata
+
+        metadata.class.attribute_names.each do |metadata_attribute|
           message.metadata.send("#{metadata_attribute}=", nil)
         end
 
+        metadata.properties = Hash.new
+
         message_data = Transform::Write.(message, :message_data)
+
+        detail "Transformed MessageData: #{message_data.pretty_inspect}"
+        detail "Message Metadata: #{metadata.pretty_inspect}"
 
         context "Metadata" do
           metadata = message_data.metadata

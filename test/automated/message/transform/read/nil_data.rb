@@ -13,6 +13,9 @@ context "Message" do
 
         message = Transform::Read.(message_data, :message_data, Controls::Message::SomeMessage)
 
+        detail "MessageData: #{message_data.pretty_inspect}"
+        detail "Message: #{message.pretty_inspect}"
+
         context "Message Data" do
           test "Attributes" do
             assert(message.attributes.values.each { |value| value.nil? })
@@ -55,6 +58,10 @@ context "Message" do
 
             test "correlation_stream_name" do
               assert(metadata.correlation_stream_name = message_data.metadata[:correlation_stream_name])
+            end
+
+            test "properties" do
+              assert(metadata.properties = message_data.metadata[:properties])
             end
 
             test "reply_stream_name" do
