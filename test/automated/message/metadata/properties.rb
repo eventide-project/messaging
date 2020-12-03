@@ -32,6 +32,22 @@ context "Message" do
           assert(value == 'some property value')
         end
       end
+
+      context "Delete" do
+        metadata = Messaging::Message::Metadata.new
+
+        metadata.properties[:some_property] = 'some property value'
+
+        value = metadata.delete_property(:some_property)
+
+        test "Entry is removed from the hash" do
+          refute(metadata.properties.include?(:some_property))
+        end
+
+        test "Returns the entry's value" do
+          assert(value == 'some property value')
+        end
+      end
     end
   end
 end
