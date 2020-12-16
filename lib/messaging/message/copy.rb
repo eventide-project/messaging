@@ -21,7 +21,7 @@ module Messaging
           receiver = receiver.build
         end
 
-        if include.nil?
+        if copy.nil? && include.nil?
           include = source.class.attribute_names
         end
 
