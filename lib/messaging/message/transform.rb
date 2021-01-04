@@ -26,6 +26,8 @@ module Messaging
 
           metadata = message.metadata.to_h
 
+          metadata[:properties].delete_if { |property| property.transient? }
+
           if metadata[:properties].empty?
             metadata.delete(:properties)
           end
