@@ -11,12 +11,18 @@ context "Message" do
 
     source_metadata.set_property(:some_property, "some property value")
 
+    refute(source_metadata.stream_name.nil?)
+    refute(source_metadata.position.nil?)
+    refute(source_metadata.global_position.nil?)
+    refute(source_metadata.correlation_stream_name.nil?)
+    refute(source_metadata.reply_stream_name.nil?)
+    refute(source_metadata.properties.empty?)
+
     refute(metadata.causation_message_stream_name == source_metadata.stream_name)
     refute(metadata.causation_message_position == source_metadata.position)
     refute(metadata.causation_message_global_position == source_metadata.global_position)
     refute(metadata.correlation_stream_name == source_metadata.correlation_stream_name)
     refute(metadata.reply_stream_name == source_metadata.reply_stream_name)
-    refute(source_metadata.properties.empty?)
 
     Message::Follow.(source, receiver)
 

@@ -1,4 +1,4 @@
-require_relative '../../automated_init'
+require_relative '../../../automated_init'
 
 context "Message" do
   context "Metadata" do
@@ -6,11 +6,14 @@ context "Message" do
       source_metadata = Controls::Metadata.example
       metadata = Message::Metadata.new
 
+      source_metadata.set_property(:some_property, "some property value")
+
       refute(source_metadata.stream_name.nil?)
       refute(source_metadata.position.nil?)
       refute(source_metadata.global_position.nil?)
       refute(source_metadata.correlation_stream_name.nil?)
       refute(source_metadata.reply_stream_name.nil?)
+      refute(source_metadata.properties.empty?)
 
       refute(metadata.causation_message_stream_name == source_metadata.stream_name)
       refute(metadata.causation_message_position == source_metadata.position)
@@ -48,6 +51,10 @@ context "Message" do
 
         test "reply_stream_name" do
           assert(metadata.reply_stream_name == source_metadata.reply_stream_name)
+        end
+
+        test "properties" do
+          assert(metadata.properties == source_metadata.properties)
         end
       end
 
