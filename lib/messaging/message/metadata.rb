@@ -132,12 +132,18 @@ module Messaging
         :name,
         :value,
         :transient
-      )
+      ) do
+        def transient?
+          transient == true
+        end
+      end
 
-      def set_property(name, value)
+      def set_property(name, value, transient: nil)
+        transient ||= false
+
         delete_property(name)
 
-        property = Property.new(name, value)
+        property = Property.new(name, value, transient)
 
         properties << property
 
