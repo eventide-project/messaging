@@ -150,6 +150,10 @@ module Messaging
         property
       end
 
+      def set_transient_property(name, value, transient: nil)
+        set_property(name, value, transient: true)
+      end
+
       def get_property(name)
         property = properties.find { |property| property.name == name }
         property&.value
