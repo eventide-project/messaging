@@ -48,6 +48,21 @@ context "Message" do
           assert(value == 'some property value')
         end
       end
+
+      context "Clear" do
+        metadata = Messaging::Message::Metadata.new
+
+        metadata.properties[:some_property] = 'some property value'
+        metadata.properties[:some_other_property] = 'some other property value'
+
+        assert(metadata.properties.count == 2)
+
+        metadata.clear_properties
+
+        test "All entries are removed" do
+          assert(metadata.properties.empty?)
+        end
+      end
     end
   end
 end

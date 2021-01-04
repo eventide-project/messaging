@@ -140,6 +140,10 @@ module Messaging
         properties.delete(name)
       end
 
+      def clear_properties
+        properties.clear
+      end
+
       def self.source_attribute_names
         [
           :stream_name,
