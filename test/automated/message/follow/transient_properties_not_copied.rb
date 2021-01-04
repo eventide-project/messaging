@@ -10,6 +10,7 @@ context "Message" do
       source_metadata = source.metadata
       metadata = receiver.metadata
 
+      source_metadata.set_property(:some_property, "some value")
       source_metadata.set_transient_property(:some_transient_property, "some transient value")
 
       Message::Follow.(source, receiver)
