@@ -27,7 +27,7 @@ module Messaging
           metadata = message.metadata.to_h
 
           if metadata[:properties].empty?
-            metadata[:properties] = nil
+            metadata.delete(:properties)
           end
 
           metadata.delete_if { |k, v| v.nil? }

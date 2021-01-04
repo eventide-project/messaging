@@ -49,10 +49,16 @@ module Messaging
         "#{causation_message_stream_name}/#{causation_message_position}"
       end
 
+      # def self.properties
+      #   {
+      #     some_property: 'some property value'
+      #   }
+      # end
+
       def self.properties
-        {
-          some_property: 'some property value'
-        }
+        [
+          Messaging::Message::Metadata::Property.new(:some_property, 'some property value')
+        ]
       end
 
       def self.time

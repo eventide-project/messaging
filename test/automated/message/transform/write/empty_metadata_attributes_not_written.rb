@@ -12,7 +12,7 @@ context "Message" do
           message.metadata.send("#{metadata_attribute}=", nil)
         end
 
-        metadata.properties = Hash.new
+        metadata.properties = Array.new
 
         message_data = Transform::Write.(message, :message_data)
 
