@@ -33,7 +33,7 @@ module Messaging
 
       attribute :reply_stream_name, String
 
-      attribute :properties, Hash, default: -> { Hash.new }
+      attribute :properties, Array, default: -> { Array.new }
 
       attribute :time, Time
 
@@ -59,6 +59,18 @@ module Messaging
         self.correlation_stream_name = preceding_metadata.correlation_stream_name
 
         self.reply_stream_name = preceding_metadata.reply_stream_name
+
+        preceding_metadata.properties.each do |property|
+          if property.transient?
+            next
+          end
+
+          set_property(
+            property.name,
+            property.value,
+            transient: property.transient
+          )
+        end
       end
 
       def follows?(preceding_metadata)
@@ -128,16 +140,43 @@ module Messaging
       end
       alias :correlates? :correlated?
 
-      def set_property(name, value)
-        properties[name] = value
+      Property = Struct.new(
+        :name,
+        :value,
+        :transient
+      ) do
+        def transient?
+          transient == true
+        end
+      end
+
+      def set_property(name, value, transient: nil)
+        transient ||= false
+
+        delete_property(name)
+
+        property = Property.new(name, value, transient)
+
+        properties << property
+
+        property
+      end
+
+      def set_transient_property(name, value, transient: nil)
+        set_property(name, value, transient: true)
       end
 
       def get_property(name)
-        properties[name]
+        property = properties.find { |property| property.name == name }
+        property&.value
       end
 
       def delete_property(name)
-        properties.delete(name)
+        i = properties.index { |property| property.name == name }
+
+        return nil if i.nil?
+
+        properties.delete_at(i).value
       end
 
       def clear_properties

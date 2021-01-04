@@ -9,11 +9,14 @@ context "Message" do
     source_metadata = source.metadata
     metadata = receiver.metadata
 
+    source_metadata.set_property(:some_property, "some property value")
+
     refute(metadata.causation_message_stream_name == source_metadata.stream_name)
     refute(metadata.causation_message_position == source_metadata.position)
     refute(metadata.causation_message_global_position == source_metadata.global_position)
     refute(metadata.correlation_stream_name == source_metadata.correlation_stream_name)
     refute(metadata.reply_stream_name == source_metadata.reply_stream_name)
+    refute(source_metadata.properties.empty?)
 
     Message::Follow.(source, receiver)
 
@@ -47,6 +50,10 @@ context "Message" do
 
         test "reply_stream_name" do
           assert(metadata.reply_stream_name == source_metadata.reply_stream_name)
+        end
+
+        test "properties" do
+          assert(metadata.properties == source_metadata.properties)
         end
       end
 

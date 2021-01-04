@@ -42,7 +42,7 @@ context "Message" do
 
             context "properties" do
               test "Is a hash" do
-                assert(metadata.properties.is_a?(Hash))
+                assert(metadata.properties.is_a?(Array))
               end
 
               test "Is empty" do
