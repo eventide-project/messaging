@@ -9,7 +9,7 @@ context "Message" do
 
       detail "Message Metadata Before Transform: #{metadata.pretty_inspect}"
 
-      metadata.set_property(:some_transient_property, "some transient value", transient: true)
+      metadata.set_transient_property(:some_transient_property, "some transient value")
 
       message_data = Transform::Write.(message, :message_data)
 

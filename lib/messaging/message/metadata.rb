@@ -59,6 +59,18 @@ module Messaging
         self.correlation_stream_name = preceding_metadata.correlation_stream_name
 
         self.reply_stream_name = preceding_metadata.reply_stream_name
+
+        preceding_metadata.properties.each do |property|
+          if property.transient?
+            next
+          end
+
+          set_property(
+            property.name,
+            property.value,
+            transient: property.transient
+          )
+        end
       end
 
       def follows?(preceding_metadata)
