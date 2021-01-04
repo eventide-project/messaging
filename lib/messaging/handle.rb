@@ -209,7 +209,12 @@ module Messaging
 
         message_type = message.message_type
 
+        handler_logger.trace(tag: [:handle, :message_data]) { "Handling Message Data (Type: #{message_type}, Method: #{handler})" }
+
         public_send(handler, message)
+
+        handler_logger.info(tags: [:handle, :message_data]) { "Handled message data (Type: #{message_data.type})" }
+        handler_logger.info(tags: [:data, :message_data]) { message_data.pretty_inspect }
       else
         if respond_to?(:handle)
           message_type = message_data.type
