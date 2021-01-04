@@ -33,7 +33,7 @@ module Messaging
 
       attribute :reply_stream_name, String
 
-      attribute :properties, Hash, default: -> { Hash.new }
+      attribute :properties, Array, default: -> { Array.new }
 
       attribute :time, Time
 
@@ -128,16 +128,33 @@ module Messaging
       end
       alias :correlates? :correlated?
 
+      Property = Struct.new(
+        :name,
+        :value,
+        :transient
+      )
+
       def set_property(name, value)
-        properties[name] = value
+        delete_property(name)
+
+        property = Property.new(name, value)
+
+        properties << property
+
+        property
       end
 
       def get_property(name)
-        properties[name]
+        property = properties.find { |property| property.name == name }
+        property&.value
       end
 
       def delete_property(name)
-        properties.delete(name)
+        i = properties.index { |property| property.name == name }
+
+        return nil if i.nil?
+
+        properties.delete_at(i).value
       end
 
       def clear_properties

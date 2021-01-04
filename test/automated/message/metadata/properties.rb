@@ -6,25 +6,30 @@ context "Message" do
       context "Default" do
         metadata = Messaging::Message::Metadata.new
 
-        test "Hash" do
-          assert(metadata.properties == {})
+        test "Array" do
+          assert(metadata.properties == [])
         end
       end
 
       context "Set" do
         metadata = Messaging::Message::Metadata.new
 
-        metadata.set_property(:some_property, 'some property value')
+        name = :some_property
+        value = 'some property value'
+
+        metadata.set_property(name, value)
+
+        property = metadata.properties.find { |property| property.name == name }
 
         test "Value is in the properties hash" do
-          assert(metadata.properties[:some_property] == 'some property value')
+          assert(property.value == value)
         end
       end
 
       context "Get" do
         metadata = Messaging::Message::Metadata.new
 
-        metadata.properties[:some_property] = 'some property value'
+        metadata.set_property(:some_property, 'some property value')
 
         value = metadata.get_property(:some_property)
 
@@ -36,12 +41,12 @@ context "Message" do
       context "Delete" do
         metadata = Messaging::Message::Metadata.new
 
-        metadata.properties[:some_property] = 'some property value'
+        metadata.set_property(:some_property, 'some property value')
 
         value = metadata.delete_property(:some_property)
 
         test "Entry is removed from the hash" do
-          refute(metadata.properties.include?(:some_property))
+          assert(metadata.get_property(:some_property).nil?)
         end
 
         test "Returns the entry's value" do
@@ -52,8 +57,8 @@ context "Message" do
       context "Clear" do
         metadata = Messaging::Message::Metadata.new
 
-        metadata.properties[:some_property] = 'some property value'
-        metadata.properties[:some_other_property] = 'some other property value'
+        metadata.set_property(:some_property, 'some property value')
+        metadata.set_property(:some_other_property, 'some other property value')
 
         assert(metadata.properties.count == 2)
 
