@@ -6,7 +6,7 @@ context "Message" do
       source_metadata = Controls::Metadata.example
       metadata = Message::Metadata.new
 
-      source_metadata.set_property(:some_property, "some property value")
+      # source_metadata.set_property(:some_property, "some property value")
 
       refute(source_metadata.stream_name.nil?)
       refute(source_metadata.position.nil?)
@@ -53,8 +53,15 @@ context "Message" do
           assert(metadata.reply_stream_name == source_metadata.reply_stream_name)
         end
 
-        test "properties" do
-          assert(metadata.properties == source_metadata.properties)
+        context "properties" do
+          assert(metadata.properties.length == 1)
+
+          property = metadata.properties.first
+          source_property = source_metadata.properties.first
+
+          test do
+            assert(property == source_property)
+          end
         end
       end
 

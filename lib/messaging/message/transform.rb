@@ -26,10 +26,12 @@ module Messaging
 
           metadata = message.metadata.to_h
 
-          metadata[:properties].delete_if { |property| property.transient? }
+          properties = metadata[:properties]
 
-          if metadata[:properties].empty?
+          if properties.empty?
             metadata.delete(:properties)
+          else
+            metadata[:properties] = Properties.write(properties)
           end
 
           metadata.delete_if { |k, v| v.nil? }
@@ -37,6 +39,20 @@ module Messaging
           message_data.metadata = metadata
 
           message_data
+        end
+
+        module Properties
+          def self.write(properties)
+            properties.map do |property|
+              property_hash = property.to_h
+
+              if not property_hash[:transient]
+                property_hash.delete(:transient)
+              end
+
+              property_hash
+            end
+          end
         end
 
         def self.read(message_data)

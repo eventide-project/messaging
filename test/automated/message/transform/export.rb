@@ -25,11 +25,32 @@ context "Message" do
           :causation_message_global_position,
           :correlation_stream_name,
           :reply_stream_name,
-          :properties,
           :schema_version
         ].each do |attribute|
           test "#{attribute}" do
             assert(message.metadata.send(attribute) == message_data.metadata[attribute])
+          end
+        end
+
+        context "properties" do
+          message_properties = message.metadata.properties
+          message_data_properties = message_data.metadata[:properties]
+
+          message_properties.length.times do |i|
+            message_property = message_properties[i]
+            message_data_property = message_data_properties[i]
+
+            test "name" do
+              assert(message_data_property[:name] == message_property.name)
+            end
+
+            test "value" do
+              assert(message_data_property[:value] == message_property.value)
+            end
+
+            test "transient" do
+              assert(!!message_data_property[:transient] == !!message_property.transient)
+            end
           end
         end
       end

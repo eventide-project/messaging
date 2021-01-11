@@ -2,6 +2,10 @@ module Messaging
   module Controls
     module Metadata
       def self.example
+        data = self.data
+
+        data[:properties] = Properties.example
+
         Messaging::Message::Metadata.build(data)
       end
 
@@ -49,16 +53,8 @@ module Messaging
         "#{causation_message_stream_name}/#{causation_message_position}"
       end
 
-      # def self.properties
-      #   {
-      #     some_property: 'some property value'
-      #   }
-      # end
-
       def self.properties
-        [
-          Messaging::Message::Metadata::Property.new(:some_property, 'some property value')
-        ]
+        Properties.example
       end
 
       def self.time
@@ -79,7 +75,7 @@ module Messaging
 
           reply_stream_name: reply_stream_name,
 
-          properties: properties,
+          properties: Properties.data,
 
           time: time,
 

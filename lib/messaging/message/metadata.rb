@@ -140,16 +140,6 @@ module Messaging
       end
       alias :correlates? :correlated?
 
-      Property = Struct.new(
-        :name,
-        :value,
-        :transient
-      ) do
-        def transient?
-          transient == true
-        end
-      end
-
       def set_property(name, value, transient: nil)
         transient ||= false
 
