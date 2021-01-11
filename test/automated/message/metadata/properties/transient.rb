@@ -14,6 +14,8 @@ context "Message" do
 
           property = metadata.properties.find { |property| property.name == name }
 
+          assert(property.value == value)
+
           test "Property is transient" do
             assert(property.transient?)
           end
@@ -28,6 +30,8 @@ context "Message" do
           metadata.set_transient_property(name, value)
 
           property = metadata.properties.find { |property| property.name == name }
+
+          assert(property.value == value)
 
           test "Property is transient" do
             assert(property.transient?)
