@@ -93,6 +93,8 @@ module Messaging
 
         if message_or_message_data.is_a? MessageStore::MessageData::Read
           name = Messaging::Message::Info.canonize_name(message_or_message_data.type)
+        elsif message_or_message_data.is_a? String
+          name = Messaging::Message::Info.canonize_name(message_or_message_data)
         else
           name = message_or_message_data.message_name
         end
