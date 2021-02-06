@@ -2,7 +2,7 @@ require_relative '../../automated_init'
 
 context "Message" do
   context "Follow" do
-    context "Transient Properties" do
+    context "Local Properties" do
       source = Controls::Message.example(metadata: Controls::Metadata::Random.example)
 
       receiver = source.class.new
@@ -11,20 +11,20 @@ context "Message" do
       metadata = receiver.metadata
 
       source_metadata.set_property(:some_property, "some value")
-      source_metadata.set_transient_property(:some_transient_property, "some transient value")
+      source_metadata.set_local_property(:some_local_property, "some local value")
 
       Message::Follow.(source, receiver)
 
       detail "Source Metadata: #{source_metadata.pretty_inspect}"
       detail "Following Metadata: #{metadata.pretty_inspect}"
 
-      transient_properties = metadata.properties.select { |property| property.transient? }
+      local_properties = metadata.properties.select { |property| property.local? }
 
-      detail "Following Transient Properties: #{transient_properties.pretty_inspect}"
+      detail "Following Local Properties: #{local_properties.pretty_inspect}"
 
       context "Not Copied" do
         test do
-          assert(transient_properties.empty?)
+          assert(local_properties.empty?)
         end
       end
     end

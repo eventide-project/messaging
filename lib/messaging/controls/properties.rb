@@ -4,14 +4,14 @@ module Messaging
       def self.example
         [
           SomeProperty.example,
-          SomeTransientProperty.example
+          SomeLocalProperty.example
         ]
       end
 
       def self.data
         [
           SomeProperty.data,
-          SomeTransientProperty.data
+          SomeLocalProperty.data
         ]
       end
 
@@ -36,7 +36,7 @@ module Messaging
         end
       end
 
-      module SomeTransientProperty
+      module SomeLocalProperty
         def self.example
           Messaging::Message::Metadata::Property.new(name, value, true)
         end
@@ -45,16 +45,16 @@ module Messaging
           {
             name: name,
             value: value,
-            transient: true
+            local: true
           }
         end
 
         def self.name
-          :some_transient_property
+          :some_local_property
         end
 
         def self.value
-          'some transient property value'
+          'some local property value'
         end
       end
     end

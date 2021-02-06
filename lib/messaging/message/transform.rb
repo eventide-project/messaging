@@ -46,8 +46,8 @@ module Messaging
             properties.map do |property|
               property_hash = property.to_h
 
-              if not property_hash[:transient]
-                property_hash.delete(:transient)
+              if not property_hash[:local]
+                property_hash.delete(:local)
               end
 
               property_hash

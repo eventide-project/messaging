@@ -8,7 +8,7 @@ context "Message" do
 
 
         message.metadata.set_property(:some_property, 'some property value')
-        message.metadata.set_transient_property(:some_transient_property, 'some transient property value')
+        message.metadata.set_local_property(:some_local_property, 'some local property value')
 
 
         message_data = Transform::Write.(message, :message_data)
@@ -78,7 +78,7 @@ context "Message" do
 
           context "properties" do
             properties = metadata[:properties]
-            control_properties = [{ :name=>:some_property, :value=>"some property value"}, {:name=>:some_transient_property, :value=>"some transient property value", :transient=>true }]
+            control_properties = [{ :name=>:some_property, :value => 'some property value' }, { :name => :some_local_property, :value => 'some local property value', :local => true }]
 
             detail "Properties: #{properties}"
             detail "Control Properties: #{control_properties}"

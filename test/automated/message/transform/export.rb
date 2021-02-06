@@ -48,8 +48,8 @@ context "Message" do
               assert(message_data_property[:value] == message_property.value)
             end
 
-            test "transient" do
-              assert(!!message_data_property[:transient] == !!message_property.transient)
+            test "local" do
+              assert(!!message_data_property[:local] == !!message_property.local)
             end
           end
         end

@@ -4,17 +4,17 @@ module Messaging
       Property = Struct.new(
         :name,
         :value,
-        :transient
+        :local
       ) do
-        def transient?
-          transient == true
+        def local?
+          local == true
         end
 
         def ==(other)
           equal =
             name == other.name &&
             value == other.value &&
-            !!transient == !!other.transient
+            !!local == !!other.local
         end
       end
     end

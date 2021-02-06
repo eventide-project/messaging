@@ -61,14 +61,13 @@ module Messaging
         self.reply_stream_name = preceding_metadata.reply_stream_name
 
         preceding_metadata.properties.each do |property|
-          if property.transient?
+          if property.local?
             next
           end
 
           set_property(
             property.name,
-            property.value,
-            transient: property.transient
+            property.value
           )
         end
       end
@@ -140,20 +139,20 @@ module Messaging
       end
       alias :correlates? :correlated?
 
-      def set_property(name, value, transient: nil)
-        transient ||= false
+      def set_property(name, value, local: nil)
+        local ||= false
 
         delete_property(name)
 
-        property = Property.new(name, value, transient)
+        property = Property.new(name, value, local)
 
         properties << property
 
         property
       end
 
-      def set_transient_property(name, value, transient: nil)
-        set_property(name, value, transient: true)
+      def set_local_property(name, value, local: nil)
+        set_property(name, value, local: true)
       end
 
       def get_property(name)
