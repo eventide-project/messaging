@@ -44,7 +44,8 @@ module Messaging
         def self.data
           {
             name: name,
-            value: value
+            value: value,
+            transient: true
           }
         end
 
