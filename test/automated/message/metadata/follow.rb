@@ -1,12 +1,10 @@
-require_relative '../../../automated_init'
+require_relative '../../automated_init'
 
 context "Message" do
   context "Metadata" do
     context "Follow" do
       source_metadata = Controls::Metadata.example
       metadata = Message::Metadata.new
-
-      # source_metadata.set_property(:some_property, "some property value")
 
       refute(source_metadata.stream_name.nil?)
       refute(source_metadata.position.nil?)
@@ -52,8 +50,13 @@ context "Message" do
         test "reply_stream_name" do
           assert(metadata.reply_stream_name == source_metadata.reply_stream_name)
         end
+      end
 
-        context "properties" do
+      context "Properties" do
+        detail "Properties: #{metadata.properties.pretty_inspect}"
+        detail "Source Properties: #{source_metadata.properties.pretty_inspect}"
+
+        context "Copied" do
           assert(metadata.properties.length == 1)
 
           property = metadata.properties.first
@@ -61,6 +64,14 @@ context "Message" do
 
           test do
             assert(property == source_property)
+          end
+        end
+
+        context "Local Properties" do
+          local_properties = metadata.properties.select { |property| property.local? }
+
+          test "Omitted" do
+            assert(local_properties.empty?)
           end
         end
       end

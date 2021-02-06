@@ -9,7 +9,12 @@ context "Message" do
     source_metadata = source.metadata
     metadata = receiver.metadata
 
+    ## Move these properties into the principal message/metadata
+    ## control once it's known whether doing so will cause non-local
+    ## problems from changing such a highly afferent control (Scott, Fri Feb 5 20201)
     source_metadata.set_property(:some_property, "some property value")
+    source_metadata.set_local_property(:some_local_property, "some local property value")
+    ##
 
     refute(source_metadata.stream_name.nil?)
     refute(source_metadata.position.nil?)
@@ -58,8 +63,26 @@ context "Message" do
           assert(metadata.reply_stream_name == source_metadata.reply_stream_name)
         end
 
-        test "properties" do
-          assert(metadata.properties == source_metadata.properties)
+        context "Properties" do
+          detail "Properties: #{metadata.properties.pretty_inspect}"
+          detail "Source Properties: #{source_metadata.properties.pretty_inspect}"
+
+          context "Copied" do
+            property = metadata.get_property(:some_property)
+            source_property = source_metadata.get_property(:some_property)
+
+            test do
+              assert(property == source_property)
+            end
+          end
+
+          context "Local Properties" do
+            local_properties = metadata.properties.select { |property| property.local? }
+
+            test "Omitted" do
+              assert(local_properties.empty?)
+            end
+          end
         end
       end
 
