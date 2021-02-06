@@ -4,6 +4,8 @@ module Messaging
       def self.example
         data = self.data
 
+        ## Remove this once Metadata can be built
+        ## from Raw data (Scott, Fri Feb 5 20201)
         data[:properties] = Properties.example
 
         Messaging::Message::Metadata.build(data)

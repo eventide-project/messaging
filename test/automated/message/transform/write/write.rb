@@ -6,10 +6,12 @@ context "Message" do
       context "Data" do
         message = Controls::Message.example
 
-
+        ## Move these properties into the principal message/metadata
+        ## control once it's known whether doing so will cause non-local
+        ## problems from changing such a highly afferent control (Scott, Fri Feb 5 20201)
         message.metadata.set_property(:some_property, 'some property value')
         message.metadata.set_local_property(:some_local_property, 'some local property value')
-
+        ##
 
         message_data = Transform::Write.(message, :message_data)
 

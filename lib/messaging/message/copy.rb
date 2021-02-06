@@ -32,8 +32,13 @@ module Messaging
         end
 
         if metadata
-          metadata_include = source.metadata.class.attribute_names
+          metadata_include = source.metadata.class.attribute_names - [:properties]
+
           SetAttributes.(receiver.metadata, source.metadata, include: metadata_include)
+
+          source.metadata.properties.each do |property|
+            receiver.metadata.properties << property.dup
+          end
         end
 
         receiver

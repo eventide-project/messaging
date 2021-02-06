@@ -64,8 +64,11 @@ context "Message" do
         end
 
         context "Properties" do
-          detail "Properties: #{metadata.properties.pretty_inspect}"
-          detail "Source Properties: #{source_metadata.properties.pretty_inspect}"
+          properties = metadata.properties
+          source_properties = source_metadata.properties
+
+          detail "Properties: #{properties.pretty_inspect}"
+          detail "Source Properties: #{source_properties.pretty_inspect}"
 
           context "Copied" do
             property = metadata.get_property(:some_property)
@@ -81,6 +84,22 @@ context "Message" do
 
             test "Omitted" do
               assert(local_properties.empty?)
+            end
+          end
+
+          context "Object References" do
+            test "List object reference is duplicated" do
+              refute(properties.object_id == source_properties.object_id)
+            end
+
+            context "Property object references are duplicated" do
+              properties.each do |property|
+                source_property = source_metadata.get_property(property.name)
+
+                test do
+                  refute(property.object_id == source_property.object_id)
+                end
+              end
             end
           end
         end

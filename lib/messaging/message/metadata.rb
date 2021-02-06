@@ -65,10 +65,7 @@ module Messaging
             next
           end
 
-          set_property(
-            property.name,
-            property.value
-          )
+          properties << property.dup
         end
       end
 
