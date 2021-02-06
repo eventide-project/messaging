@@ -78,18 +78,28 @@ context "Message" do
             assert(metadata[:reply_stream_name] == message.metadata.reply_stream_name)
           end
 
+          test "schema_version" do
+            assert(metadata[:schema_version] == message.metadata.schema_version)
+          end
+
           context "properties" do
             properties = metadata[:properties]
-            control_properties = [{ :name=>:some_property, :value => 'some property value' }, { :name => :some_local_property, :value => 'some local property value', :local => true }]
+            control_properties = [
+              {
+                :name=>:some_property,
+                :value => 'some property value'
+              },
+              {
+                :name => :some_local_property,
+                :value => 'some local property value',
+                :local => true
+              }
+            ]
 
             detail "Properties: #{properties}"
             detail "Control Properties: #{control_properties}"
 
             assert(properties == control_properties)
-          end
-
-          test "schema_version" do
-            assert(metadata[:schema_version] == message.metadata.schema_version)
           end
 
           context "Transient Attributes" do

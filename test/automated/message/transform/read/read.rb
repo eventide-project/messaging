@@ -9,7 +9,29 @@ context "Message" do
 
       message_data = Controls::MessageData::Read.example(type: type, data: data, metadata: metadata)
 
+
+      ## Move these properties into the principal message/metadata
+      ## control once it's known whether doing so will cause non-local
+      ## problems from changing such a highly afferent control (Scott, Fri Feb 5 20201)
+      property_data = [
+        {
+          :name=>:some_property,
+          :value => 'some property value'
+        },
+        {
+          :name => :some_local_property,
+          :value => 'some local property value',
+          :local => true
+        }
+      ]
+      metadata[:properties] = property_data
+      ##
+
+
       message = Transform::Read.(message_data, :message_data, Controls::Message::SomeMessage)
+
+      detail "MessageData: #{message_data.pretty_inspect}"
+      detail "Message: #{message.pretty_inspect}"
 
       context "Attributes" do
         test "ID" do
@@ -61,6 +83,62 @@ context "Message" do
 
           test "reply_stream_name" do
             assert(metadata.reply_stream_name = message_data.metadata[:reply_stream_name])
+          end
+
+          context "Properties" do
+            properties = metadata.properties
+            detail "Message Properties: #{properties.pretty_inspect}"
+
+            message_data_properties = message_data.metadata[:properties]
+            detail "MessageData Properties: #{message_data_properties.pretty_inspect}"
+
+            context "Non-Local" do
+              source_property_data = property_data.find do |property|
+                property[:name] == :some_property
+              end
+
+              source_property_value = source_property_data[:value]
+
+              property = metadata.properties.find { |property| property.name == :some_property }
+
+              context "Property Value" do
+                property_value = property.value
+
+                test do
+                  assert(property_value == source_property_value)
+                end
+              end
+
+              context "Locality" do
+                test "Is not local" do
+                  refute(property.local?)
+                end
+              end
+            end
+
+            context "Local" do
+              source_property_data = property_data.find do |property|
+                property[:name] == :some_local_property
+              end
+
+              source_property_value = source_property_data[:value]
+
+              property = metadata.properties.find { |property| property.name == :some_local_property }
+
+              context "Property Value" do
+                property_value = property.value
+
+                test do
+                  assert(property_value == source_property_value)
+                end
+              end
+
+              context "Locality" do
+                test "Is local" do
+                  assert(property.local?)
+                end
+              end
+            end
           end
         end
       end
