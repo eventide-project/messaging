@@ -9,19 +9,15 @@ context "Message" do
     source_metadata = source.metadata
     metadata = receiver.metadata
 
-    ## Move these properties into the principal message/metadata
-    ## control once it's known whether doing so will cause non-local
-    ## problems from changing such a highly afferent control (Scott, Fri Feb 5 20201)
-    source_metadata.set_property('some_property', "some property value")
-    source_metadata.set_local_property('some_local_property', "some local property value")
-    ##
-
     refute(source_metadata.stream_name.nil?)
     refute(source_metadata.position.nil?)
     refute(source_metadata.global_position.nil?)
     refute(source_metadata.correlation_stream_name.nil?)
     refute(source_metadata.reply_stream_name.nil?)
-    refute(source_metadata.properties.empty?)
+
+    source_properties = source_metadata.properties
+    refute(source_properties.find { |property| property.name == 'some_property' }.nil?)
+    refute(source_properties.find { |property| property.name == 'some_local_property' }.nil?)
 
     refute(metadata.causation_message_stream_name == source_metadata.stream_name)
     refute(metadata.causation_message_position == source_metadata.position)

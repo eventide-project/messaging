@@ -4,9 +4,7 @@ module Messaging
       def self.example
         data = self.data
 
-        ## Remove this once Metadata can be built
-        ## from Raw data (Scott, Fri Feb 5 20201)
-        data[:properties] = Properties.example
+        data[:properties] = properties
 
         Messaging::Message::Metadata.build(data)
       end
@@ -63,6 +61,10 @@ module Messaging
         Time::Raw.example
       end
 
+      def self.properties
+        Properties.example
+      end
+
       def self.data
         {
           stream_name: stream_name,
@@ -110,6 +112,10 @@ module Messaging
 
       module Random
         def self.example
+          data = self.data
+
+          data[:properties] = properties
+
           Messaging::Message::Metadata.build(data)
         end
 
@@ -161,10 +167,15 @@ module Messaging
           (::Time.now + Controls::Random::Number.example).utc
         end
 
+        def self.properties
+          Properties::Random.example
+        end
+
         def self.data
           {
             stream_name: stream_name,
             position: position,
+            global_position: global_position,
 
             causation_message_stream_name: causation_message_stream_name,
             causation_message_position: causation_message_position,
@@ -174,7 +185,8 @@ module Messaging
 
             reply_stream_name: reply_stream_name,
 
-            global_position: global_position,
+            properties: Properties::Random.data,
+
             time: time,
 
             schema_version: schema_version
