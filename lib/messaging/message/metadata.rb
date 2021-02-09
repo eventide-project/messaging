@@ -148,7 +148,7 @@ module Messaging
         property
       end
 
-      def set_local_property(name, value, local: nil)
+      def set_local_property(name, value)
         set_property(name, value, local: true)
       end
 
