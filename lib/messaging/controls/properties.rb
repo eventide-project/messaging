@@ -28,7 +28,7 @@ module Messaging
         end
 
         def self.name
-          :some_property
+          'some_property'
         end
 
         def self.value
@@ -50,7 +50,7 @@ module Messaging
         end
 
         def self.name
-          :some_local_property
+          'some_local_property'
         end
 
         def self.value

@@ -137,6 +137,10 @@ module Messaging
       alias :correlates? :correlated?
 
       def set_property(name, value, local: nil)
+        if not name.is_a?(String)
+          raise Error, "Property name must be a string: #{name.inspect}"
+        end
+
         local ||= false
 
         delete_property(name)
@@ -153,11 +157,19 @@ module Messaging
       end
 
       def get_property(name)
+        if not name.is_a?(String)
+          raise Error, "Property name must be a string: #{name.inspect}"
+        end
+
         property = properties.find { |property| property.name == name }
         property&.value
       end
 
       def delete_property(name)
+        if not name.is_a?(String)
+          raise Error, "Property name must be a string: #{name.inspect}"
+        end
+
         i = properties.index { |property| property.name == name }
 
         return nil if i.nil?

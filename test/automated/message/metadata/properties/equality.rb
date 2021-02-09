@@ -3,7 +3,7 @@ require_relative '../../../automated_init'
 context "Message" do
   context "Metadata" do
     context "Properties" do
-      context "Property Equality" do
+      context "Equality" do
         context "Equal" do
           context "Same Attribute Values" do
             property_1 = Message::Metadata::Property.new(:some_property, 'some value', true)

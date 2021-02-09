@@ -47,12 +47,12 @@ context "Message" do
 
           context "Non-Local" do
             source_property_data = message_data_properties.find do |property_data|
-              property_data[:name] == :some_property
+              property_data[:name] == 'some_property'
             end
 
             source_property_value = source_property_data[:value]
 
-            property = properties.find { |property| property.name == :some_property }
+            property = properties.find { |property| property.name == 'some_property' }
 
             context "Property Value" do
               property_value = property.value
@@ -71,12 +71,12 @@ context "Message" do
 
           context "Local" do
             source_property_data = message_data_properties.find do |property_data|
-              property_data[:name] == :some_local_property
+              property_data[:name] == 'some_local_property'
             end
 
             source_property_value = source_property_data[:value]
 
-            property = properties.find { |property| property.name == :some_local_property }
+            property = properties.find { |property| property.name == 'some_local_property' }
 
             context "Property Value" do
               property_value = property.value

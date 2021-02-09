@@ -12,8 +12,8 @@ context "Message" do
     ## Move these properties into the principal message/metadata
     ## control once it's known whether doing so will cause non-local
     ## problems from changing such a highly afferent control (Scott, Fri Feb 5 20201)
-    source_metadata.set_property(:some_property, "some property value")
-    source_metadata.set_local_property(:some_local_property, "some local property value")
+    source_metadata.set_property('some_property', "some property value")
+    source_metadata.set_local_property('some_local_property', "some local property value")
     ##
 
     refute(source_metadata.stream_name.nil?)
@@ -71,8 +71,8 @@ context "Message" do
           detail "Source Properties: #{source_properties.pretty_inspect}"
 
           context "Copied" do
-            property = metadata.get_property(:some_property)
-            source_property = source_metadata.get_property(:some_property)
+            property = metadata.get_property('some_property')
+            source_property = source_metadata.get_property('some_property')
 
             test do
               assert(property == source_property)

@@ -7,7 +7,7 @@ context "Message" do
         context "Set" do
           metadata = Messaging::Message::Metadata.new
 
-          name = :some_property
+          name = 'some_property'
           value = 'some property value'
 
           metadata.set_property(name, value, local: true)
@@ -24,7 +24,7 @@ context "Message" do
         context "Set Local Property" do
           metadata = Messaging::Message::Metadata.new
 
-          name = :some_property
+          name = 'some_property'
           value = 'some property value'
 
           metadata.set_local_property(name, value)
