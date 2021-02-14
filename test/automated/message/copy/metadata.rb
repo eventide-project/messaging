@@ -31,8 +31,8 @@ context "Message" do
           end
 
           context "Property object references are duplicated" do
-            properties.each do |property|
-              source_property = source_metadata.get_property(property.name)
+            properties.each do |name, property|
+              source_property = source_metadata.get_property(name)
 
               test do
                 refute(property.object_id == source_property.object_id)

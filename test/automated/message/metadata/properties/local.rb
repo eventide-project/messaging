@@ -7,12 +7,12 @@ context "Message" do
         context "Set" do
           metadata = Messaging::Message::Metadata.new
 
-          name = 'some_property'
+          name = :some_property
           value = 'some property value'
 
           metadata.set_property(name, value, local: true)
 
-          property = metadata.properties.find { |property| property.name == name }
+          property = metadata.properties[name]
 
           assert(property.value == value)
 
@@ -24,12 +24,12 @@ context "Message" do
         context "Set Local Property" do
           metadata = Messaging::Message::Metadata.new
 
-          name = 'some_property'
+          name = :some_property
           value = 'some property value'
 
           metadata.set_local_property(name, value)
 
-          property = metadata.properties.find { |property| property.name == name }
+          property = metadata.properties[name]
 
           assert(property.value == value)
 

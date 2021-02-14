@@ -2,7 +2,6 @@ module Messaging
   module Message
     class Metadata
       Property = Struct.new(
-        :name,
         :value,
         :local
       ) do
@@ -12,7 +11,6 @@ module Messaging
 
         def ==(other)
           equal =
-            name == other.name &&
             value == other.value &&
             !!local == !!other.local
         end

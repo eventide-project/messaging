@@ -36,13 +36,9 @@ context "Message" do
           message_properties = message.metadata.properties
           message_data_properties = message_data.metadata[:properties]
 
-          message_properties.length.times do |i|
-            message_property = message_properties[i]
-            message_data_property = message_data_properties[i]
-
-            test "name" do
-              assert(message_data_property[:name] == message_property.name)
-            end
+          message_properties.each_key do |name|
+            message_property = message_properties[name]
+            message_data_property = message_data_properties[name]
 
             test "value" do
               assert(message_data_property[:value] == message_property.value)

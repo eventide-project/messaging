@@ -7,22 +7,22 @@ context "Message" do
         context do
           metadata = Messaging::Message::Metadata.new
 
-          name = "some_property"
+          name = :some_property
           value = 'some property value'
 
           metadata.set_property(name, value)
 
-          property = metadata.properties.find { |property| property.name == name }
+          property = metadata.properties[name]
 
           test "Value is in the properties hash" do
             assert(property.value == value)
           end
         end
 
-        context "Non String Name" do
+        context "Non Symbol Name" do
           metadata = Messaging::Message::Metadata.new
 
-          name = :some_property
+          name = 'some_property'
           value = 'some property value'
 
           test "Is an error" do

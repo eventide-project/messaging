@@ -25,8 +25,8 @@ context "Message" do
         refute(message_data.metadata[:schema_version].nil?)
 
         message_data_properties = message_data.metadata[:properties]
-        refute(message_data_properties.find { |property_data| property_data[:name] == 'some_property' }.nil?)
-        refute(message_data_properties.find { |property_data| property_data[:name] == 'some_local_property' }.nil?)
+        refute(message_data_properties[:some_property].nil?)
+        refute(message_data_properties[:some_local_property].nil?)
 
         test "ID" do
           assert(message_data.id == message.id)
@@ -81,17 +81,15 @@ context "Message" do
 
           context "properties" do
             properties = metadata[:properties]
-            control_properties = [
-              {
-                :name=>'some_property',
+            control_properties = {
+              some_property: {
                 :value => 'some property value'
               },
-              {
-                :name => 'some_local_property',
+              some_local_property: {
                 :value => 'some local property value',
                 :local => true
               }
-            ]
+            }
 
             detail "Properties: #{properties}"
             detail "Control Properties: #{control_properties}"

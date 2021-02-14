@@ -71,7 +71,7 @@ context "Message" do
         end
 
         context "Local Properties" do
-          local_properties = properties.select { |property| property.local? }
+          local_properties = properties.values.select { |property| property.local? }
 
           test "Omitted" do
             assert(local_properties.empty?)
@@ -84,8 +84,8 @@ context "Message" do
           end
 
           context "Property object references are duplicated" do
-            properties.each do |property|
-              source_property = source_metadata.get_property(property.name)
+            properties.each do |name, property|
+              source_property = source_metadata.get_property(name)
 
               test do
                 refute(property.object_id == source_property.object_id)

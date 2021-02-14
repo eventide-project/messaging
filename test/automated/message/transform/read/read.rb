@@ -76,13 +76,11 @@ context "Message" do
             detail "MessageData Properties: #{message_data_properties.pretty_inspect}"
 
             context "Non-Local" do
-              source_property_data = property_data.find do |property|
-                property[:name] == 'some_property'
-              end
+              source_property_data = property_data[:some_property]
 
               source_property_value = source_property_data[:value]
 
-              property = metadata.properties.find { |property| property.name == 'some_property'}
+              property = metadata.properties[:some_property]
 
               context "Property Value" do
                 property_value = property.value
@@ -100,13 +98,11 @@ context "Message" do
             end
 
             context "Local" do
-              source_property_data = property_data.find do |property|
-                property[:name] == 'some_local_property'
-              end
+              source_property_data = property_data[:some_local_property]
 
               source_property_value = source_property_data[:value]
 
-              property = metadata.properties.find { |property| property.name == 'some_local_property'}
+              property = metadata.properties[:some_local_property]
 
               context "Property Value" do
                 property_value = property.value

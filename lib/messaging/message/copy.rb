@@ -36,8 +36,8 @@ module Messaging
 
           SetAttributes.(receiver.metadata, source.metadata, include: metadata_include)
 
-          source.metadata.properties.each do |property|
-            receiver.metadata.properties << property.dup
+          source.metadata.properties.each do |name, property|
+            receiver.metadata.properties[name] = property.dup
           end
         end
 

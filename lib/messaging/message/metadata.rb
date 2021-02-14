@@ -33,7 +33,7 @@ module Messaging
 
       attribute :reply_stream_name, String
 
-      attribute :properties, Array, default: -> { Array.new }
+      attribute :properties, Hash, default: -> { Hash.new }
 
       attribute :time, Time
 
@@ -60,12 +60,12 @@ module Messaging
 
         self.reply_stream_name = preceding_metadata.reply_stream_name
 
-        preceding_metadata.properties.each do |property|
+        preceding_metadata.properties.each do |name, property|
           if property.local?
             next
           end
 
-          properties << property.dup
+          properties[name] = property.dup
         end
       end
 
@@ -137,17 +137,15 @@ module Messaging
       alias :correlates? :correlated?
 
       def set_property(name, value, local: nil)
-        if not name.is_a?(String)
-          raise Error, "Property name must be a string: #{name.inspect}"
+        if not name.is_a?(Symbol)
+          raise Error, "Property name must be a symbol: #{name.inspect}"
         end
 
         local ||= false
 
-        delete_property(name)
+        property = Property.new(value, local)
 
-        property = Property.new(name, value, local)
-
-        properties << property
+        properties[name] = property
 
         property
       end
@@ -157,24 +155,21 @@ module Messaging
       end
 
       def get_property(name)
-        if not name.is_a?(String)
-          raise Error, "Property name must be a string: #{name.inspect}"
+        if not name.is_a?(Symbol)
+          raise Error, "Property name must be a symbol: #{name.inspect}"
         end
 
-        property = properties.find { |property| property.name == name }
+        property = properties[name]
         property&.value
       end
 
       def delete_property(name)
-        if not name.is_a?(String)
-          raise Error, "Property name must be a string: #{name.inspect}"
+        if not name.is_a?(Symbol)
+          raise Error, "Property name must be a symbol: #{name.inspect}"
         end
 
-        i = properties.index { |property| property.name == name }
-
-        return nil if i.nil?
-
-        properties.delete_at(i).value
+        property = properties.delete(name)
+        property&.value
       end
 
       def clear_properties

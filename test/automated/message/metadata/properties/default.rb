@@ -6,8 +6,8 @@ context "Message" do
       context "Default" do
         metadata = Messaging::Message::Metadata.new
 
-        test "Array" do
-          assert(metadata.properties == [])
+        test "Hash" do
+          assert(metadata.properties == {})
         end
       end
     end

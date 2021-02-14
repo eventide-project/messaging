@@ -43,7 +43,7 @@ module Messaging
 
         module Properties
           def self.write(properties)
-            properties.map do |property|
+            properties.transform_values do |property|
               property_hash = property.to_h
 
               if not property_hash[:local]
@@ -74,10 +74,10 @@ module Messaging
           metadata[:time] = data[:time]
 
           if metadata[:properties].nil?
-            metadata[:properties] = []
+            metadata[:properties] = {}
           end
 
-          properties = metadata[:properties].map do |property_data|
+          properties = metadata[:properties].transform_values do |property_data|
             Metadata::Property.new(*property_data.values_at(*Metadata::Property.members))
           end
 

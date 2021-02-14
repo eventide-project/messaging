@@ -7,12 +7,12 @@ context "Message" do
         context do
           metadata = Messaging::Message::Metadata.new
 
-          metadata.set_property('some_property', 'some property value')
+          metadata.set_property(:some_property, 'some property value')
 
-          value = metadata.delete_property('some_property')
+          value = metadata.delete_property(:some_property)
 
           test "Entry is removed from the hash" do
-            assert(metadata.get_property('some_property').nil?)
+            assert(metadata.get_property(:some_property).nil?)
           end
 
           test "Returns the entry's value" do
@@ -20,10 +20,10 @@ context "Message" do
           end
         end
 
-        context "Non String Name" do
+        context "Non Symbol Name" do
           metadata = Messaging::Message::Metadata.new
 
-          name = :some_property
+          name = 'some_property'
 
           test "Is an error" do
             assert_raises Message::Metadata::Error do
