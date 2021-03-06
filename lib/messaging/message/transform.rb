@@ -26,12 +26,12 @@ module Messaging
 
           metadata = message.metadata.to_h
 
-          properties = metadata[:properties]
-
-          if properties.empty?
+          if metadata[:properties].empty?
             metadata.delete(:properties)
-          else
-            metadata[:properties] = Properties.write(properties)
+          end
+
+          if metadata[:local_properties].empty?
+            metadata.delete(:local_properties)
           end
 
           metadata.delete_if { |k, v| v.nil? }
@@ -41,28 +41,13 @@ module Messaging
           message_data
         end
 
-        module Properties
-          def self.write(properties)
-            properties.transform_values do |property|
-              property_hash = property.to_h
-
-              if not property_hash[:local]
-                property_hash.delete(:local)
-              end
-
-              property_hash
-            end
-          end
-        end
-
         def self.read(message_data)
           data = message_data.to_h
 
-## TODO change to positive "if"
-          unless data[:metadata].nil?
-            data[:metadata] = data[:metadata].clone
-          else
+          if data[:metadata].nil?
             data[:metadata] = {}
+          else
+            data[:metadata] = data[:metadata].clone
           end
 
           metadata = data[:metadata]
@@ -73,15 +58,8 @@ module Messaging
           metadata[:global_position] = data[:global_position]
           metadata[:time] = data[:time]
 
-          if metadata[:properties].nil?
-            metadata[:properties] = {}
-          end
-
-          properties = metadata[:properties].transform_values do |property_data|
-            Metadata::Property.new(*property_data.values_at(*Metadata::Property.members))
-          end
-
-          metadata[:properties] = properties
+          metadata[:properties] ||= {}
+          metadata[:local_properties] ||= {}
 
           data
         end

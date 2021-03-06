@@ -13,6 +13,7 @@ context "Message" do
         end
 
         metadata.properties = Hash.new
+        metadata.local_properties = Hash.new
 
         message_data = Transform::Write.(message, :message_data)
 

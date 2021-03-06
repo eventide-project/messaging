@@ -34,6 +34,7 @@ module Messaging
       attribute :reply_stream_name, String
 
       attribute :properties, Hash, default: -> { Hash.new }
+      attribute :local_properties, Hash, default: -> { Hash.new }
 
       attribute :time, Time
 
@@ -60,12 +61,8 @@ module Messaging
 
         self.reply_stream_name = preceding_metadata.reply_stream_name
 
-        preceding_metadata.properties.each do |name, property|
-          if property.local?
-            next
-          end
-
-          properties[name] = property.dup
+        preceding_metadata.properties.each do |name, value|
+          properties[name] = value
         end
       end
 
@@ -136,22 +133,14 @@ module Messaging
       end
       alias :correlates? :correlated?
 
-      def set_property(name, value, local: nil)
+      def set_property(name, value)
         if not name.is_a?(Symbol)
           raise Error, "Property name must be a symbol: #{name.inspect}"
         end
 
-        local ||= false
+        properties[name] = value
 
-        property = Property.new(value, local)
-
-        properties[name] = property
-
-        property
-      end
-
-      def set_local_property(name, value)
-        set_property(name, value, local: true)
+        value
       end
 
       def get_property(name)
@@ -159,8 +148,7 @@ module Messaging
           raise Error, "Property name must be a symbol: #{name.inspect}"
         end
 
-        property = properties[name]
-        property&.value
+        properties[name]
       end
 
       def delete_property(name)
@@ -168,12 +156,41 @@ module Messaging
           raise Error, "Property name must be a symbol: #{name.inspect}"
         end
 
-        property = properties.delete(name)
-        property&.value
+        properties.delete(name)
       end
 
       def clear_properties
         properties.clear
+      end
+
+      def set_local_property(name, value)
+        if not name.is_a?(Symbol)
+          raise Error, "Local property name must be a symbol: #{name.inspect}"
+        end
+
+        local_properties[name] = value
+
+        value
+      end
+
+      def get_local_property(name)
+        if not name.is_a?(Symbol)
+          raise Error, "Local property name must be a symbol: #{name.inspect}"
+        end
+
+        local_properties[name]
+      end
+
+      def delete_local_property(name)
+        if not name.is_a?(Symbol)
+          raise Error, "Local property name must be a symbol: #{name.inspect}"
+        end
+
+        local_properties.delete(name)
+      end
+
+      def clear_local_properties
+        local_properties.clear
       end
 
       def self.source_attribute_names

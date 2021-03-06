@@ -7,7 +7,6 @@ require 'messaging/stream_name'
 
 require 'messaging/message'
 require 'messaging/message/metadata'
-require 'messaging/message/metadata/property'
 require 'messaging/message/copy'
 require 'messaging/message/follow'
 require 'messaging/message/sequence_accessor'

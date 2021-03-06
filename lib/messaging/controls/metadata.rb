@@ -5,6 +5,7 @@ module Messaging
         data = self.data
 
         data[:properties] = properties
+        data[:local_properties] = local_properties
 
         Messaging::Message::Metadata.build(data)
       end
@@ -65,6 +66,10 @@ module Messaging
         Properties.example
       end
 
+      def self.local_properties
+        LocalProperties.example
+      end
+
       def self.data
         {
           stream_name: stream_name,
@@ -79,7 +84,8 @@ module Messaging
 
           reply_stream_name: reply_stream_name,
 
-          properties: Properties.data,
+          properties: Properties.example,
+          local_properties: LocalProperties.example,
 
           time: time,
 
@@ -115,6 +121,7 @@ module Messaging
           data = self.data
 
           data[:properties] = properties
+          data[:local_properties] = local_properties
 
           Messaging::Message::Metadata.build(data)
         end
@@ -171,6 +178,10 @@ module Messaging
           Properties::Random.example
         end
 
+        def self.local_properties
+          LocalProperties::Random.example
+        end
+
         def self.data
           {
             stream_name: stream_name,
@@ -185,7 +196,8 @@ module Messaging
 
             reply_stream_name: reply_stream_name,
 
-            properties: Properties::Random.data,
+            properties: Properties::Random.example,
+            local_properties: LocalProperties::Random.example,
 
             time: time,
 

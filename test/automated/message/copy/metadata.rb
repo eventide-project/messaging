@@ -26,18 +26,17 @@ context "Message" do
           properties = metadata.properties
           source_properties = source_metadata.properties
 
-          test "List object reference is duplicated" do
+          test "Hash object is duplicated" do
             refute(properties.object_id == source_properties.object_id)
           end
+        end
 
-          context "Property object references are duplicated" do
-            properties.each do |name, property|
-              source_property = source_metadata.get_property(name)
+        context "Local Properties" do
+          local_properties = metadata.local_properties
+          source_local_properties = source_metadata.local_properties
 
-              test do
-                refute(property.object_id == source_property.object_id)
-              end
-            end
+          test "Hash object is duplicated" do
+            refute(local_properties.object_id == source_local_properties.object_id)
           end
         end
       end

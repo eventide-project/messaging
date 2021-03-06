@@ -41,11 +41,21 @@ context "Message" do
             message_data_property = message_data_properties[name]
 
             test "value" do
-              assert(message_data_property[:value] == message_property.value)
+              assert(message_data_property == message_property)
             end
+          end
+        end
 
-            test "local" do
-              assert(!!message_data_property[:local] == !!message_property.local)
+        context "local_properties" do
+          message_local_properties = message.metadata.local_properties
+          message_data_local_properties = message_data.metadata[:local_properties]
+
+          message_local_properties.each_key do |name|
+            message_local_property = message_local_properties[name]
+            message_data_local_property = message_data_local_properties[name]
+
+            test "value" do
+              assert(message_data_local_property == message_local_property)
             end
           end
         end
