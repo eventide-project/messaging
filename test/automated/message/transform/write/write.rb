@@ -25,8 +25,10 @@ context "Message" do
         refute(message_data.metadata[:schema_version].nil?)
 
         message_data_properties = message_data.metadata[:properties]
-        refute(message_data_properties.find { |property_data| property_data[:name] == 'some_property' }.nil?)
-        refute(message_data_properties.find { |property_data| property_data[:name] == 'some_local_property' }.nil?)
+        refute(message_data_properties[:some_property].nil?)
+
+        message_data_local_properties = message_data.metadata[:local_properties]
+        refute(message_data_local_properties[:some_local_property].nil?)
 
         test "ID" do
           assert(message_data.id == message.id)
@@ -81,22 +83,26 @@ context "Message" do
 
           context "properties" do
             properties = metadata[:properties]
-            control_properties = [
-              {
-                :name=>'some_property',
-                :value => 'some property value'
-              },
-              {
-                :name => 'some_local_property',
-                :value => 'some local property value',
-                :local => true
-              }
-            ]
+            control_properties = {
+              some_property: 'some property value'
+            }
 
             detail "Properties: #{properties}"
             detail "Control Properties: #{control_properties}"
 
             assert(properties == control_properties)
+          end
+
+          context "local_properties" do
+            local_properties = metadata[:local_properties]
+            control_local_properties = {
+              some_local_property: 'some local property value'
+            }
+
+            detail "Local Properties: #{local_properties}"
+            detail "Control Local Properties: #{control_local_properties}"
+
+            assert(local_properties == control_local_properties)
           end
 
           context "Transient Attributes" do

@@ -6,8 +6,8 @@ context "Message" do
       context "Clear" do
         metadata = Messaging::Message::Metadata.new
 
-        metadata.set_property('some_property', 'some property value')
-        metadata.set_property('some_other_property', 'some other property value')
+        metadata.set_property(:some_property, 'some property value')
+        metadata.set_property(:some_other_property, 'some other property value')
 
         assert(metadata.properties.count == 2)
 

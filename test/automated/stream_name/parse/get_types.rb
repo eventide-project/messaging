@@ -28,7 +28,7 @@ context "Stream Name" do
       types = StreamName.get_types(stream_name)
 
       test "Type is nil" do
-        assert(types = [])
+        assert(types == [])
       end
     end
   end

@@ -25,11 +25,11 @@ context "Message" do
             metadata = message.metadata
 
             test "stream_name" do
-              assert(metadata.stream_name = message_data.stream_name)
+              assert(metadata.stream_name == message_data.stream_name)
             end
 
             test "source_message_stream_position" do
-              assert(metadata.position = message_data.position)
+              assert(metadata.position == message_data.position)
             end
 
             test "global_position" do
@@ -37,12 +37,12 @@ context "Message" do
             end
 
             test "time" do
-              assert(metadata.time = message_data.time)
+              assert(metadata.time == message_data.time)
             end
 
             context "properties" do
               test "Is a hash" do
-                assert(metadata.properties.is_a?(Array))
+                assert(metadata.properties.is_a?(Hash))
               end
 
               test "Is empty" do

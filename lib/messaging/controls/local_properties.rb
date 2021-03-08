@@ -1,32 +1,32 @@
 module Messaging
   module Controls
-    module Properties
+    module LocalProperties
       def self.example
         {
-          SomeProperty.name => SomeProperty.value
+          SomeLocalProperty.name => SomeLocalProperty.value
         }
       end
 
-      module SomeProperty
+      module SomeLocalProperty
         def self.name
-          :some_property
+          :some_local_property
         end
 
         def self.value
-          'some property value'
+          'some local property value'
         end
       end
 
       module Random
         def self.example
           {
-            SomeProperty.name => SomeProperty.value
+            SomeLocalProperty.name => SomeLocalProperty.value
           }
         end
 
-        module SomeProperty
+        module SomeLocalProperty
           def self.name
-            :some_property
+            :some_local_property
           end
 
           def self.value

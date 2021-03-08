@@ -2,19 +2,19 @@ require_relative '../../../automated_init'
 
 context "Message" do
   context "Metadata" do
-    context "Properties" do
+    context "Local Properties" do
       context "Set" do
         context do
           metadata = Messaging::Message::Metadata.new
 
-          name = :some_property
-          control_value = 'some property value'
+          name = :some_local_property
+          control_value = 'some local_property value'
 
-          metadata.set_property(name, control_value)
+          metadata.set_local_property(name, control_value)
 
-          value = metadata.properties[name]
+          value = metadata.local_properties[name]
 
-          test "Value is in the properties hash" do
+          test "Value is in the local_properties hash" do
             assert(value == control_value)
           end
         end
@@ -22,12 +22,12 @@ context "Message" do
         context "Name Is Not a Symbol" do
           metadata = Messaging::Message::Metadata.new
 
-          name = 'some_property'
-          value = 'some property value'
+          name = 'some_local_property'
+          value = 'some local_property value'
 
           test "Is an error" do
             assert_raises Message::Metadata::Error do
-              metadata.set_property(name, value)
+              metadata.set_local_property(name, value)
             end
           end
         end

@@ -19,6 +19,12 @@ context "Message" do
       refute(metadata.correlation_stream_name == source_metadata.correlation_stream_name)
       refute(metadata.reply_stream_name == source_metadata.reply_stream_name)
 
+      source_properties = source_metadata.properties
+      refute(source_properties[:some_property].nil?)
+
+      source_local_properties = source_metadata.local_properties
+      refute(source_local_properties[:some_local_property].nil?)
+
       metadata.follow(source_metadata)
 
       detail "Source Metadata:\n#{source_metadata.all_attributes.pretty_inspect}"
@@ -54,7 +60,6 @@ context "Message" do
 
       context "Properties" do
         properties = metadata.properties
-        source_properties = source_metadata.properties
 
         detail "Properties: #{properties.pretty_inspect}"
         detail "Source Properties: #{source_properties.pretty_inspect}"
@@ -70,28 +75,16 @@ context "Message" do
           end
         end
 
-        context "Local Properties" do
-          local_properties = properties.select { |property| property.local? }
-
-          test "Omitted" do
-            assert(local_properties.empty?)
-          end
-        end
-
         context "Object References" do
-          test "List object reference is duplicated" do
+          test "Hash object is duplicated" do
             refute(properties.object_id == source_properties.object_id)
           end
+        end
+      end
 
-          context "Property object references are duplicated" do
-            properties.each do |property|
-              source_property = source_metadata.get_property(property.name)
-
-              test do
-                refute(property.object_id == source_property.object_id)
-              end
-            end
-          end
+      context "Local Properties" do
+        test "Omitted" do
+          assert(metadata.local_properties.empty?)
         end
       end
 
@@ -103,7 +96,8 @@ context "Message" do
           :position,
           :global_position,
           :time,
-          :schema_version
+          :schema_version,
+          :local_properties
         ].each do |attribute|
           test attribute.to_s do
             assert(metadata.public_send(attribute) == unchanged_metadata.public_send(attribute))

@@ -16,8 +16,10 @@ context "Message" do
     refute(source_metadata.reply_stream_name.nil?)
 
     source_properties = source_metadata.properties
-    refute(source_properties.find { |property| property.name == 'some_property' }.nil?)
-    refute(source_properties.find { |property| property.name == 'some_local_property' }.nil?)
+    refute(source_properties[:some_property].nil?)
+
+    source_local_properties = source_metadata.local_properties
+    refute(source_local_properties[:some_local_property].nil?)
 
     refute(metadata.causation_message_stream_name == source_metadata.stream_name)
     refute(metadata.causation_message_position == source_metadata.position)
@@ -67,36 +69,26 @@ context "Message" do
           detail "Source Properties: #{source_properties.pretty_inspect}"
 
           context "Copied" do
-            property = metadata.get_property('some_property')
-            source_property = source_metadata.get_property('some_property')
+            property = metadata.get_property(:some_property)
+            source_property = source_metadata.get_property(:some_property)
 
             test do
               assert(property == source_property)
             end
           end
 
-          context "Local Properties" do
-            local_properties = metadata.properties.select { |property| property.local? }
-
-            test "Omitted" do
-              assert(local_properties.empty?)
-            end
-          end
-
           context "Object References" do
-            test "List object reference is duplicated" do
+            test "Hash object is duplicated" do
               refute(properties.object_id == source_properties.object_id)
             end
+          end
+        end
 
-            context "Property object references are duplicated" do
-              properties.each do |property|
-                source_property = source_metadata.get_property(property.name)
+        context "Local Properties" do
+          local_properties = metadata.local_properties
 
-                test do
-                  refute(property.object_id == source_property.object_id)
-                end
-              end
-            end
+          test "Omitted" do
+            assert(local_properties.empty?)
           end
         end
       end

@@ -23,73 +23,19 @@ context "Message" do
       end
 
       context "Metadata" do
-        context "Message's metadata attributes are equal to the message data's metadata attributes" do
+        context "Attributes" do
           [
             :causation_message_stream_name,
             :causation_message_position,
             :causation_message_global_position,
             :correlation_stream_name,
             :reply_stream_name,
-            :schema_version
+            :schema_version,
+            :properties,
+            :local_properties
           ].each do |attribute|
             test "#{attribute}" do
               assert(message.metadata.send(attribute) == message_data.metadata[attribute])
-            end
-          end
-        end
-
-        context "Message's metadata properties are equal to the message data's metadata properties" do
-          properties = message.metadata.properties
-          detail "Message Properties: #{properties.pretty_inspect}"
-
-          message_data_properties = message_data.metadata[:properties]
-          detail "MessageData Properties: #{message_data_properties.pretty_inspect}"
-
-          context "Non-Local" do
-            source_property_data = message_data_properties.find do |property_data|
-              property_data[:name] == 'some_property'
-            end
-
-            source_property_value = source_property_data[:value]
-
-            property = properties.find { |property| property.name == 'some_property' }
-
-            context "Property Value" do
-              property_value = property.value
-
-              test do
-                assert(property_value == source_property_value)
-              end
-            end
-
-            context "Locality" do
-              test "Is not local" do
-                refute(property.local?)
-              end
-            end
-          end
-
-          context "Local" do
-            source_property_data = message_data_properties.find do |property_data|
-              property_data[:name] == 'some_local_property'
-            end
-
-            source_property_value = source_property_data[:value]
-
-            property = properties.find { |property| property.name == 'some_local_property' }
-
-            context "Property Value" do
-              property_value = property.value
-
-              test do
-                assert(property_value == source_property_value)
-              end
-            end
-
-            context "Locality" do
-              test "Is local" do
-                assert(property.local?)
-              end
             end
           end
         end
