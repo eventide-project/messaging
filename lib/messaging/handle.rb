@@ -6,7 +6,6 @@ module Messaging
       cls.class_exec do
         include Dependency
         include Virtual
-        include Settings::Setting
 
         def handler_logger
           @handler_logger ||= Log.get(self)
@@ -32,35 +31,41 @@ module Messaging
         instance = new
         instance.strict = strict
 
-        if not settings.nil?
-          settings.set(instance)
-        end
+        arguments = {}
 
         if Build.send_session?(session, instance)
-          instance.configure(session: session)
-        else
-          instance.configure
+          arguments[:session] = session
         end
+
+        if Build.send_settings?(settings, instance)
+          arguments[:settings] = settings
+        end
+
+        instance.configure(**arguments)
 
         instance
       end
 
       def self.send_session?(session, instance)
-        configure_session?(instance) && !session.nil?
+        configure?(instance, :session) && !session.nil?
       end
 
-      def self.configure_session?(instance)
+      def self.send_settings?(settings, instance)
+        configure?(instance, :settings) && !settings.nil?
+      end
+
+      def self.configure?(instance, parameter_name)
         configure_method = instance.method(:configure)
 
-        parameter_type, _name = configure_method.parameters.find do |type, name|
-          name == :session
+        parameter_type, _ = configure_method.parameters.find do |type, name|
+          name == parameter_name
         end
 
         return false if parameter_type.nil?
 
         return true if [:key, :keyreq].include?(parameter_type)
 
-        error_message = "Incorrect definition of handler's configure method. Session parameter must be a keyword argument (Handler: #{instance.class}, Session Parameter Type: #{parameter_type.inspect})"
+        error_message = "Incorrect definition of handler's configure method. The #{parameter_name} parameter must be a keyword argument (Handler: #{instance.class}, Parameter Type: #{parameter_type.inspect})"
         handler_logger.error(tag: :handle) { error_message }
         raise Error, error_message
       end
