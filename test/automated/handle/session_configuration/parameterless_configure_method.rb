@@ -2,7 +2,7 @@ require_relative '../../automated_init'
 
 context "Handle" do
   context "Session Configuration" do
-    context "Bare Configure Method" do
+    context "Parameterless Configure Method" do
       handler_class = Controls::Handler::Example
 
       context "Given" do

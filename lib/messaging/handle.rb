@@ -26,6 +26,8 @@ module Messaging
     end
 
     module Build
+      Error = Class.new(RuntimeError)
+
       def build(strict: nil, session: nil, settings: nil)
         instance = new
         instance.strict = strict
@@ -34,7 +36,7 @@ module Messaging
           settings.set(instance)
         end
 
-        if Build.configure_session?(instance)
+        if Build.send_session?(session, instance)
           instance.configure(session: session)
         else
           instance.configure
@@ -43,20 +45,24 @@ module Messaging
         instance
       end
 
+      def self.send_session?(session, instance)
+        configure_session?(instance) && !session.nil?
+      end
+
       def self.configure_session?(instance)
         configure_method = instance.method(:configure)
 
-        parameter_type, _ = configure_method.parameters.find do |type, name|
+        parameter_type, _name = configure_method.parameters.find do |type, name|
           name == :session
         end
 
         return false if parameter_type.nil?
 
-        return true if parameter_type == :key
+        return true if [:key, :keyreq].include?(parameter_type)
 
-        error_message = "Optional session parameter of configure is not a keyword argument (Type: #{parameter_type.inspect})"
+        error_message = "Incorrect definition of handler's configure method. Session parameter must be a keyword argument (Handler: #{instance.class}, Session Parameter Type: #{parameter_type.inspect})"
         handler_logger.error(tag: :handle) { error_message }
-        raise ArgumentError, error_message
+        raise Error, error_message
       end
 
       def self.handler_logger
