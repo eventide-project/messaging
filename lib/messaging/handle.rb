@@ -86,20 +86,20 @@ module Messaging
       extend self
 
       def handler(message_or_message_data)
-        name = handler_name(message_or_message_data)
+        handler_method_name = handler_method_name(message_or_message_data)
 
-        if method_defined?(name)
-          return name
+        if method_defined?(handler_method_name)
+          return handler_method_name
         else
           return nil
         end
       end
 
       def handles?(message_or_message_data)
-        method_defined? handler_name(message_or_message_data)
+        method_defined? handler_method_name(message_or_message_data)
       end
 
-      def handler_name(message_or_message_data)
+      def handler_method_name(message_or_message_data)
         name = nil
 
         if message_or_message_data.is_a? MessageStore::MessageData::Read
@@ -131,7 +131,7 @@ module Messaging
       alias :handle :handle_macro
 
       def define_handler_method(message_class, &blk)
-        handler_method_name = handler_name(message_class)
+        handler_method_name = handler_method_name(message_class)
 
         if blk.nil?
           error_msg = "Handler for #{message_class.name} is not correctly defined. It must have a block."
