@@ -32,7 +32,6 @@ module Messaging
         end
         alias :write :call
 
-        ## Should never have had an exclamation mark - Scott, Tue Jan 17 2023
         def raise_expected_version_error!
           self.raise_expected_version_error = true
           nil
