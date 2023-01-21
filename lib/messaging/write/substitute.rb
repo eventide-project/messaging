@@ -1,5 +1,5 @@
 module Messaging
-  module Write
+  class Write
     module Substitute
       def self.build
         Substitute::Write.build.tap do |substitute_writer|
@@ -10,9 +10,7 @@ module Messaging
 
       Error = Class.new(RuntimeError)
 
-      class Write
-        include Messaging::Write
-
+      class Write < Messaging::Write
         attr_accessor :sink
 
         def raise_expected_version_error
@@ -32,7 +30,6 @@ module Messaging
         end
         alias :write :call
 
-        ## Should never have had an exclamation mark - Scott, Tue Jan 17 2023
         def raise_expected_version_error!
           self.raise_expected_version_error = true
           nil

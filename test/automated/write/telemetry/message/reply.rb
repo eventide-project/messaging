@@ -8,7 +8,8 @@ context "Write" do
 
         reply_stream_name = message.metadata.reply_stream_name
 
-        writer = Controls::Write.example
+        writer = Write.new
+        writer.telemetry = Telemetry.build
 
         sink = Write.register_telemetry_sink(writer)
 

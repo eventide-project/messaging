@@ -1,8 +1,6 @@
 # messaging
 
-Common primitives for platform-specific messaging implementations for Eventide.
-
-This library provides generalizations that are used by platform-specific implementations that provide concrete functionality.
+Eventide messaging for Postgres
 
 ## Documentation
 
@@ -10,4 +8,4 @@ See the [Eventide documentation site](http://docs.eventide-project.org) for more
 
 ## License
 
-The `messaging` library is released under the [MIT License](https://github.com/eventide-project/messaging/blob/master/MIT-License.txt).
+The `messaging` library is released under the [MIT License](https://github.com/eventide-project/messaging-postgres/blob/master/MIT-License.txt).
