@@ -3,3 +3,7 @@ Gemfile.lock
 *.log
 *.gem
 gems
+*sketch*
+*notes.*
+todo.md
+fixtures
