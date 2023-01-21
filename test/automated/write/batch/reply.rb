@@ -10,7 +10,7 @@ context "Write" do
 
       batch = [message_1, message_2]
 
-      write = Controls::Write.example
+      write = Write.new
 
       test "Is an error" do
         assert_raises(Messaging::Write::Error) do

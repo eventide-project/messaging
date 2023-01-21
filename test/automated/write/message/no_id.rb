@@ -11,7 +11,7 @@ context "Write" do
 
       position = Write.(message, stream_name)
 
-      read_message = MessageStore::Postgres::Get.(stream_name, position: position, batch_size: 1).first
+      read_message = MessageStore::Get.(stream_name, position: position, batch_size: 1).first
 
       test "Assigns an ID" do
         refute(read_message.id.nil?)

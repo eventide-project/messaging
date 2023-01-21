@@ -21,7 +21,7 @@ logger.info "Starting reader", tag: :test
 
 handler = Handler.build
 
-MessageStore::Postgres::Read.(stream_name, batch_size: 1, cycle_maximum_milliseconds: 10, cycle_timeout_milliseconds: 2000) do |message_data|
+MessageStore::Read.(stream_name, batch_size: 1, cycle_maximum_milliseconds: 10, cycle_timeout_milliseconds: 2000) do |message_data|
   logger.debug(tags: [:test, :data, :message]) { message_data.pretty_inspect }
 
   message = handler.(message_data)

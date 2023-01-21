@@ -11,7 +11,8 @@ context "Write" do
 
         batch = [message_1, message_2]
 
-        writer = Controls::Write.example
+        writer = Write.new
+        writer.telemetry = Telemetry.build
 
         sink = Write.register_telemetry_sink(writer)
 

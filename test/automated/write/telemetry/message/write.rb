@@ -7,7 +7,8 @@ context "Write" do
         message = Controls::Message.example
         stream_name = Controls::StreamName.example(category: 'testTelemetryWrite')
 
-        writer = Controls::Write.example
+        writer = Write.new
+        writer.telemetry = Telemetry.build
 
         sink = Write.register_telemetry_sink(writer)
 

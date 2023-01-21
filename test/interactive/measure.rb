@@ -40,7 +40,7 @@ handler = Handler.build
 
 consumer_count = 0
 consumer_start_time = Time.now
-MessageStore::Postgres::Read.(stream_name) do |message_data|
+MessageStore::Read.(stream_name) do |message_data|
   consumer_logger.debug(tags: [:test, :data, :message]) { message_data.pretty_inspect }
 
   message = handler.(message_data)

@@ -1,48 +1,30 @@
 module Messaging
-  module Write
+  class Write
+    include Dependency
+    include Virtual
+    include Log::Dependency
+
     class Error < RuntimeError; end
 
-    def self.included(cls)
-      cls.class_exec do
-        include Dependency
-        include Virtual
-        include Log::Dependency
+    dependency :message_writer, MessageStore::Write
+    dependency :telemetry, ::Telemetry
 
-        dependency :message_writer
-        dependency :telemetry, ::Telemetry
-
-        extend Build
-        extend Call
-        extend Configure
-
-        abstract :configure
-
-        const_set :Substitute, Substitute
-      end
+    def self.build(session: nil)
+      instance = new
+      MessageStore::Write.configure(instance, attr_name: :message_writer, session: session)
+      ::Telemetry.configure(instance)
+      instance
     end
 
-    module Build
-      def build(session: nil)
-        instance = new
-        instance.configure(session: session)
-        ::Telemetry.configure instance
-        instance
-      end
+    def self.configure(receiver, session: nil, attr_name: nil)
+      attr_name ||= :write
+      instance = build(session: session)
+      receiver.public_send "#{attr_name}=", instance
     end
 
-    module Configure
-      def configure(receiver, session: nil, attr_name: nil)
-        attr_name ||= :write
-        instance = build(session: session)
-        receiver.public_send "#{attr_name}=", instance
-      end
-    end
-
-    module Call
-      def call(message, stream_name, expected_version: nil, reply_stream_name: nil, session: nil)
-        instance = build(session: session)
-        instance.(message, stream_name, expected_version: expected_version, reply_stream_name: reply_stream_name)
-      end
+    def self.call(message, stream_name, expected_version: nil, reply_stream_name: nil, session: nil)
+      instance = build(session: session)
+      instance.(message, stream_name, expected_version: expected_version, reply_stream_name: reply_stream_name)
     end
 
     def call(message_or_batch, stream_name, expected_version: nil, reply_stream_name: nil)

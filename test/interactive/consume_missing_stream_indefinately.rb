@@ -11,4 +11,4 @@ logger.info "Stream name: #{stream_name}", tag: :test
 
 logger.info "Starting reader", tag: :test
 
-MessageStore::Postgres::Read.(stream_name, batch_size: 1, cycle_maximum_milliseconds: 10) {}
+MessageStore::Read.(stream_name, batch_size: 1, cycle_maximum_milliseconds: 10) {}
