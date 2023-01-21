@@ -3,3 +3,8 @@ Gemfile.lock
 *.log
 *.gem
 gems
+*sketch*
+*notes.*
+todo.md
+fixtures
+/test/interactive/stream_name.tmp
