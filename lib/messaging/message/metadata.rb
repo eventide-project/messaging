@@ -66,6 +66,13 @@ module Messaging
         end
       end
 
+## Consider whether "following" takes correlation stream and
+## reply stream into consideration. Arguably, these attributes
+## aren't indicative of causation.
+## Also, follows? doesn't take metadata into consideration
+## What's probably needed is a `copied?` predicate on metadata
+## (without a delegation from message)
+## Scott, Aaron, Tue Apr 11 2023
       def follows?(preceding_metadata)
         if causation_message_stream_name.nil? && preceding_metadata.stream_name.nil?
           return false
