@@ -4,9 +4,6 @@ module Messaging
       def self.example
         data = self.data
 
-        data[:properties] = properties
-        data[:local_properties] = local_properties
-
         Messaging::Message::Metadata.build(data)
       end
 
