@@ -18,7 +18,7 @@ context "Message" do
 
         context "Message Data" do
           test "Attributes" do
-            assert(message.attributes.values.each { |value| value.nil? })
+            assert(message.attributes.values.all? { |value| value.nil? })
           end
 
           context "Metadata" do
