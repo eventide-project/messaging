@@ -1,4 +1,4 @@
-# messaging (Test Pull Request #2)
+# messaging (Test Pull Request #2, Update #1)
 
 Common primitives for platform-specific messaging implementations for Eventide.
 
