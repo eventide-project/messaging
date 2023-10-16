@@ -159,6 +159,7 @@ module Messaging
       end
     end
 
+## Can't null-coalesce here. It's a boolean. Use expanded form of `if` block - Scott, Mon Oct 16 2023
     def strict
       @strict ||= Defaults.strict
     end
