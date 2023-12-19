@@ -159,9 +159,9 @@ module Messaging
       end
     end
 
-## Can't null-coalesce here. It's a boolean. Use expanded form of `if` block - Scott, Mon Oct 16 2023
     def strict
-      @strict ||= Defaults.strict
+      @strict = Defaults.strict if @strict.nil?
+      @strict
     end
     alias :strict? :strict
 
@@ -174,7 +174,7 @@ module Messaging
     end
 
     def handle_message(message, strict: nil)
-      strict ||= self.strict?
+      strict = self.strict? if strict.nil?
 
       handler_logger.trace(tags: [:dispatch, :message]) { "Dispatching message (Message class: #{message.class.name})" }
       handler_logger.trace(tags: [:data, :message]) { message.pretty_inspect }
@@ -202,7 +202,7 @@ module Messaging
     end
 
     def handle_message_data(message_data, strict: nil)
-      strict ||= self.strict?
+      strict = self.strict? if strict.nil?
 
       handler_logger.trace(tags: [:dispatch, :message_data]) { "Dispatching message data (Type: #{message_data.type})" }
       handler_logger.trace(tags: [:data, :message_data]) { message_data.pretty_inspect }
