@@ -59,6 +59,7 @@ module Messaging
       message_batch = Array(message_or_batch)
 
       message_data_batch = message_data_batch(message_batch, reply_stream_name)
+## Can be called `position` - Scott, Tue Mar 26 2024
       last_position = message_writer.(message_data_batch, stream_name, expected_version: expected_version)
 
       unless message_or_batch.is_a? Array
