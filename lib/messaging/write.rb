@@ -5,7 +5,7 @@ module Messaging
     def self.included(cls)
       cls.class_exec do
         include Dependency
-        include Virtual
+        include TemplateMethod
         include Log::Dependency
 
         dependency :message_writer
@@ -15,7 +15,7 @@ module Messaging
         extend Call
         extend Configure
 
-        abstract :configure
+        template_method! :configure
 
         const_set :Substitute, Substitute
       end
