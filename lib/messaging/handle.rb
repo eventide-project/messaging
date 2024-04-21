@@ -5,7 +5,7 @@ module Messaging
     def self.included(cls)
       cls.class_exec do
         include Dependency
-        include Virtual
+        include TemplateMethod
 
         def handler_logger
           @handler_logger ||= Log.get(self)
@@ -18,7 +18,7 @@ module Messaging
         extend HandleMacro
         extend MessageRegistry
 
-        virtual :configure
+        template_method :configure
 
         attr_writer :strict
       end

@@ -6,10 +6,10 @@ module Messaging
 
     def self.included(cls)
       cls.class_exec do
-        include Virtual
+        include TemplateMethod
         include Messaging::Category
 
-        virtual :category
+        template_method :category
       end
     end
 

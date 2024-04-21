@@ -8,7 +8,8 @@ module Messaging
       class Example
         include Messaging::Write
 
-        virtual :configure
+        def configure(*)
+        end
       end
     end
   end
